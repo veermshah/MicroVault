@@ -1,11 +1,18 @@
-// src/App.jsx
 import React from 'react';
-import Home from './pages/home';
+import Header from './components/header.jsx';
+import Footer from './components/footer.jsx';
+import Home from './pages/home.jsx';
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <Home />
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        <Home />
+      </main>
+      <Footer />
     </div>
   );
 }
+
+export default App;
