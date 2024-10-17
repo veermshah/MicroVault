@@ -7,17 +7,17 @@ const Header = () => {
         <div className="flex items-center">
           <img src="/placeholder-logo.png" alt="Logo" className="h-8 w-auto" />
         </div>
-        <nav>
+        <nav className="flex items-center space-x-6">
           <ul className="flex space-x-6">
             <li><a href="#" className="text-gray-600 hover:text-gray-900">Lend</a></li>
             <li><a href="#" className="text-gray-600 hover:text-gray-900">Borrow</a></li>
             <li><a href="#" className="text-gray-600 hover:text-gray-900">Resources</a></li>
           </ul>
+          <div className="flex space-x-4">
+            <button className="px-4 py-2 text-[#48BF84] border border-[#48BF84] rounded hover:bg-[#48BF84] hover:text-white transition duration-300">Login</button>
+            <button className="px-4 py-2 bg-[#48BF84] text-white rounded hover:bg-[#3da46f] transition duration-300">Sign Up</button>
+          </div>
         </nav>
-        <div className="flex space-x-4">
-          <button className="px-4 py-2 text-gray-600 hover:text-gray-900">Login</button>
-          <button className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Sign Up</button>
-        </div>
       </div>
     </header>
   );
