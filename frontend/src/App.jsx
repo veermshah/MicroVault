@@ -1,11 +1,9 @@
-// src/App.jsx
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from './components/header';
 import Footer from './components/footer';
 import Home from './pages/home';
 import Dashboard from './pages/dashboard';
-import FAQ from './pages/faq'; // Import the new FAQ component
 
 function App() {
   return (
@@ -16,7 +14,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/faq" element={<FAQ />} /> {/* Add this new route */}
           </Routes>
         </main>
         <Footer />
