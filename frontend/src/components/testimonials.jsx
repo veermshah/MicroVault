@@ -2,7 +2,7 @@ import React from 'react';
 
 const Testimonials = () => {
   return (
-    <section className="bg-[#c2e6d3] min-h-screen flex items-center">
+    <section className="bg-[#ffffff] min-h-screen flex items-center">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-12 text-black">What Others Say</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">

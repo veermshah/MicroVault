@@ -2,7 +2,7 @@ import React from 'react';
 
 const HowItWorks = () => {
   return (
-    <section className="bg-[#e6f7ef] min-h-screen flex items-center">
+    <section className="bg-[#ffffff] min-h-screen flex items-center">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-12 text-black">How It Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
