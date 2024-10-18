@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 
 const Header = () => {
   return (
-    <header className="bg-white shadow-md">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <header className="bg-transparent relative">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between relative z-20">
         <div className="flex items-center">
           <img src="/Image 1.png" alt="Logo" className="h-8 w-auto" />
         </div>
