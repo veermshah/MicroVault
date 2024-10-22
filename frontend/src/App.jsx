@@ -4,6 +4,7 @@ import Header from './components/header';
 import Footer from './components/footer';
 import Home from './pages/home';
 import Dashboard from './pages/dashboard';
+import MetaMaskLogin from "./components/MetaMaskLogin";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/login" element={<MetaMaskLogin />} />
           </Routes>
         </main>
         <Footer />
