@@ -12,7 +12,8 @@
   "dependencies": {
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "dotenv": "^16.4.5",
-    "ethers": "^6.13.4"
+    "ethers": "^6.13.4",
+    "firebase": "^10.14.1"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
