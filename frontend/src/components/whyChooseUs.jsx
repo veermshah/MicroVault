@@ -12,15 +12,15 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="bg-[ffffff] min-h-screen flex items-center py-16">
-      <div className="container mx-auto px-10"> 
+    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20">
+      <div className="container mx-auto px-6 py-16">
         <h2 className="text-4xl font-bold text-center mb-12 text-black">Why Choose Us</h2>
         <div className="bg-white rounded-lg shadow-lg overflow-hidden">
           <table className="w-full">
             <thead>
               <tr className="bg-[#48BF84] text-white">
                 <th className="py-4 px-6 text-left">Feature</th>
-                <th className="py-4 px-6 text-center">SALT Loan</th>
+                <th className="py-4 px-6 text-center">MicroVault Loan</th>
                 <th className="py-4 px-6 text-center">Traditional Loan</th>
               </tr>
             </thead>
@@ -47,11 +47,11 @@ const WhyChooseUs = () => {
             </tbody>
           </table>
         </div>
-        <div className="mt-4 flex items-center">
-          <h3 className="text-l font-semibold text-[#48BF84] mr-2"> 
+        <div className="mt-8 flex items-center justify-center">
+          <h3 className="text-lg font-semibold text-[#48BF84] mr-2">
             See How We Stack Up Against Our Competitors
           </h3>
-          <ArrowRightIcon className="h-4 w-4 text-[#48BF84]" />
+          <ArrowRightIcon className="h-5 w-5 text-[#48BF84]" />
         </div>
       </div>
     </section>

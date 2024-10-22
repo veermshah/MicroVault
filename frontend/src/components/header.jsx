@@ -1,15 +1,15 @@
-// src/components/header.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MicroVaultLogo from '../assets/MicroVault.png'; // Import the logo
+import MicroVaultLogo from '../assets/MicroVault.png'; 
 
 const Header = () => {
   return (
-    <header className="bg-transparent relative">
+    <header className="bg-transparent">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between relative z-20">
         <div className="flex items-center">
-          {/* Adjusted height to 16 (2x of 8) */}
-          <img src={MicroVaultLogo} alt="MicroVault Logo" className="h-16 w-auto" />
+          <Link to="/">
+            <img src={MicroVaultLogo} alt="MicroVault Logo" className="h-16 w-auto" />
+          </Link>
         </div>
         <nav className="flex items-center space-x-6">
           <ul className="flex space-x-6">

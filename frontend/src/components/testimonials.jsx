@@ -14,11 +14,11 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="bg-white py-16 my-8"> {/* Added vertical margin */}
-      <div className="container mx-auto px-6"> {/* Increased horizontal padding */}
-        <div className="flex flex-col md:flex-row">
+    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20">
+      <div className="container mx-auto px-6 py-16">
+        <div className="flex flex-col md:flex-row h-full">
           {/* Left side - Main testimonial */}
-          <div className="md:w-1/2 md:pr-4 mb-8 md:mb-0">
+          <div className="md:w-1/2 md:pr-4 mb-8 md:mb-0 flex flex-col justify-center">
             <div className="relative mb-6">
               <span className="absolute text-6xl text-[#48BF84] opacity-50 top-[-30px] left-[-20px]">"</span>
               <h2 className="text-3xl font-bold mb-4">{mainTestimonial.quote}</h2>
@@ -32,13 +32,13 @@ const Testimonials = () => {
           </div>
 
           {/* Vertical divider */}
-          <div className="hidden md:block w-px bg-gray-300 mx-4"></div>
+          <div className="hidden md:block w-px bg-gray-300 mx-4 self-stretch"></div>
 
           {/* Right side - Short testimonials */}
-          <div className="md:w-1/2">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="md:w-1/2 flex items-center">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
               {shortTestimonials.map((testimonial, index) => (
-                <div key={index} className="text-center flex flex-col items-center h-full">
+                <div key={index} className="text-center flex flex-col items-center justify-center h-full">
                   <div className="w-20 h-20 bg-gray-300 rounded-full mb-4"></div>
                   <p className="text-lg font-semibold mb-2">"{testimonial.quote}"</p>
                   <p className="text-sm text-gray-600">— {testimonial.name}</p>
