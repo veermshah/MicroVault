@@ -25,8 +25,11 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20">
-      <div className="container mx-auto px-6 py-16">
+    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+      {/* Blur effect */}
+      <div className="absolute top-[50px] left-[550px] w-[600px] h-[600px] bg-[#48bf84]/30 rounded-full blur-[150px] z-0" />
+
+      <div className="container mx-auto px-6 py-16 relative z-10">
         <h2 className="text-4xl font-bold text-center mb-12 text-black">How It Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (

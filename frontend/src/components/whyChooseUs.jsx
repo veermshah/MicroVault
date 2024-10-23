@@ -12,10 +12,14 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20">
-      <div className="container mx-auto px-6 py-16">
+    <section className="bg-white min-h-screen flex items-center my-8 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+      {/* Adjusted Blur effects */}
+      <div className="absolute top-[-100px] left-[-100px] w-[400px] h-[400px] bg-[#48bf84]/20 rounded-full blur-[120px] z-0" />
+      <div className="absolute bottom-[300px] right-[-200px] w-[300px] h-[500px] bg-[#48bf84]/30 rounded-full blur-[100px] z-0" />
+
+      <div className="container mx-auto px-6 py-16 relative z-10">
         <h2 className="text-4xl font-bold text-center mb-12 text-black">Why Choose Us</h2>
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden relative z-10">
           <table className="w-full">
             <thead>
               <tr className="bg-[#48BF84] text-white">
@@ -47,7 +51,7 @@ const WhyChooseUs = () => {
             </tbody>
           </table>
         </div>
-        <div className="mt-8 flex items-center justify-center">
+        <div className="mt-8 flex items-center justify-center relative z-10">
           <h3 className="text-lg font-semibold text-[#48BF84] mr-2">
             See How We Stack Up Against Our Competitors
           </h3>

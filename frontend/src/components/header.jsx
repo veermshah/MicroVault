@@ -4,8 +4,8 @@ import MicroVaultLogo from '../assets/MicroVault.png';
 
 const Header = () => {
   return (
-    <header className="bg-transparent">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between relative z-20">
+    <header className="bg-transparent my-8 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+      <div className="container mx-auto px-6 py-4 flex items-center justify-between relative z-20">
         <div className="flex items-center">
           <Link to="/">
             <img src={MicroVaultLogo} alt="MicroVault Logo" className="h-16 w-auto" />
