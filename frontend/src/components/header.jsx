@@ -14,12 +14,30 @@ const Header = () => {
           </div>
           <nav className="flex items-center space-x-6">
             <ul className="flex space-x-6">
-              <li><Link to="/dashboard" className="text-gray-600 hover:text-gray-900">Dashboard</Link></li>
-              <li><Link to="/faq" className="text-gray-600 hover:text-gray-900">FAQ</Link></li>
+              <li>
+                <Link to="/dashboard" className="text-gray-600 hover:text-gray-900">
+                  Dashboard
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-gray-600 hover:text-gray-900">
+                  FAQ
+                </Link>
+              </li>
             </ul>
             <div className="flex space-x-4">
-              <button className="px-4 py-2 text-[#48BF84] border border-[#48BF84] rounded hover:bg-[#48BF84] hover:text-white transition duration-300">Login</button>
-              <button className="px-4 py-2 bg-[#48BF84] text-white rounded hover:bg-[#3da46f] transition duration-300">Get Started</button>
+              <Link
+                to="/login"
+                className="px-4 py-2 text-[#48BF84] border border-[#48BF84] rounded hover:bg-[#48BF84] hover:text-white transition duration-300"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="px-4 py-2 bg-[#48BF84] text-white rounded hover:bg-[#3da46f] transition duration-300"
+              >
+                Get Started
+              </Link>
             </div>
           </nav>
         </div>
