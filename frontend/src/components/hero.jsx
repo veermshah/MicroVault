@@ -8,10 +8,10 @@ const Hero = () => {
       <div className="absolute top-[5%] left-[-25px] w-[500px] h-[500px] bg-[#48bf84]/60 rounded-full blur-[120px] z-0" />
       
       {/* Blur element for the right area */}
-      <div className="absolute top-[15%] right-[200px] w-[500px] h-[400px] bg-[#48bf84]/60 rounded-full blur-[120px] z-0" />
+      <div className="absolute top-[15%] right-[100px] w-[500px] h-[400px] bg-[#48bf84]/60 rounded-full blur-[120px] z-0" />
       
       <div className="container mx-auto px-6 py-8 relative z-10">
-        <div className="flex flex-col md:flex-row items-center">
+        <div className="flex flex-col md:flex-row items-center justify-between">
           {/* Left side content */}
           <div className="w-full md:w-1/2 mb-8 md:mb-40">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-black">Loans Backed By Crypto</h1>
@@ -22,7 +22,7 @@ const Hero = () => {
           </div>
           
           {/* Right side icon */}
-          <div className="w-full md:w-1/2 md:mb-40 flex justify-center items-center">
+          <div className="w-full md:w-1/2 md:mb-40 flex justify-end items-center">
             <img 
               src={bankIcon}
               alt="Bank Icon" 
