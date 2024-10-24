@@ -8,7 +8,7 @@ const Borrow = () => {
   return (
     <div className="flex flex-col md:flex-row gap-8 p-6">
       {/* Left Column */}
-      <div className="md:w-1/2 p-4 rounded-lg">
+      <div className="md:w-1/2 p-4 rounded-lg bg-white bg-opacity-80"> {/* Added bg-opacity for transparency */}
         <h2 className="text-2xl font-semibold mb-6">Borrow</h2>
         
         <div className="mb-4">
@@ -46,12 +46,23 @@ const Borrow = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <p>Cash to Borrow: {cashToBorrow ? `$${cashToBorrow}` : '--'}</p>
-          <p>Interest Rate: --</p>
-          <p>Initial Loan To Value: --</p>
+        {/* Cash to Borrow, Interest Rate, Initial Loan To Value Layout */}
+        <div className="flex justify-between mb-4">
+          <div className="text-center">
+            <p>Cash to Borrow:</p>
+            <p>{cashToBorrow ? `$${cashToBorrow}` : '--'}</p>
+          </div>
+          <div className="text-center">
+            <p>Interest Rate:</p>
+            <p>--</p>
+          </div>
+          <div className="text-center">
+            <p>Initial Loan To Value:</p>
+            <p>--</p>
+          </div>
         </div>
 
+        {/* Range Input */}
         <div className="mb-4">
           {/* Adjusted range input */}
           <input 
@@ -73,32 +84,36 @@ const Borrow = () => {
           Increasing your cash amount increases your LTV. Interest rates shown are based on current cash and collateral selection.
         </p>
 
-        <table className="w-full mt-4">
+        {/* Table for Interest Rates */}
+        <table className="w-full mt-4 border-collapse">
           <thead>
             <tr>
-              <th>Interest Rate</th>
-              <th>Initial LTV</th>
-              <th>Max. Cash</th>
+              {/* Added text-left for alignment */}
+              <th className="text-left border-b">Interest Rate</th>
+              <th className="text-left border-b">Initial LTV</th>
+              <th className="text-left border-b">Max. Cash</th>
             </tr>
           </thead>
           <tbody>
+            {/* Added text-left for alignment */}
             <tr>
-              <td>12.50%</td>
-              <td>0-&lt;55%</td>
-              <td>$ --</td>
+              <td className="border-b">12.50%</td>
+              <td className="border-b">0-&lt;55%</td>
+              <td className="border-b">$ --</td>
             </tr>
             <tr>
-              <td>13.75%</td>
-              <td>55-&lt;65%</td>
-              <td>$ --</td>
+              <td className="border-b">13.75%</td>
+              <td className="border-b">55-&lt;65%</td>
+              <td className="border-b">$ --</td>
             </tr>
             <tr>
-              <td>15.00%</td>
-              <td>65-75%</td>
-              <td>$ --</td>
+              <td className="border-b">15.00%</td>
+              <td className="border-b">65-75%</td>
+              <td className="border-b">$ --</td>
             </tr>
           </tbody>
         </table>
+
       </div>
 
       {/* Right Column */}
@@ -148,7 +163,7 @@ const Borrow = () => {
         {/* Line Separator Above Total Loan Amount */}
         <hr className="my-4 border-t border-gray-300" />
 
-        {/* Total Loan Amount - Not bolded */}
+        {/* Total Loan Amount - Bolded now */}
         {/* Flexbox for alignment */}
         <div className="mt-4 flex justify-between font-bold">
           Total Loan Amount
@@ -156,9 +171,9 @@ const Borrow = () => {
           <span>--</span> 
         </div>
 
-        {/* Minimum Collateral - Not bolded */}
+        {/* Minimum Collateral - Bolded now */}
         {/* Flexbox for alignment */}
-        <div className="mt-4 flex justify-between">
+        <div className="mt-4 flex justify-between font-bold">
           Est. Min. Collateral
         </div>
 
