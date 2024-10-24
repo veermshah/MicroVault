@@ -108,17 +108,20 @@ const Borrow = () => {
         <h3 className="text-xl font-semibold mb-4">Terms of your offer</h3>
 
         {/* State of Residence */}
-        {/* Aligned with flexbox */}
-        <div className="mb-4 flex justify-between">
-          <label className="block mb-2">State of Residence</label>
-          <select className="w-full p-2 border rounded ml-4">
+        {/* Aligned label and dropdown horizontally */}
+        <div className="mb-4 flex items-center justify-between">
+          {/* Made label bold */}
+          <label className="block mb-2 mr-4 font-bold">State of Residence</label> 
+          {/* Smaller dropdown */}
+          <select className="w-auto p-2 border rounded">
+            {/* Adjusted width for smaller dropdown */}
             <option>Texas</option>
             <option>California</option>
             {/* Add other states */}
           </select>
         </div>
 
-        {/* Offer Terms */}
+        {/* Offer Terms with Bold Titles */}
         {[
           { label: 'Term', value: '--' },
           { label: 'Cash Draw Amount | USD', value: '--' },
@@ -129,8 +132,10 @@ const Borrow = () => {
         ].map((item, index) => (
           // Using flexbox for alignment
           <div key={index} className="flex justify-between mt-2">
-            <p>{item.label}</p>
-            <p>{item.value}</p> {/* Not bolded */}
+            {/* Bolded title */}
+            <p className="font-bold">{item.label}</p> 
+            {/* Not bolded value aligned to the right */}
+            <p>{item.value}</p> 
           </div>
         ))}
 
