@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const trading = () => {
+const Trading = () => {
   const container = useRef();
 
   useEffect(() => {
@@ -44,10 +44,18 @@ const trading = () => {
       ]
     });
 
-    container.current.appendChild(script);
+    // Append the script only if container is available
+    if (container.current) {
+      container.current.appendChild(script);
+    } else {
+      console.error("Container not available");
+    }
 
     return () => {
-      container.current.innerHTML = '';
+      // Cleanup: Clear the container
+      if (container.current) {
+        container.current.innerHTML = ''; // Clear the container
+      }
     };
   }, []);
 
@@ -66,4 +74,4 @@ const trading = () => {
   );
 };
 
-export default trading;
+export default Trading;
