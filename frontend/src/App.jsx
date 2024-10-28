@@ -7,22 +7,24 @@ import Footer from "./components/footer";
 import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
 import FAQ from "./pages/faq";
+import MetaMaskLogin from "./pages/login"
 
 function App() {
     return (
-        <BrowserRouter>
-            <div className="flex flex-col min-h-screen overflow-x-hidden">
-                <Header />
-                <main className="flex-grow">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route path="/faq" element={<FAQ />} />
-                    </Routes>
-                </main>
-                <Footer />
-            </div>
-        </BrowserRouter>
+      <BrowserRouter>
+        <div className="flex flex-col min-h-screen overflow-x-hidden">
+          <Header />
+          <main className="flex-grow">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/faq" element={<FAQ />} />
+              <Route path="/login" element={<MetaMaskLogin />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </BrowserRouter>
     );
 }
 
