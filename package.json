@@ -10,10 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@metamask/sdk-react": "^0.14.1",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.4",
-    "firebase": "^10.14.1"
+    "firebase": "^10.14.1",
+    "web3": "^4.14.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
