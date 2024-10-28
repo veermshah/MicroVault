@@ -1,6 +1,6 @@
 
 import React from "react";
-import MetaMaskLogin from "./components/MetaMaskLogin";
+import MetaMaskLogin from "../components/MetaMaskLogin";
 
 function App() {
   return (
