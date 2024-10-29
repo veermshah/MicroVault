@@ -33,7 +33,6 @@ const Dashboard = () => {
 
       {/* Right-side content */}
       <div className="w-3/4 p-8 overflow-auto">
-        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
 
         {/* Dynamic Content */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
