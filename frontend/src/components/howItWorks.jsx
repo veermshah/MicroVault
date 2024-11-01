@@ -25,7 +25,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="bg-transparent my-0 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
       {/* Blur effect */}
       <div className="absolute top-[50px] left-[550px] w-[600px] h-[600px] bg-[#48bf84]/30 rounded-full blur-[150px] z-0" />
 
@@ -34,7 +34,7 @@ const HowItWorks = () => {
           <h2 className="text-4xl font-bold text-center mb-12 text-black">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-between" style={{ borderRadius: '1rem' }}> {/* Added inline style for border-radius */}
+              <div key={index} className="bg-white rounded-[1rem] shadow-md p-6 flex flex-col items-center justify-between">
                 <span className="bg-[#48bf84] text-white font-bold text-4xl w-20 h-20 rounded-full flex items-center justify-center mb-6">
                   {step.number}
                 </span>
@@ -42,10 +42,6 @@ const HowItWorks = () => {
                 <p className="text-gray-600 text-center">{step.description}</p>
               </div>
             ))}
-          </div>
-          {/* Added thin gray line below the cards */}
-          <div className="max-w-full mx-auto mt-8">
-            <hr className="border-t border-gray-200" />
           </div>
           <div className="text-center mt-12">
             <button className="bg-[#48BF84] text-white px-8 py-3 rounded-[50px] text-xl hover:bg-[#3da46f] transition duration-300">
