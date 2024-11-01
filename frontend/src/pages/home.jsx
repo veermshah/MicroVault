@@ -14,8 +14,8 @@ const Home = () => {
       <Hero /> {/* Render Hero component */}
       <HowItWorks /> {/* Render HowItWorks component */}
       <Spacer /> {/* Spacer between How It Works and Ease of Use */}
-      <EaseOfUse /> {/* Render EaseOfUse component */}
-      <Spacer /> {/* Spacer between Ease of Use and Why Choose Us */}
+      {/* <EaseOfUse />  Render EaseOfUse component */}
+      {/* <Spacer />  Spacer between Ease of Use and Why Choose Us */}
       <WhyChooseUs /> {/* Render WhyChooseUs component */}
       <Spacer /> {/* Spacer between Why Choose Us and Testimonials */}
       <Testimonials /> {/* Render Testimonials component */}

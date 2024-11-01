@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { CheckIcon } from '@heroicons/react/24/solid'; // Import CheckIcon for checkmarks
 
 const Borrow = () => {
   const [loanType, setLoanType] = useState('microloan'); // 'microloan' or 'flashloan'
@@ -176,7 +177,8 @@ const Borrow = () => {
       <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-lg shadow-md">
         <h3 className="text-xl font-semibold mb-4">Terms of your offer</h3>
 
-        {borrowerRate && lenderAPY && (
+        {/* Display placeholders before calculation */}
+        {borrowerRate && lenderAPY ? (
           <>
             {/* Display calculated rates */}
             <div className="flex justify-between mt-2">
@@ -193,12 +195,12 @@ const Borrow = () => {
               <>
                 <div className="flex justify-between mt-2">
                   <p className="font-bold">Estimated Gas Fee:</p>
-                  <p>{estimatedGasFee} ETH</p>
+                  <p>{estimatedGasFee} ETH</p> {/* Display calculated gas fee */}
                 </div>
 
                 <div className="flex justify-between mt-2">
                   <p className="font-bold">Service Fee:</p>
-                  <p>{serviceFee} ETH</p>
+                  <p>{serviceFee} ETH</p> {/* Display calculated service fee */}
                 </div>
               </>
             )}
@@ -206,20 +208,60 @@ const Borrow = () => {
             {futureValue && (
               <div className="flex justify-between mt-2">
                 <p className="font-bold">Future Value of Loan:</p>
-                <p>{futureValue} ETH</p>
+                <p>{futureValue} ETH</p> {/* Display calculated future loan value */}
+              </div>
+            )}
+          </>
+        ) : (
+          <>
+            {/* Placeholder text with two dashes */}
+            <div className="flex justify-between mt-2">
+              <p className="font-bold">Borrower Interest Rate:</p>
+              <p>--%</p> {/* Placeholder for borrower interest rate */}
+            </div>
+
+            <div className="flex justify-between mt-2">
+              <p className="font-bold">Lender APY:</p>
+              <p>--%</p> {/* Placeholder for lender APY */}
+            </div>
+
+            {willingToPayGas && (
+              <>
+                <div className="flex justify-between mt-2">
+                  <p className="font-bold">Estimated Gas Fee:</p>
+                  <p>-- ETH</p> {/* Placeholder for estimated gas fee */}
+                </div>
+
+                <div className="flex justify-between mt-2">
+                  <p className="font-bold">Service Fee:</p>
+                  <p>-- ETH</p> {/* Placeholder for service fee */}
+                </div>
+              </>
+            )}
+
+            {futureValue && (
+              <div className="flex justify-between mt-2">
+                <p className="font-bold">Future Value of Loan:</p>
+                <p>-- ETH</p> {/* Placeholder for future loan value */}
               </div>
             )}
           </>
         )}
 
-        {/* Placeholder text for additional terms */}
-        {/* You can customize this section further based on your requirements */}
-        {/* For instance, you could include a summary of the calculated rates here */}
-
         {/* Continue button */}
-        <button className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold">
-          Continue
-        </button>
+        {borrowerRate || lenderAPY ? (
+          /* Show continue button if rates are calculated */
+          <>
+            {/* Only show continue button if rates are calculated */}
+            {/* You can customize this section further based on your requirements */}
+            {/* For instance, you could include a summary of the calculated rates here */}
+
+            {/* Continue button */}
+            <button className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold">
+              Continue
+            </button>
+          </>
+        ) : null}
       </div>
     </div>
   );
