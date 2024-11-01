@@ -28,15 +28,20 @@ const Header = () => {
                 </li>
               </ul>
               <div className="flex space-x-4">
+                {/* Login Button with Animated Gradient Text */}
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-[#48BF84] border border-[#48BF84] rounded-[50px] hover:bg-[#48BF84] hover:text-white transition duration-300"
+                  className="relative inline-block px-4 py-2 border border-[#48BF84] rounded-[50px] transition duration-300"
                 >
-                  Login
+                  <span className="bg-gradient-to-r from-[#38ef7d] to-[#11998e] bg-clip-text text-transparent">
+                    Login
+                  </span>
                 </Link>
+
+                {/* Get Started Button with Animated Gradient */}
                 <Link
                   to="/getstarted"
-                  className="px-4 py-2 bg-[#48BF84] text-white rounded-[50px] hover:bg-[#3da46f] transition duration-300"
+                  className="animated-gradient text-white rounded-[50px] px-4 py-2 transition duration-300"
                 >
                   Get Started
                 </Link>
