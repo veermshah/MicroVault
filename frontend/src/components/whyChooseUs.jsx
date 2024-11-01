@@ -20,7 +20,7 @@ const WhyChooseUs = () => {
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-black">Why Choose Us</h2>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden relative z-10">
+          <div className="bg-white rounded-[1rem] shadow-lg overflow-hidden relative z-10"> {/* Updated border-radius here */}
             <table className="w-full">
               <thead>
                 <tr className="bg-[#48BF84] text-white">

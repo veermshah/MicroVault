@@ -23,7 +23,7 @@ const Testimonials = () => {
           <div className="flex flex-col md:flex-row h-full relative z-10">
             {/* Left side - Main testimonial */}
             <div className="md:w-1/2 md:pr-4 mb-8 md:mb-0 flex flex-col justify-center">
-              <div className="relative mb-6 bg-white p-6 rounded-lg shadow-md">
+              <div className="relative mb-6 bg-white p-6 rounded-[1rem] shadow-md"> {/* Updated border-radius */}
                 <span className="absolute text-6xl text-[#48BF84] opacity-50 top-[-30px] left-[-20px]">"</span>
                 <h2 className="text-3xl font-bold mb-4">{mainTestimonial.quote}</h2>
                 <p className="text-lg text-gray-600 mb-4">{mainTestimonial.longText}</p>
@@ -42,7 +42,7 @@ const Testimonials = () => {
             <div className="md:w-1/2 flex items-center">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                 {shortTestimonials.map((testimonial, index) => (
-                  <div key={index} className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-lg shadow-md">
+                  <div key={index} className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md"> {/* Updated border-radius */}
                     <div className="w-20 h-20 bg-gray-300 rounded-full mb-4"></div>
                     <p className="text-lg font-semibold mb-2">"{testimonial.quote}"</p>
                     <p className="text-sm text-gray-600">— {testimonial.name}</p>

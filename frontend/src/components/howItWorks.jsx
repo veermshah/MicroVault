@@ -25,15 +25,16 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="bg-transparent my-0 mx-4 md:mx-12 lg:mx-20 relative overflow-visible"> {/* Changed to bg-transparent */}
-      {/* Removed the blur effect from this component */}
+    <section className="bg-transparent my-0 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+      {/* Blur effect */}
+      <div className="absolute top-[50px] left-[550px] w-[600px] h-[600px] bg-[#48bf84]/30 rounded-full blur-[150px] z-0" />
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
           <h2 className="text-4xl font-bold text-center mb-12 text-black">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-between">
+              <div key={index} className="bg-white rounded-lg shadow-md p-6 flex flex-col items-center justify-between" style={{ borderRadius: '1rem' }}> {/* Added inline style for border-radius */}
                 <span className="bg-[#48bf84] text-white font-bold text-4xl w-20 h-20 rounded-full flex items-center justify-center mb-6">
                   {step.number}
                 </span>
