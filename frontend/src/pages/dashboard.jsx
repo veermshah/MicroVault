@@ -10,7 +10,7 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left-side menu */}
-      <div className="w-1/4 bg-white shadow-md flex flex-col">
+      <div className="w-1/6 bg-white shadow-md flex flex-col"> {/* 15% width */}
         <nav className="flex-grow">
           <ul className="py-4">
             {['trading', 'lend', 'borrow', 'myWallet'].map((item) => (
@@ -32,9 +32,7 @@ const Dashboard = () => {
       </div>
 
       {/* Right-side content */}
-      <div className="w-3/4 p-8 overflow-auto">
-        <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
-
+      <div className="w-5/6 p-8 overflow-auto"> {/* 85% width */}
         {/* Dynamic Content */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
           <div style={{ display: activeComponent === 'trading' ? 'block' : 'none' }}>

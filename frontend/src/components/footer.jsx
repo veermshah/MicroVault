@@ -38,11 +38,11 @@ const Footer = () => {
       */}
 
       {/* Copyright Section */}
-      <div className="bg-white py-4"> 
+      {/* <div className="bg-white py-4"> 
         <div className="container mx-auto px-4 text-center text-gray-600">
           © 2024 MicroVault. All rights reserved. | Privacy Policy | Terms of Service
         </div>
-      </div> 
+      </div> */}
     </footer>
   );
 };
