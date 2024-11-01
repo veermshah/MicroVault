@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 import bankIcon from '../assets/bankicon.png';
 
 const Hero = () => {
@@ -13,11 +14,15 @@ const Hero = () => {
           <div className="max-w-[1248px] w-full mx-auto flex flex-col md:flex-row items-center justify-center">
             {/* Left side content */}
             <div className="w-full md:w-1/2 mb-8 md:mb-0 flex flex-col items-start justify-center">
-              <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-black">Loans Backed By Crypto</h1>
-              <p className="text-2xl md:text-3xl mb-8 text-gray-600">Don't sell your crypto, borrow against it.</p>
-              <button className="bg-[#48BF84] text-white px-8 py-3 rounded-[50px] hover:bg-[#3da46f] transition duration-300 text-lg">
-                Get Started
-              </button>
+              <h1 className="text-[48px] font-bold mb-6 leading-tight text-black">Loans Backed By Crypto</h1>
+              <p className="text-[20px] mb-8 text-gray-600">Don't sell your crypto, borrow against it.</p>
+              
+              {/* Learn More Button with Animated Gradient */}
+              <Link to="/faq">
+                <button className="animated-gradient text-white rounded-[50px] px-8 py-3 transition duration-300">
+                  Learn More
+                </button>
+              </Link>
             </div>
             
             {/* Right side icon */}
