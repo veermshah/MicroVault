@@ -7,7 +7,7 @@ const Header = () => {
     <header className="bg-transparent my-0 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
       <div className="bg-white rounded-lg overflow-hidden">
         <div className="container mx-auto px-6 py-2 flex items-center justify-between relative z-20">
-          <div className="flex items-center">
+          <div className="flex items-center -ml-2"> {/* Adjusted to -ml-2 for a smaller shift */}
             <Link to="/">
               <img src={MicroVaultLogo} alt="MicroVault Logo" className="h-16 w-auto" />
             </Link>
