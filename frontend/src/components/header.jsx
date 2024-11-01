@@ -8,10 +8,15 @@ const Header = () => {
       <header className="bg-transparent my-0 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
         <div className="bg-white rounded-lg overflow-hidden">
           <div className="max-w-[1248px] w-full mx-auto flex items-center relative z-20">
-            {/* Adjusted logo position */}
-            <div className="flex items-center pr-6"> {/* Padding on right for spacing */}
+            {/* Adjusted logo position without padding and tight fit */}
+            <div className="flex items-center"> {/* Removed padding */}
               <Link to="/">
-                <img src={MicroVaultLogo} alt="MicroVault Logo" className="h-16 w-auto" />
+                <img 
+                  src={MicroVaultLogo} 
+                  alt="MicroVault Logo" 
+                  className="h-16 w-auto block" // Set display to block for tight fit
+                  style={{ margin: 0 }} // Ensure no margin
+                />
               </Link>
             </div>
             <nav className="flex items-center space-x-6 ml-auto"> {/* Added ml-auto to push nav to the right */}

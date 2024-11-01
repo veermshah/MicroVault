@@ -14,8 +14,8 @@ const Hero = () => {
           <div className="max-w-[1248px] w-full mx-auto flex flex-col md:flex-row items-center justify-center">
             {/* Left side content */}
             <div className="w-full md:w-1/2 mb-8 md:mb-0 flex flex-col items-start justify-center">
-              <h1 className="text-[48px] font-bold mb-6 leading-tight text-black">Loans Backed By Crypto</h1>
-              <p className="text-[20px] mb-8 text-gray-600">Don't sell your crypto, borrow against it.</p>
+              <h1 className="text-[48px] font-bold mb-6 leading-tight text-black">Borrow with Crypto</h1>
+              <p className="text-[20px] mb-8 text-gray-600">Keep your crypto, borrow against it.</p>
               
               {/* Learn More Button with Animated Gradient */}
               <Link to="/faq">
