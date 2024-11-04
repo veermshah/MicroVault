@@ -14,7 +14,7 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="bg-white mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
       {/* Adjusted Blur effect */}
       <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
 
@@ -24,19 +24,28 @@ const Testimonials = () => {
             {/* Left side - Main testimonial */}
             <div className="md:w-1/2 md:pr-4 mb-8 md:mb-0 flex flex-col justify-center">
               <div className="relative mb-6 bg-white p-6 rounded-[1rem] shadow-md">
-                <span className="absolute text-6xl text-[#48BF84] opacity-50 top-[-30px] left-[-20px]">"</span>
+                <span className="absolute text-6xl text-[#48BF84] opacity-80 top-[-30px] left-[-20px]">"</span>
                 <h2 className="text-3xl font-bold mb-4">{mainTestimonial.quote}</h2>
                 <p className="text-lg text-gray-600 mb-4">{mainTestimonial.longText}</p>
                 <p className="font-semibold">— {mainTestimonial.name}</p>
               </div>
-              <p className="text-xl font-bold mb-2">1000 Excellent Reviews on Trustpilot</p>
-              <a href="https://www.trustpilot.com/" target="_blank" rel="noopener noreferrer" className="text-[#48BF84] underline">
-                Check it out!
-              </a>
+              {/* Gradient Text for Trustpilot Reviews */}
+              <p 
+                className="text-xl font-bold mb-2"
+                style={{
+                  backgroundImage: 'linear-gradient(to right, #38ef7d, #11998e)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  color: 'transparent'
+                }}
+              >
+                1000 Excellent Reviews on Trustpilot
+              </p>
             </div>
 
             {/* Vertical divider */}
-            <div className="hidden md:block w-px bg-gray-300 mx-4 self-stretch"></div>
+            <div className="hidden md:block w-px bg-[#F0F0F0] mx-4 self-stretch"></div> 
 
             {/* Right side - Short testimonials */}
             <div className="md:w-1/2 flex items-center">
@@ -57,4 +66,4 @@ const Testimonials = () => {
   );
 };
 
-export default Testimonials
+export default Testimonials;
