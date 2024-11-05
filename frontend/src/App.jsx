@@ -8,24 +8,32 @@ import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
 import FAQ from "./pages/faq";
 import MetaMaskLogin from "./pages/login"
+import { TransactionProvider } from "./components/transactions"
+import MyWallet from "./components/myWallet";
+import { UserProvider } from "./components/users";
 
 function App() {
-    return (
-      <BrowserRouter>
-        <div className="flex flex-col min-h-screen overflow-x-hidden">
-          <Header />
-          <main className="flex-grow">
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/faq" element={<FAQ />} />
-              <Route path="/login" element={<MetaMaskLogin />} />
-            </Routes>
-          </main>
-          <Footer />
-        </div>
-      </BrowserRouter>
-    );
+  return (
+    <UserProvider>
+      <TransactionProvider>
+        <BrowserRouter>
+          <div className="flex flex-col min-h-screen overflow-x-hidden">
+            <Header />
+            <main className="flex-grow">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/faq" element={<FAQ />} />
+                <Route path="/login" element={<MetaMaskLogin />} />
+                <Route path="/myWallet/:userAddress" element={<MyWallet />} />
+              </Routes>
+            </main>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </TransactionProvider>
+    </UserProvider>
+  );
 }
 
 export default App;
