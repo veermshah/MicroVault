@@ -42,7 +42,7 @@ const MyWallet = () => {
                 <p>
                   <strong>Transaction Hash:</strong>{" "}
                   <a
-                    // href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
+                    //href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     //style={{ color: "#007bff" }}
@@ -86,6 +86,27 @@ const MyWallet = () => {
                   <strong>Status:</strong>
                   {isRecieved ? "Recieved" : isSent ? "Sent" : "Unknown"}
                 </p>
+                <a
+                  href={`https://sepolia.etherscan.io/tx/${tx.hash}`} // Replace with your desired URL
+                  target="_blank" // Opens link in a new tab
+                  rel="noopener noreferrer" // Improves security when opening in a new tab
+                  style={{
+                    backgroundColor: "#4caf50",
+                    border: "none",
+                    color: "white",
+                    padding: "10px 20px",
+                    textAlign: "center",
+                    textDecoration: "none",
+                    display: "inline-block",
+                    fontSize: "16px",
+                    margin: "10px 0",
+                    cursor: "pointer",
+                    borderRadius: "4px",
+                    transition: "background-color 0.3s",
+                  }}
+                >
+                  View Transanction
+                </a>
               </li>
             );
           })}
