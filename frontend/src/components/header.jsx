@@ -45,7 +45,7 @@ const Header = () => {
 
                 {/* Get Started Button with Animated Gradient */}
                 <Link
-                  to="/getstarted"
+                  to="/get-started"
                   className="animated-gradient text-white rounded-[50px] px-4 py-2 transition duration-300"
                 >
                   Get Started
