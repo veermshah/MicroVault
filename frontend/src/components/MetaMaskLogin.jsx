@@ -5,20 +5,27 @@ import { useSDK } from "@metamask/sdk-react";
 import { db } from "../../../firebase"; // Adjust the path accordingly
 import { collection, doc, setDoc } from "firebase/firestore";
 import { ethers } from "ethers"; 
-import { formatEther } from 'ethers'; // v6.x.x version
+import { formatEther } from 'ethers';
+import { useTransaction } from "./transactions";
+import { useNavigate } from "react-router-dom";
+import { useUser } from "./users";// v6.x.x version
 
+const apikey = "SIBXADTFTICF4I8UFA78NVSFIIAIJAM5V6";
 
 const MetaMaskLogin = () => {
   const { sdk, connected, chainId } = useSDK();
+  const navigate = useNavigate();
+  const { setUserAddress } = useUser();
 
   const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
-  const [userAddress, setUserAddress] = useState("");
+  const [userAddress, setUserAddresss] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
   const [isUserSaved, setIsUserSaved] = useState(false);
+  const { transactions, setTransactions } = useTransaction();
 
   const connectWallet = async () => {
     console.log("Connect Wallet button clicked");
@@ -30,9 +37,11 @@ const MetaMaskLogin = () => {
         const account = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
+        setUserAddresss(account[0]);
         setUserAddress(account[0]);
         setDefaultAccount(account[0]);
         setStatus(`Connected account: ${account[0]}`);
+        localStorage.setItem("userAddress", account[0]); 
 
         // getting the account balance
         const balance = await window.ethereum.request({
@@ -42,12 +51,9 @@ const MetaMaskLogin = () => {
         const formattedBalance = formatEther(balance);
         setUserBalance(formattedBalance);
 
-        // const message = `Please sign this message to authenticate. Wallet: ${account[0]}`;
-        // const signer = new ethers.providers.Web3Provider(window.ethereum).getSigner();
-        // const signature = await signer.signMessage(message);
-
-        //await saveUserDetails(account, formattedBalance, signature);
-        //setUserBalance(ethers.utils.formatEther(balance));
+        //fetch transaction history after connecting 
+        fetchTransactionHistory(account[0]);
+        
       } catch (error) {
         console.error("Error connecting to MetaMask: ", error);
         setStatus("Failed to connect MetaMask");
@@ -75,31 +81,40 @@ const MetaMaskLogin = () => {
 
       setStatus("User details saved successfully");
       setIsUserSaved(true);
+      // go to the wallet page
+      navigate(`/myWallet/${userAddress}`);
     } catch (error) {
       console.error("Error saving user details: ", error);
       setErrorMessage("Failed to save user details");
     }
   };
 
-  // If user details are saved, show the welcome page with sidebar
-  // if (isUserSaved) {
-  //   return (
-  //     <div className="welcome-container">
-  //       <aside className="sidebar">
-  //         <h2>Welcome, {name}!</h2>
-  //         <p>Account Address: {userAddress}</p>
-  //         <p>Account Balance: ${userBalance}</p>
-  //         <p>Email: {email}</p>
-  //       </aside>
-  //       <main className="main-content">
-  //         <h3>Trading Options</h3>
-  //         <p>Explore various trading options and features here...</p>
-  //         {/* Add your trading components and features here */}
-  //       </main>
-  //     </div>
-  //   );
-  // }
+  const fetchTransactionHistory = async (address) => {
+    try {
+      //testing for real network
+      //const response = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`);
+      //testing for the sepolia network 
+      const response = await fetch(
+        `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
+      );
+      const data = await response.json();
 
+      if (data.status === "1") {
+        const transactions = data.result;
+        setTransactions(transactions);
+        console.log("Transactions:", transactions);
+      } else {
+        //setStatus("Error fetching transaction history");
+        console.error("Etherscan API returned an error:", data.message);
+        setStatus(`Error fetching transaction history: ${data.message}`);
+      }
+
+    } catch (error) {
+      console.error("Error fetching transaction history", error);
+    }
+  }
+  
+  
     return (
       <div className="metamask-login-container">
         <h2>Login with MetaMask</h2>

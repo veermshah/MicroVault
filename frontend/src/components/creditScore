@@ -1,0 +1,49 @@
+// src/utils/creditScore.js
+
+export const calculateCreditScore = (transactions) => {
+  let score = 0;
+
+  // Constants for weightings (these can be adjusted based on desired impact)
+  const TRANSACTION_WEIGHT = 20; // Weight for number of transactions
+  const VALUE_WEIGHT = 0.1; // Weight for total value
+  const DIVERSITY_WEIGHT = 5; // Weight for unique recipients
+  const GAS_EFFICIENCY_WEIGHT = 15; // Weight for gas efficiency (lower is better)
+  const MAX_SCORE = 100; // Maximum possible score
+
+  // 1. Transaction Frequency
+  const transactionCount = transactions.length;
+  const transactionScore = Math.min(
+    transactionCount * TRANSACTION_WEIGHT,
+    MAX_SCORE
+  );
+
+  // 2. Transaction Value
+  const totalValue = transactions.reduce(
+    (acc, tx) => acc + parseFloat(tx.value),
+    0
+  ); // Total value of transactions
+  const valueScore = Math.min(totalValue * VALUE_WEIGHT, MAX_SCORE); // Scale value to a reasonable range
+
+  // 3. Diversity Calculation (based on unique recipients)
+  const uniqueRecipients = new Set(transactions.map((tx) => tx.to)).size;
+  const diversityScore = Math.min(
+    uniqueRecipients * DIVERSITY_WEIGHT,
+    MAX_SCORE
+  ); // Ensure it does not exceed the max score
+
+  // 4. Gas Price Calculation
+  const totalGasSpent = transactions.reduce(
+    (acc, tx) => acc + parseFloat(tx.gasPrice) * parseFloat(tx.gasUsed),
+    0
+  ); // Assuming gasPrice and gasUsed are available in tx
+  const gasEfficiencyScore =
+    totalGasSpent > 0
+      ? Math.max(0, MAX_SCORE - totalGasSpent / transactions.length)
+      : MAX_SCORE; // Lower gas spent improves score
+
+  // Calculate total score
+  score = transactionScore + valueScore + diversityScore + gasEfficiencyScore;
+
+  // Normalize the score to ensure it does not exceed the maximum
+  return Math.min(score, MAX_SCORE); // Ensuring score is between 0 and MAX_SCORE
+};
