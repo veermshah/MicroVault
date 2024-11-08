@@ -11,8 +11,7 @@ const Overview = () => {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6">Overview</h2>
+    <div className="max-w mx-auto w-full px-0"> 
       <h3 className="text-2xl font-semibold mb-4">MicroVault Overview</h3>
       <p className="text-base text-gray-700 mb-6">
         MicroVault is a decentralized platform that revolutionizes microloans by offering flexible options tailored for the crypto ecosystem. Our platform provides both flash loans and standard microloans, enabling users to access liquidity quickly and efficiently. To ensure the safety and security of our loan products, users are required to over-collateralize their assets, minimizing risk and safeguarding against market volatility.
