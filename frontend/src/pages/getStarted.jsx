@@ -1,12 +1,11 @@
 // src/pages/getStarted.jsx
-
 import React from 'react';
-import Overview from '../components/overview'; // Import with lowercase 'o'
+import Overview from '../components/overview';
 
 const getStarted = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold text-center my-8">Get Started</h1>
+      <h1 className="text-3xl font-bold text-center my-8"></h1>
       <Overview />
     </div>
   );
