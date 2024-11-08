@@ -1,36 +1,47 @@
 // src/components/overview.jsx
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Overview = () => {
-  const mainContent = {
-    title: "Service Overview",
-    description: "Get a quick snapshot of our comprehensive services designed to meet your needs efficiently and effectively.",
-    ctaText: "Explore Services"
-  };
-
-  const keyPoints = [
-    { title: "Fast Process", description: "Quick and easy application" },
-    { title: "Competitive Rates", description: "Best-in-class interest rates" },
-    { title: "Expert Support", description: "24/7 customer assistance" }
+  const cards = [
+    { title: 'Concepts', link: '/concepts' },
+    { title: 'Dashboard', link: '/dashboard' },
+    { title: 'Primitives', link: '/primitives' },
+    { title: 'FAQ', link: '/faq' },
   ];
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold mb-4">{mainContent.title}</h2>
-      <p className="text-base text-gray-600 mb-4">{mainContent.description}</p> {/* Changed to text-base for 16px */}
-      <a href="/services" className="inline-block bg-[#48BF84] text-white font-bold py-2 px-4 rounded-full hover:bg-[#3da36f] transition duration-300">
-        {mainContent.ctaText}
-      </a>
+    <div className="max-w-4xl mx-auto">
+      <h2 className="text-3xl font-bold mb-6">Overview</h2>
+      <h3 className="text-2xl font-semibold mb-4">MicroVault Overview</h3>
+      <p className="text-base text-gray-700 mb-6">
+        MicroVault is a decentralized platform that revolutionizes microloans by offering flexible options tailored for the crypto ecosystem. Our platform provides both flash loans and standard microloans, enabling users to access liquidity quickly and efficiently. To ensure the safety and security of our loan products, users are required to over-collateralize their assets, minimizing risk and safeguarding against market volatility.
+      </p>
+      <div className="space-y-4 mb-8">
+        <div className="p-4 border-l-4 border-[#48BF84] bg-gray-100">
+          <h4 className="text-lg font-semibold mb-2">Flash Loans</h4>
+          <p className="text-sm text-gray-600">
+            Instant, unsecured loans that must be repaid within the same blockchain transaction. Perfect for arbitrage opportunities, refinancing, or leveraging yield farming strategies.
+          </p>
+        </div>
+        <div className="p-4 border-l-4 border-[#48BF84] bg-gray-100">
+          <h4 className="text-lg font-semibold mb-2">Standard Microloans</h4>
+          <p className="text-sm text-gray-600">
+            Traditional microloans with flexible terms, secured through over-collateralization, providing users with a secure way to access funds without the need for credit checks.
+          </p>
+        </div>
+      </div>
+      <p className="text-base text-gray-700 mb-8">
+        By leveraging the power of smart contracts, MicroVault ensures a trustless, transparent, and secure lending process, empowering users with control and autonomy over their crypto assets.
+      </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-        {keyPoints.map((point, index) => (
-          <div key={index} className="text-center flex flex-col items-center justify-center bg-white p-4 shadow-md">
-            <div className="w-20 h-20 bg-[#48BF84] rounded-full mb-4 flex items-center justify-center text-white text-2xl font-bold">
-              {index + 1}
-            </div>
-            <p className="text-lg font-semibold mb-2">{point.title}</p>
-            <p className="text-sm text-gray-600">{point.description}</p>
-          </div>
+      <h3 className="text-2xl font-semibold mb-4">Get Familiar with MicroVault</h3>
+      <div className="grid grid-cols-2 gap-4">
+        {cards.map((card, index) => (
+          <Link key={index} to={card.link} className="block p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+            <h4 className="text-xl font-semibold mb-2">{card.title}</h4>
+            <p className="text-sm text-gray-600">Learn more about {card.title.toLowerCase()}</p>
+          </Link>
         ))}
       </div>
     </div>
