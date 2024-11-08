@@ -43,7 +43,7 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
                     if (item.hasSubItems) {
                       setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown
                     } else {
-                      setActiveSection(item.id);
+                      setActiveSection(item.id); // Set active section for non-dropdown items
                     }
                   }}
                   className={`text-base ${
@@ -57,7 +57,7 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
                   <ul className="ml-4 mt-2">
                     <li className="mb-1">
                       <button
-                        onClick={() => setActiveSection('flashLoans')}
+                        onClick={() => setActiveSection('flashLoans')} // Set active section to flashLoans
                         className={`text-sm ${
                           activeSection === 'flashLoans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}
@@ -67,7 +67,7 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
                     </li>
                     <li>
                       <button
-                        onClick={() => setActiveSection('standardMicroloans')}
+                        onClick={() => setActiveSection('standardMicroloans')} // Set active section to standardMicroloans
                         className={`text-sm ${
                           activeSection === 'standardMicroloans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}

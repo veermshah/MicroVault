@@ -4,7 +4,6 @@ import React from 'react';
 const LiquidityPool = () => {
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">Liquidity Pool</h2>
       <h3 className="text-xl font-semibold mb-2">MicroVault Liquidity Pool</h3>
       <p className="mb-4">
         MicroVault features a custom liquidity pool that allows users to participate as suppliers or borrowers, supporting stablecoins, ETH, and a variety of crypto assets. Our liquidity pool operates as a decentralized market, governed by smart contract parameters that define collateralization thresholds, reserve configurations, and risk management measures.

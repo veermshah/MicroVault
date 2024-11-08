@@ -1,61 +1,95 @@
-// src/pages/getStarted.jsx
+// src/components/getStartedSidebar.jsx
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import GetStartedSidebar from '../components/getStartedSideBar';
-import Overview from '../components/overview';
-import Concepts from '../components/concepts';
-import LiquidityPool from '../components/liquidityPool';
-import Reserve from '../components/reserve';
 
-const GetStarted = () => {
-  const [activeSection, setActiveSection] = useState('overview');
-  const navigate = useNavigate();
+const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
+  const [isConceptsOpen, setIsConceptsOpen] = useState(false); // State for dropdown
 
-  const renderContent = () => {
-    switch (activeSection) {
-      case 'overview':
-        return <Overview />;
-      case 'concepts':
-        return <Concepts />;
-      case 'liquidityPool':
-        return <LiquidityPool />;
-      case 'reserve':
-        return <Reserve />;
-      case 'faq':
-        navigate('/faq');
-        return null;
-      default:
-        return <Overview />;
+  const menuItems = [
+    {
+      title: 'Introduction',
+      size: 'text-xl',
+      items: [
+        { name: 'Overview', id: 'overview' },
+        { name: 'Concepts', id: 'concepts', hasSubItems: true } // Indicate that this item has sub-items
+      ]
+    },
+    {
+      title: 'Primitives',
+      size: 'text-xl',
+      items: [
+        { name: 'Liquidity Pool', id: 'liquidityPool' },
+        { name: 'Reserve', id: 'reserve' }
+      ]
+    },
+    {
+      title: 'Resources',
+      size: 'text-xl',
+      items: [
+        { name: 'FAQ', id: 'faq' }
+      ]
     }
-  };
-
-  const handleSectionChange = (section) => {
-    if (section === 'faq') {
-      navigate('/faq');
-    } else {
-      setActiveSection(section);
-    }
-  };
+  ];
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
-      <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
-
-      <div className="container mx-auto px-6 py-16 relative z-10">
-        <div className="max-w-[1248px] w-full mx-auto">
-          <div className="flex flex-row h-full relative z-10">
-            <div className="w-1/6 mr-8">
-              <GetStartedSidebar activeSection={activeSection} setActiveSection={handleSectionChange} />
-            </div>
-            <div className="w-5/6">
-              {/* Removed background, border-radius, padding, and margin */}
-              {renderContent()}
-            </div>
-          </div>
+    <nav className="bg-transparent">
+      {menuItems.map((section, index) => (
+        <div key={index} className="mb-6">
+          <h2 className={`${section.size} font-bold mb-2`}>{section.title}</h2>
+          <ul>
+            {section.items.map((item) => (
+              <li key={item.id} className="mb-2">
+                <button
+                  onClick={() => {
+                    if (item.hasSubItems) {
+                      setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown for Concepts
+                    } else {
+                      setActiveSection(item.id); // Set active section for non-dropdown items
+                    }
+                  }}
+                  className={`text-base ${
+                    activeSection === item.id ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                  } hover:text-gray-900`}
+                >
+                  {item.name}
+                </button>
+                {/* Render sub-items if this is the Concepts section and it's open */}
+                {item.hasSubItems && isConceptsOpen && (
+                  <ul className="ml-4 mt-2">
+                    <li className="mb-1">
+                      <button
+                        onClick={() => {
+                          setActiveSection('flashLoans'); // Set active section to flashLoans
+                          setIsConceptsOpen(false); // Close dropdown after selection
+                        }}
+                        className={`text-sm ${
+                          activeSection === 'flashLoans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                        } hover:text-gray-900`}
+                      >
+                        flash loans
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => {
+                          setActiveSection('standardMicroloans'); // Set active section to standardMicroloans
+                          setIsConceptsOpen(false); // Close dropdown after selection
+                        }}
+                        className={`text-sm ${
+                          activeSection === 'standardMicroloans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                        } hover:text-gray-900`}
+                      >
+                        standard microloans
+                      </button>
+                    </li>
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
-      </div>
-    </section>
+      ))}
+    </nav>
   );
 };
 
-export default GetStarted;
+export default GetStartedSidebar;
