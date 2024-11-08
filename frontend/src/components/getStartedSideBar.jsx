@@ -41,7 +41,7 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
                 <button
                   onClick={() => {
                     if (item.hasSubItems) {
-                      setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown for Concepts
+                      setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown
                     } else {
                       setActiveSection(item.id); // Set active section for non-dropdown items
                     }
@@ -57,28 +57,22 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
                   <ul className="ml-4 mt-2">
                     <li className="mb-1">
                       <button
-                        onClick={() => {
-                          setActiveSection('flashLoans'); // Set active section to flashLoans
-                          setIsConceptsOpen(false); // Close dropdown after selection
-                        }}
+                        onClick={() => setActiveSection('flashLoans')} // Set active section to flashLoans
                         className={`text-sm ${
                           activeSection === 'flashLoans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}
                       >
-                        flash loans
+                        Flash Loans
                       </button>
                     </li>
                     <li>
                       <button
-                        onClick={() => {
-                          setActiveSection('standardMicroloans'); // Set active section to standardMicroloans
-                          setIsConceptsOpen(false); // Close dropdown after selection
-                        }}
+                        onClick={() => setActiveSection('standardMicroloans')} // Set active section to standardMicroloans
                         className={`text-sm ${
                           activeSection === 'standardMicroloans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}
                       >
-                        standard microloans
+                        Standard Microloans
                       </button>
                     </li>
                   </ul>

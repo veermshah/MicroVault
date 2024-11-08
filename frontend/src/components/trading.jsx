@@ -10,8 +10,8 @@ const Trading = () => {
     script.async = true;
     script.innerHTML = JSON.stringify({
       "symbols": [
-        ["COINBASE:BTCUSD|1D"],
-        ["COINBASE:ETHUSD|1D"]
+        ["COINBASE:ETHUSD|1D"],  // ETH is now first
+        ["COINBASE:BTCUSD|1D"]   // BTC is now second
       ],
       "chartOnly": false,
       "width": "100%",

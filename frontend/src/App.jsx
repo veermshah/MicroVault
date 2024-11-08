@@ -11,6 +11,7 @@ import MetaMaskLogin from "./pages/login"
 import { TransactionProvider } from "./components/transactions"
 import MyWallet from "./components/myWallet";
 import { UserProvider } from "./components/users";
+import GetStarted from "./pages/getStarted"; // Import with lowercase 'g'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/faq" element={<FAQ />} />
                 <Route path="/login" element={<MetaMaskLogin />} />
                 <Route path="/myWallet/:userAddress" element={<MyWallet />} />
+                <Route path="/get-started" element={<GetStarted />} /> {/* Use GetStarted with lowercase 'g' */}
               </Routes>
             </main>
             <Footer />
