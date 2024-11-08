@@ -16,8 +16,8 @@ const Overview = () => {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold mb-4">{mainContent.title}</h2>
-      <p className="text-lg text-gray-600 mb-4">{mainContent.description}</p>
+      <h2 className="text-2xl font-bold mb-4">{mainContent.title}</h2>
+      <p className="text-base text-gray-600 mb-4">{mainContent.description}</p> {/* Changed to text-base for 16px */}
       <a href="/services" className="inline-block bg-[#48BF84] text-white font-bold py-2 px-4 rounded-full hover:bg-[#3da36f] transition duration-300">
         {mainContent.ctaText}
       </a>

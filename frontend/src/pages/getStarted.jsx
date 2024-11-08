@@ -1,7 +1,7 @@
 // src/pages/getStarted.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GetStartedSidebar from '../components/getStartedSidebar';
+import GetStartedSidebar from '../components/getStartedSideBar';
 import Overview from '../components/overview';
 import Concepts from '../components/concepts';
 import LiquidityPool from '../components/liquidityPool';
