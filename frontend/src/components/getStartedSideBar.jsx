@@ -1,23 +1,30 @@
 // src/components/getStartedSidebar.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
 
-const getStartedSidebar = () => {
+const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
   const menuItems = [
     {
       title: 'Introduction',
       size: 'text-xl',
-      items: ['Overview', 'Concepts']
+      items: [
+        { name: 'Overview', id: 'overview' },
+        { name: 'Concepts', id: 'concepts' }
+      ]
     },
     {
       title: 'Primitives',
       size: 'text-xl',
-      items: ['Liquidity Pool', 'Reserve']
+      items: [
+        { name: 'Liquidity Pool', id: 'liquidityPool' },
+        { name: 'Reserve', id: 'reserve' }
+      ]
     },
     {
       title: 'Resources',
       size: 'text-xl',
-      items: ['FAQ']
+      items: [
+        { name: 'FAQ', id: 'faq' }
+      ]
     }
   ];
 
@@ -27,11 +34,16 @@ const getStartedSidebar = () => {
         <div key={index} className="mb-6">
           <h2 className={`${section.size} font-bold mb-2`}>{section.title}</h2>
           <ul>
-            {section.items.map((item, itemIndex) => (
-              <li key={itemIndex} className="mb-2">
-                <Link to={`/${item.toLowerCase().replace(' ', '-')}`} className="text-base text-gray-600 hover:text-gray-900">
-                  {item}
-                </Link>
+            {section.items.map((item) => (
+              <li key={item.id} className="mb-2">
+                <button
+                  onClick={() => setActiveSection(item.id)}
+                  className={`text-base ${
+                    activeSection === item.id ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                  } hover:text-gray-900`}
+                >
+                  {item.name}
+                </button>
               </li>
             ))}
           </ul>
@@ -41,4 +53,4 @@ const getStartedSidebar = () => {
   );
 };
 
-export default getStartedSidebar;
+export default GetStartedSidebar;
