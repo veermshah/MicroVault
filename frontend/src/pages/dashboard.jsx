@@ -10,13 +10,13 @@ const Dashboard = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Left-side menu */}
-      <div className="w-1/6 bg-white shadow-md flex flex-col"> {/* 15% width */}
+      <div className="w-[13%] bg-white shadow-md flex flex-col"> {/* 10% width using custom width */}
         <nav className="flex-grow">
           <ul className="py-4">
             {['trading', 'lend', 'borrow', 'myWallet'].map((item) => (
               <li
                 key={item}
-                className={`px-6 py-3 hover:bg-gray-100 cursor-pointer ${
+                className={`px-4 py-3 hover:bg-gray-100 cursor-pointer ${
                   activeComponent === item ? 'bg-gray-200' : ''
                 }`}
                 onClick={() => setActiveComponent(item)}
@@ -27,12 +27,12 @@ const Dashboard = () => {
           </ul>
         </nav>
         <div className="mt-auto">
-          <div className="px-6 py-3 hover:bg-gray-100 cursor-pointer">Settings</div>
+          <div className="px-4 py-3 hover:bg-gray-100 cursor-pointer">Settings</div>
         </div>
       </div>
 
       {/* Right-side content */}
-      <div className="w-5/6 p-8 overflow-auto"> {/* 85% width */}
+      <div className="w-[87%] p-8 overflow-auto"> {/* 90% width using custom width */}
         {/* Dynamic Content */}
         <div className="bg-white shadow-md rounded-lg p-6 mb-6">
           <div style={{ display: activeComponent === 'trading' ? 'block' : 'none' }}>
