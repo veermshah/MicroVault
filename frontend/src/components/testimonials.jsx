@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import testimonial1 from "../assets/testimonial1.png";
 import testimonial2 from "../assets/testimonial2.png";
 import testimonial3 from "../assets/testimonial3.png";
 
+// Custom hook for Intersection Observer
+const useIntersectionObserver = (options) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
+
 const Testimonials = () => {
+  const [sectionRef, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+  });
+
   const mainTestimonial = {
     quote: "Convenient loan, no hassle.",
     longText: "Needed money for tuition, bills, etc and in 5 days I got the money. Thank you so much. You are a big help financially to my problem.",
@@ -17,7 +45,12 @@ const Testimonials = () => {
   ];
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section 
+      ref={sectionRef}
+      className={`bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Adjusted Blur effect */}
       <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
 

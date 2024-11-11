@@ -1,10 +1,43 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; // Import Link for navigation
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import bankIcon from '../assets/bankicon.png';
 
+// Custom hook for Intersection Observer
+const useIntersectionObserver = (options) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
+
 const Hero = () => {
+  const [heroRef, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+  });
+
   return (
-    <section className="bg-transparent mt-24 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section 
+      ref={heroRef}
+      className={`bg-transparent mt-24 mx-4 md:mx-12 lg:mx-20 relative overflow-visible transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Blur elements */}
       <div className="absolute top-[5%] left-[-25px] w-[500px] h-[500px] bg-[#48bf84]/60 rounded-full blur-[120px] z-0" />
       <div className="absolute top-[15%] right-[100px] w-[500px] h-[400px] bg-[#48bf84]/60 rounded-full blur-[120px] z-0" />
