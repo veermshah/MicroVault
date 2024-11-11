@@ -1,8 +1,9 @@
 // src/App.js
 
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import Header from "./components/header";
+import DashboardHeader from "./components/dashboardHeader";
 import Footer from "./components/footer";
 import Home from "./pages/home";
 import Dashboard from "./pages/dashboard";
@@ -11,27 +12,36 @@ import MetaMaskLogin from "./pages/login"
 import { TransactionProvider } from "./components/transactions"
 import MyWallet from "./components/myWallet";
 import { UserProvider } from "./components/users";
-import GetStarted from "./pages/getStarted"; // Import with lowercase 'g'
+import GetStarted from "./pages/getStarted";
+
+function AppContent() {
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
+
+  return (
+    <div className="flex flex-col min-h-screen overflow-x-hidden">
+      {isDashboard ? <DashboardHeader /> : <Header />}
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/login" element={<MetaMaskLogin />} />
+          <Route path="/myWallet/:userAddress" element={<MyWallet />} />
+          <Route path="/get-started" element={<GetStarted />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
+  );
+}
 
 function App() {
   return (
     <UserProvider>
       <TransactionProvider>
         <BrowserRouter>
-          <div className="flex flex-col min-h-screen overflow-x-hidden">
-            <Header />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/login" element={<MetaMaskLogin />} />
-                <Route path="/myWallet/:userAddress" element={<MyWallet />} />
-                <Route path="/get-started" element={<GetStarted />} /> {/* Use GetStarted with lowercase 'g' */}
-              </Routes>
-            </main>
-            <Footer />
-          </div>
+          <AppContent />
         </BrowserRouter>
       </TransactionProvider>
     </UserProvider>
