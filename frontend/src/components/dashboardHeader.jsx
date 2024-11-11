@@ -2,9 +2,10 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import MicroVaultLogo from '../assets/MicroVault.png';
-import IconButton from '@mui/material/IconButton';
-import SettingsIcon from '@mui/icons-material/Settings';
+import MicroVaultLogo from "../assets/MicroVault.png";
+import IconButton from "@mui/material/IconButton";
+import SettingsIcon from "@mui/icons-material/Settings";
+import Button from "@mui/material/Button";
 
 const DashboardHeader = () => {
   return (
@@ -19,22 +20,40 @@ const DashboardHeader = () => {
             />
           </Link>
         </div>
-        <nav className="flex items-center pr-4">
-          <IconButton 
-            aria-label="settings"
+        <nav className="flex items-center space-x-4 pr-4">
+          <Button
+            variant="outlined" // Use outlined to have a border similar to the icon
             sx={{
-              width: '32px', // Set width to 32px
-              height: '32px', // Set height to 32px
+              backgroundImage: 'linear-gradient(109.6deg, rgba(24,138,141,1) 11.2%, rgba(96,221,142,1) 91.1%)',
+              color: 'white',
+              fontWeight: 'bold', // Make text bold
+              textTransform: 'none',
+              padding: '8px 16px',
               borderRadius: '0.75rem', // Equivalent to rounded-2xl
-              backgroundColor: 'white', // Background color
-              border: '1px solid rgba(156, 163, 175, 1)', // Gray border
-              padding: '0', // Remove default padding
+              border: '1px solid #D3D3D3', // Set border color to #D3D3D3
+              height: '32px', // Set height to match the icon
               '&:hover': {
-                backgroundColor: 'rgba(0, 0, 0, 0.04)', // Light hover effect
+                opacity: 0.9,
               },
             }}
           >
-            <SettingsIcon fontSize="small" /> {/* Use small size for the icon */}
+            Connect wallet
+          </Button>
+          <IconButton 
+            aria-label="settings"
+            sx={{
+              width: '32px',
+              height: '32px',
+              borderRadius: '0.75rem', // Equivalent to rounded-2xl
+              backgroundColor: 'white',
+              border: '1px solid #D3D3D3', // Set border color to #D3D3D3
+              padding: '0',
+              '&:hover': {
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+              },
+            }}
+          >
+            <SettingsIcon fontSize="small" />
           </IconButton>
         </nav>
       </div>
