@@ -51,7 +51,7 @@ const Hero = () => {
               <p className="text-[20px] mb-8 text-gray-600">Keep your crypto, borrow against it.</p>
               
               {/* Learn More Button with Animated Gradient */}
-              <Link to="/faq">
+              <Link to="/get-started">
                 <button className="animated-gradient text-white rounded-[50px] px-8 py-3 transition duration-300">
                   Learn More
                 </button>

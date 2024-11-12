@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 // Custom hook for Intersection Observer
 const useIntersectionObserver = (options) => {
@@ -90,9 +91,11 @@ const HowItWorks = () => {
             ))}
           </div>
           <div className="text-center mt-12">
-            <button className="animated-gradient text-white px-8 py-3 rounded-[50px] text-lg transition duration-300">
-              Apply Now
-            </button>
+            <Link to="/login">
+              <button className="animated-gradient text-white px-8 py-3 rounded-[50px] text-lg transition duration-300">
+                Apply Now
+              </button>
+            </Link>
           </div>
         </div>
       </div>

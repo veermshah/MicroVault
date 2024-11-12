@@ -35,13 +35,13 @@ const Testimonials = () => {
   const mainTestimonial = {
     quote: "Convenient loan, no hassle.",
     longText: "Needed money for tuition, bills, etc and in 5 days I got the money. Thank you so much. You are a big help financially to my problem.",
-    name: "Flordeliza M."
+    name: "Veer S."
   };
 
   const shortTestimonials = [
-    { quote: "Painless way to borrow money", name: "Laurence J.", image: testimonial1 },
-    { quote: "Figure was a breath of fresh air...", name: "Steve M.", image: testimonial2 },
-    { quote: "Quick and painless HELOC", name: "Margaret H.", image: testimonial3 }
+    { quote: "Painless way to borrow money", name: "Aarya R.", image: testimonial1 },
+    { quote: "Figure was a breath of fresh air...", name: "Jordan J.", image: testimonial2 },
+    { quote: "Quick and painless HELOC", name: "Aastha S.", image: testimonial3 }
   ];
 
   return (
@@ -76,7 +76,7 @@ const Testimonials = () => {
                   color: 'transparent'
                 }}
               >
-                1000 Excellent Reviews on Trustpilot
+                Excellent Reviews on Trustpilot
               </p>
             </div>
 
