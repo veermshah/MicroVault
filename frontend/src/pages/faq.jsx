@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 
 export default function FAQ() {
-    // This state will keep track of which question is open
     const [openIndex, setOpenIndex] = useState(null);
 
-    // Toggle the index of the currently open question
     const toggleQuestion = (index) => {
-        setOpenIndex(openIndex === index ? null : index); // Close if open, open if closed
+        setOpenIndex(openIndex === index ? null : index);
     };
 
     const faqs = [
@@ -25,31 +23,38 @@ export default function FAQ() {
     ];
 
     return (
-        <div className="mx-16 mt-10">
-            <h1 className="text-4xl text-black font-bold mb-6">FAQ</h1>
-            <div className="space-y-4">
-                {faqs.map((faq, index) => (
-                    <div
-                        key={index}
-                        className="border rounded-2xl border-gray-300 px-5 bg-primary"
-                    >
-                        <div
-                            onClick={() => toggleQuestion(index)}
-                            className="flex gap-8  cursor-pointer py-4"
-                        >
-                            <span className="text-xl font-bold">
-                                {openIndex === index ? "-" : "+"}
-                            </span>
-                            <h2 className="text-lg font-semibold">
-                                {faq.question}
-                            </h2>
-                        </div>
-                        {openIndex === index && (
-                            <p className="text-gray-600 pb-4">{faq.answer}</p>
-                        )}
+        <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+            {/* Background Blur effect */}
+            <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
+
+            <div className="container mx-auto px-6 pt-0 relative z-10"> {/* Changed padding */}
+                <div className="max-w-[1248px] w-full mx-auto">
+                    <h1 className="text-4xl text-black font-bold mb-6">FAQ</h1>
+                    <div className="space-y-4">
+                        {faqs.map((faq, index) => (
+                            <div
+                                key={index}
+                                className="border rounded-2xl border-gray-300 px-5 bg-white shadow-md"
+                            >
+                                <div
+                                    onClick={() => toggleQuestion(index)}
+                                    className="flex gap-8 cursor-pointer py-4"
+                                >
+                                    <span className="text-xl font-bold text-[#48BF84]">
+                                        {openIndex === index ? "-" : "+"}
+                                    </span>
+                                    <h2 className="text-lg font-semibold">
+                                        {faq.question}
+                                    </h2>
+                                </div>
+                                {openIndex === index && (
+                                    <p className="text-gray-600 pb-4">{faq.answer}</p>
+                                )}
+                            </div>
+                        ))}
                     </div>
-                ))}
+                </div>
             </div>
-        </div>
+        </section>
     );
 }

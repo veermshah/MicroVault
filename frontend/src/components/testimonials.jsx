@@ -1,4 +1,7 @@
 import React from 'react';
+import testimonial1 from "../assets/testimonial1.png";
+import testimonial2 from "../assets/testimonial2.png";
+import testimonial3 from "../assets/testimonial3.png";
 
 const Testimonials = () => {
   const mainTestimonial = {
@@ -8,9 +11,9 @@ const Testimonials = () => {
   };
 
   const shortTestimonials = [
-    { quote: "Painless way to borrow money", name: "Laurence J." },
-    { quote: "Figure was a breath of fresh air...", name: "Steve M." },
-    { quote: "Quick and painless HELOC", name: "Margaret H." }
+    { quote: "Painless way to borrow money", name: "Laurence J.", image: testimonial1 },
+    { quote: "Figure was a breath of fresh air...", name: "Steve M.", image: testimonial2 },
+    { quote: "Quick and painless HELOC", name: "Margaret H.", image: testimonial3 }
   ];
 
   return (
@@ -52,7 +55,13 @@ const Testimonials = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                 {shortTestimonials.map((testimonial, index) => (
                   <div key={index} className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md">
-                    <div className="w-20 h-20 bg-gray-300 rounded-full mb-4"></div>
+                    <div className="w-20 h-20 mb-4 overflow-hidden rounded-full">
+                      <img 
+                        src={testimonial.image} 
+                        alt={`${testimonial.name}'s testimonial`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                     <p className="text-lg font-semibold mb-2">"{testimonial.quote}"</p>
                     <p className="text-sm text-gray-600">— {testimonial.name}</p>
                   </div>

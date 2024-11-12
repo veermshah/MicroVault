@@ -1,5 +1,6 @@
 import React from 'react';
 import { CheckIcon, XMarkIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom'; // Make sure to import Link
 
 const WhyChooseUs = () => {
   const comparisonData = [
@@ -19,14 +20,14 @@ const WhyChooseUs = () => {
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
-          <h2 className="text-[40px] font-bold text-center mb-12 text-black">Why Choose Us</h2> {/* Set title to 40px */}
+          <h2 className="text-[40px] font-bold text-center mb-12 text-black">Why Choose Us</h2>
           <div className="bg-white rounded-[1rem] shadow-lg overflow-hidden relative z-10">
             {/* Set gradient background for the table */}
             <div
               style={{
-                background: '#11998e',  /* fallback for old browsers */
-                background: '-webkit-linear-gradient(to right, #48BF84, #11998e)',  /* Chrome 10-25, Safari 5.1-6 */
-                background: 'linear-gradient(to right, #48BF84, #11998e)', /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+                background: '#11998e',
+                background: '-webkit-linear-gradient(to right, #48BF84, #11998e)',
+                background: 'linear-gradient(to right, #48BF84, #11998e)',
               }}
               className="p-4 rounded-tl-[1rem] rounded-tr-[1rem]"
             >
@@ -62,22 +63,26 @@ const WhyChooseUs = () => {
               </table>
             </div>
           </div>
-          <div className="mt-8 flex items-center justify-center relative z=10">
-            {/* Gradient Text with Arrow */}
-            <h3
-              className="text-[20px] font-semibold mr=2"
-              style={{
-                backgroundImage: 'linear-gradient(to right, #38ef7d, #11998e)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                color: 'transparent'
-              }}
+          <div className="mt-8 flex items-center justify-center relative z-10">
+            {/* Gradient Text with Arrow as a Link */}
+            <Link 
+              to="/get-started" 
+              className="flex items-center hover:opacity-80 transition-opacity duration-300"
             >
-              See How We Stack Up Against Our Competitors
-            </h3> {/* Set text to 20px */}
-            {/* Arrow Icon with Fixed Size */}
-            <ArrowRightIcon className="h-[20px] w-[20px] text-[#48BF84]" /> {/* Set fixed size for arrow */}
+              <h3
+                className="text-[20px] font-semibold mr-2"
+                style={{
+                  backgroundImage: 'linear-gradient(to right, #38ef7d, #11998e)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  color: 'transparent'
+                }}
+              >
+                See How Our Core Features Work
+              </h3>
+              <ArrowRightIcon className="h-[20px] w-[20px] text-[#48BF84]" />
+            </Link>
           </div>
         </div>
       </div>
