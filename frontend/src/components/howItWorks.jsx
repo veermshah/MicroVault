@@ -1,6 +1,35 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+
+// Custom hook for Intersection Observer
+const useIntersectionObserver = (options) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
 
 const HowItWorks = () => {
+  const [sectionRef, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+  });
+
   const steps = [
     {
       number: '01',
@@ -25,17 +54,27 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section 
+      ref={sectionRef}
+      className={`bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Blur effect */}
       <div className="absolute top-[50px] left-[550px] w-[600px] h-[600px] bg-[#48bf84]/30 rounded-full blur-[150px] z-0" />
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
-          <h2 className="text-[40px] font-bold text-center mb-12 text-black">How It Works</h2> {/* Corrected title casing */}
+          <h2 className="text-[40px] font-bold text-center mb-12 text-black">How It Works</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {steps.map((step, index) => (
-              <div key={index} className="bg-white rounded-[1rem] shadow-md p-6 flex flex-col items-center justify-between">
-                {/* Circle with split colors */}
+              <div 
+                key={index} 
+                className={`bg-white rounded-[1rem] shadow-md p-6 flex flex-col items-center justify-between transform transition-all duration-700 ${
+                  isVisible ? `translate-x-0 opacity-100` : `translate-x-[-100%] opacity-0`
+                }`}
+                style={{ transitionDelay: `${isVisible ? index * 200 : 0}ms` }}
+              >
                 <span
                   className={`font-bold text-white text-4xl w-20 h-20 rounded-full flex items-center justify-center mb-6`}
                   style={{
@@ -52,10 +91,11 @@ const HowItWorks = () => {
             ))}
           </div>
           <div className="text-center mt-12">
-            {/* Apply Now Button with Animated Gradient */}
-            <button className="animated-gradient text-white px-8 py-3 rounded-[50px] text-lg transition duration-300">
-              Apply Now
-            </button>
+            <Link to="/login">
+              <button className="animated-gradient text-white px-8 py-3 rounded-[50px] text-lg transition duration-300">
+                Apply Now
+              </button>
+            </Link>
           </div>
         </div>
       </div>
