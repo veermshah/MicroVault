@@ -87,7 +87,10 @@ const Testimonials = () => {
             <div className="md:w-1/2 flex items-center">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                 {shortTestimonials.map((testimonial, index) => (
-                  <div key={index} className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md">
+                  <div 
+                    key={index} 
+                    className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg"
+                  >
                     <div className="w-20 h-20 mb-4 overflow-hidden rounded-full">
                       <img 
                         src={testimonial.image} 
