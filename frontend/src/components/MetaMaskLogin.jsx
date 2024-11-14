@@ -1,3 +1,4 @@
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import React, { useState } from "react";
 import { useSDK } from "@metamask/sdk-react";
 import { db } from "../../../firebase"; // Adjust the path accordingly
@@ -5,7 +6,7 @@ import { collection, doc, setDoc } from "firebase/firestore";
 import { ethers } from "ethers"; 
 import { formatEther } from 'ethers';
 import { useTransaction } from "./transactions";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "./users"; // v6.x.x version
 
 const apikey = "SIBXADTFTICF4I8UFA78NVSFIIAIJAM5V6";
@@ -108,14 +109,23 @@ const MetaMaskLogin = () => {
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       
       {/* Left Side with animated gradient */}
-      <div className="md:w-1/2 flex items-center justify-center p-8 animated-gradient">
-        <h1 className="text-4xl font-bold text-white text-center">
-          Login with MetaMask
-        </h1>
+      <div className="md:w-1/2 flex flex-col p-8 animated-gradient relative">
+        <div className="flex items-center justify-center h-full">
+          <h1 className="text-4xl font-bold text-white text-center">
+            Login with MetaMask
+          </h1>
+        </div>
+        <Link 
+          to="/" 
+          className="absolute top-8 left-8 flex items-center text-white hover:text-black transition duration-300"
+        >
+          <ArrowLeftIcon className="h-5 w-5 mr-2" />
+          Return Home
+        </Link>
       </div>
 
       {/* Right Side */}
-      <div className="md:w-1/2 flex items-center justify-center p-8 bg-white">
+      <div className="md:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
           <button 
             className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
@@ -165,7 +175,6 @@ const MetaMaskLogin = () => {
           )}
         </div>
       </div>
-      
     </div>
   );
 };
