@@ -1,23 +1,34 @@
-// deploy.js
+// Import ethers from Hardhat
 const { ethers } = require("hardhat");
 
 async function main() {
-  // Compile contract
-  const Contract = await ethers.getContractFactory("MyContract");
+  const [deployer] = await ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
 
-  // Deploy the contract
-  console.log("Deploying contract...");
-  const contract = await Contract.deploy();
+  const minimumPoolBalance = 1000; // Example value
+  const platformFee = 5; // Example value
+  const baseInterestRate = 10; // Example value
+  const utilizationRateMultiplier = 2; // Example value
+  const maxUtilizationRate = 90; // Example value
+  const priceOracleAddress = "0x..."; // Replace with the actual price oracle address
 
-  // Wait until the contract is deployed
-  await contract.deployed();
+  const DynamicP2PLending = await ethers.getContractFactory("p2pSmartContract");
+  const dynamicP2PLending = await DynamicP2PLending.deploy(
+      minimumPoolBalance,
+      platformFee,
+      baseInterestRate,
+      utilizationRateMultiplier,
+      maxUtilizationRate,
+      priceOracleAddress
+  );
 
-  console.log("Contract deployed to:", contract.address);
+  await dynamicP2PLending.deployed();
+  console.log("p2pSmartContract deployed to:", dynamicP2PLending.address);
 }
 
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
-    process.exit(1);
+      console.error(error);
+      process.exit(1);
   });
