@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router-dom';
 
 const Borrow = () => {
   const [loanType, setLoanType] = useState('microloan');
@@ -14,19 +14,19 @@ const Borrow = () => {
   const [futureValue, setFutureValue] = useState(null);
   const [serviceFee, setServiceFee] = useState(null);
   const [isOvercollateralized, setIsOvercollateralized] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   // Constants for interest rate calculation
-  const baseRate = 0.002;
-  const multiplier = 0.5;
-  const maxRate = 0.05;
-  const reserveFactor = 0.10;
-  const platformRake = 0.05;
-  const utilizationRate = 0.7;
-  const estimatedGasFee = 0.005;
-  const collateralRatio = 1.2; // Require 120% collateralization (20% more than loan amount)
+  const baseRate = 0.002; // Base interest rate
+  const multiplier = 0.5; // Multiplier for utilization
+  const maxRate = 0.05; // Maximum interest rate
+  const reserveFactor = 0.10; // Reserve factor for lender yield calculation
+  const platformRake = 0.05; // Platform rake from lender yield
+  const estimatedGasFeePerTransaction = 0.005; // Estimated gas fee per transaction
+  const collateralRatio = 1.2; // Require at least 120% collateralization (20% more than loan amount)
+  const minLoanAmount = 0.000000000000000001;
 
   useEffect(() => {
-    // Check if loan is overcollateralized whenever collateral or loan amount changes
     if (collateralValue && loanAmount) {
       setIsOvercollateralized(parseFloat(collateralValue) >= parseFloat(loanAmount) * collateralRatio);
     } else {
@@ -35,20 +35,26 @@ const Borrow = () => {
   }, [collateralValue, loanAmount]);
 
   const calculateRates = () => {
-    const collateralVolatilityAdjustment = collateralType === 'ETH' ? 0.001 : 0.002;
+    // Calculate the adjusted base rate based on loan type
     const adjustedBaseRate = loanType === 'flashloan' ? baseRate * 1.2 : baseRate;
-    let rate = adjustedBaseRate + (multiplier * utilizationRate);
-    rate = Math.min(rate, maxRate);
-    rate += collateralVolatilityAdjustment;
+    
+    // Calculate the borrower interest rate
+    let rate = adjustedBaseRate + (multiplier * (parseFloat(loanAmount) / parseFloat(collateralValue)));
+    rate = Math.min(rate, maxRate); // Cap the rate at maxRate
 
+    // Calculate lender yield and APY
     const reserveInterest = rate * reserveFactor;
     let lenderYield = rate - reserveInterest;
     const platformCut = lenderYield * platformRake;
     lenderYield -= platformCut;
 
+    // Calculate future value of loan using compound interest formula
     const futureLoanValue = loanAmount * Math.pow((1 + rate), loanDuration / 12);
-    const calculatedServiceFee = estimatedGasFee * 0.5;
 
+    // Calculate service fee based on estimated gas fee and transaction count (assumed to be one for simplicity)
+    const calculatedServiceFee = estimatedGasFeePerTransaction;
+
+    // Set calculated values to state
     setBorrowerRate((rate * 100).toFixed(2));
     setLenderAPY((lenderYield * 100).toFixed(2));
     setFutureValue(futureLoanValue.toFixed(2));
@@ -57,10 +63,10 @@ const Borrow = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isOvercollateralized) {
+    if (isOvercollateralized && agreeToTerms) {
       calculateRates();
     } else {
-      alert("The loan must be overcollateralized by at least 20%. Please increase your collateral or decrease your loan amount.");
+      alert("Please ensure the loan is overcollateralized by at least 20% and you have agreed to the terms and conditions.");
     }
   };
 
@@ -72,11 +78,7 @@ const Borrow = () => {
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-2">Loan Type</label>
-            <select
-              className="w-full p-2 border rounded"
-              value={loanType}
-              onChange={(e) => setLoanType(e.target.value)}
-            >
+            <select className="w-full p-2 border rounded" value={loanType} onChange={(e) => setLoanType(e.target.value)}>
               <option value="microloan">Microloan</option>
               <option value="flashloan">Flash Loan</option>
             </select>
@@ -96,11 +98,7 @@ const Borrow = () => {
 
           <div className="mb-4">
             <label className="block mb-2">Collateral Type</label>
-            <select
-              className="w-full p-2 border rounded"
-              value={collateralType}
-              onChange={(e) => setCollateralType(e.target.value)}
-            >
+            <select className="w-full p-2 border rounded" value={collateralType} onChange={(e) => setCollateralType(e.target.value)}>
               <option value="ETH">ETH</option>
               <option value="DAI">DAI</option>
               <option value="USDC">USDC</option>
@@ -113,10 +111,13 @@ const Borrow = () => {
               type="number"
               className="w-full p-2 border rounded"
               value={loanAmount}
-              onChange={(e) => setLoanAmount(e.target.value)}
+              onChange={(e) => {
+                const value = Math.max(minLoanAmount, parseFloat(e.target.value) || minLoanAmount);
+                setLoanAmount(value.toString());
+                setCollateralValue(Math.max(value * collateralRatio, parseFloat(collateralValue) || minLoanAmount).toString());
+              }}
               placeholder="Enter Amount"
               required
-              disabled={!collateralValue}
             />
             {!isOvercollateralized && loanAmount && (
               <p className="text-red-500 text-sm mt-1">
@@ -141,11 +142,7 @@ const Borrow = () => {
 
           <div className="mb-4">
             <label className="block mb-2">Creditworthiness</label>
-            <select
-              className="w-full p-2 border rounded"
-              value={creditworthiness}
-              onChange={(e) => setCreditworthiness(e.target.value)}
-            >
+            <select className="w-full p-2 border rounded" value={creditworthiness} onChange={(e) => setCreditworthiness(e.target.value)}>
               <option value="low">Low</option>
               <option value="average">Average</option>
               <option value="high">High</option>
@@ -164,12 +161,22 @@ const Borrow = () => {
             </label>
           </div>
 
+          <div className="mb-4">
+            <label className="flex items-center">
+              <input
+                type="checkbox"
+                checked={agreeToTerms}
+                onChange={() => setAgreeToTerms(!agreeToTerms)}
+                className="mr-2"
+              />
+              <span>I agree to the <Link to="/terms" className="text-blue-500">Terms and Conditions</Link></span>
+            </label>
+          </div>
+
           <button
             type="submit"
-            className={`mt-6 px-4 py-2 rounded w-full font-bold ${
-              isOvercollateralized ? 'bg-[#48BF84] text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'
-            }`}
-            disabled={!isOvercollateralized}
+            className={`mt-6 px-4 py-2 rounded w-full font-bold ${isOvercollateralized && agreeToTerms ? 'bg-[#48BF84] text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`}
+            disabled={!isOvercollateralized || !agreeToTerms}
           >
             Calculate Rates
           </button>
@@ -177,10 +184,11 @@ const Borrow = () => {
       </div>
 
       {/* Right Column */}
-      <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold mb-4">Terms of your offer</h3>
+      <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-lg shadow-md space-y-4 flex flex-col justify-between">
         {borrowerRate && lenderAPY ? (
           <>
+            {/* Display calculated rates */}
+            <h3 className="text-xl font-semibold mb-4">Calculated Rates</h3>
             <div className="flex justify-between mt-2">
               <p className="font-bold">Borrower Interest Rate:</p>
               <p>{borrowerRate}%</p>
@@ -193,7 +201,7 @@ const Borrow = () => {
               <>
                 <div className="flex justify-between mt-2">
                   <p className="font-bold">Estimated Gas Fee:</p>
-                  <p>{estimatedGasFee} ETH</p>
+                  <p>{estimatedGasFeePerTransaction} ETH</p>
                 </div>
                 <div className="flex justify-between mt-2">
                   <p className="font-bold">Service Fee:</p>
@@ -210,38 +218,41 @@ const Borrow = () => {
           </>
         ) : (
           <>
-            <div className="flex justify-between mt-2">
-              <p className="font-bold">Borrower Interest Rate:</p>
-              <p>--%</p>
-            </div>
-            <div className="flex justify-between mt-2">
-              <p className="font-bold">Lender APY:</p>
-              <p>--%</p>
-            </div>
-            {willingToPayGas && (
-              <>
-                <div className="flex justify-between mt-2">
-                  <p className="font-bold">Estimated Gas Fee:</p>
-                  <p>-- ETH</p>
-                </div>
-                <div className="flex justify-between mt-2">
-                  <p className="font-bold">Service Fee:</p>
-                  <p>-- ETH</p>
-                </div>
-              </>
-            )}
-            <div className="flex justify-between mt-2">
-              <p className="font-bold">Future Value of Loan:</p>
-              <p>-- ETH</p>
-            </div>
+            {/* Default values when rates are not calculated */}
+            {['Borrower Interest Rate', 'Lender APY', 'Estimated Gas Fee', 'Service Fee', 'Future Value of Loan'].map((item) => (
+              <div key={item} className="flex justify-between mt-2">
+                <p className="font-bold">{item}:</p>
+                {item === 'Borrower Interest Rate' || item === 'Lender APY' ? (
+                  <p>--%</p> // Default placeholder for percentage rates
+                ) : (
+                  <p>-- ETH</p> // Default placeholder for ETH values
+                )}
+              </div>
+            ))}
           </>
         )}
         {borrowerRate || lenderAPY ? (
-          <button className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold">
-            Continue
-          </button>
+          <>
+            {/* Continue button only appears if rates are calculated */}
+            <button className={`mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold`}>
+              Continue
+            </button>
+          </>
         ) : null}
+        
+        {/* Terms of your offer moved under calculations */}
+        {borrowerRate && lenderAPY && (
+          <>
+          	<h3 className='text-xl font-semibold mt-6'>Terms of your offer</h3> 
+          	<div> 
+          		<p>The terms are subject to change based on market conditions.</p> 
+          		<p>Please review all details before proceeding.</p> 
+          	</div> 
+          	<Link to="/terms" className='text-blue-500'>View Full Terms and Conditions</Link> 
+          </>
+        )}
       </div>
+
     </div>
   );
 };
