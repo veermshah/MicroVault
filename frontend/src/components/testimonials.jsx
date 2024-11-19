@@ -1,23 +1,56 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import testimonial1 from "../assets/testimonial1.png";
 import testimonial2 from "../assets/testimonial2.png";
 import testimonial3 from "../assets/testimonial3.png";
 
+// Custom hook for Intersection Observer
+const useIntersectionObserver = (options) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
+
 const Testimonials = () => {
+  const [sectionRef, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+  });
+
   const mainTestimonial = {
     quote: "Convenient loan, no hassle.",
     longText: "Needed money for tuition, bills, etc and in 5 days I got the money. Thank you so much. You are a big help financially to my problem.",
-    name: "Flordeliza M."
+    name: "Veer S."
   };
 
   const shortTestimonials = [
-    { quote: "Painless way to borrow money", name: "Laurence J.", image: testimonial1 },
-    { quote: "Figure was a breath of fresh air...", name: "Steve M.", image: testimonial2 },
-    { quote: "Quick and painless HELOC", name: "Margaret H.", image: testimonial3 }
+    { quote: "Painless way to borrow money", name: "Aarya R.", image: testimonial1 },
+    { quote: "Figure was a breath of fresh air...", name: "Jordan J.", image: testimonial2 },
+    { quote: "Quick and painless HELOC", name: "Aastha S.", image: testimonial3 }
   ];
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section 
+      ref={sectionRef}
+      className={`bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Adjusted Blur effect */}
       <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
 
@@ -43,7 +76,7 @@ const Testimonials = () => {
                   color: 'transparent'
                 }}
               >
-                1000 Excellent Reviews on Trustpilot
+                Excellent Reviews on Trustpilot
               </p>
             </div>
 
@@ -54,7 +87,10 @@ const Testimonials = () => {
             <div className="md:w-1/2 flex items-center">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
                 {shortTestimonials.map((testimonial, index) => (
-                  <div key={index} className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md">
+                  <div 
+                    key={index} 
+                    className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg"
+                  >
                     <div className="w-20 h-20 mb-4 overflow-hidden rounded-full">
                       <img 
                         src={testimonial.image} 

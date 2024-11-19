@@ -12,84 +12,139 @@ const MyWallet = () => {
   // Calculate the credit score based on the user's transactions
   const creditScore = calculateCreditScore(transactions);
 
-  console.log("Transactions:", transactions);
+  // Function to update the style of the score flag
+  const getFlagStyle = (score) => {
+    let color = "#f44336"; // Default to red
+    if (score >= 200 && score < 400) {
+      color = "#ff9800"; // Orange
+    } else if (score >= 400 && score < 600) {
+     color = "#2196f3"; // Blue
+    } else if (score >= 600) {
+      color = "#4caf50";// Green
+    }
+    return {
+      backgroundColor: color,
+      color: "white",
+      padding: "8px 16px",
+      borderRadius: "20px",
+      fontWeight: "bold",
+      display: "inline-block",
+      fontSize: "14px",
+      textTransform: "uppercase",
+      letterSpacing: "1px",
+    };
+  };
+
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
-      <h2 style={{ textAlign: "center", color: "#333" }}>
+    <div
+      style={{
+        padding: "20px",
+        maxWidth: "1200px",
+        margin: "0 auto",
+        fontFamily: "'Roboto', sans-serif",
+      }}
+    >
+      <h2
+        style={{
+          textAlign: "center",
+          color: "black",
+          fontSize: "2rem",
+          fontWeight: "600",
+          marginBottom: "20px",
+        }}
+      >
         Transaction History
       </h2>
-      <h3 style={{ textAlign: "center", color: "#333" }}>
-        Crypto Credit Score: {creditScore}
+      <h3
+        style={{
+          textAlign: "center",
+          color: "#333",
+          fontSize: "1.5rem",
+          marginBottom: "20px",
+        }}
+      >
+        <span style={getFlagStyle(creditScore)}>
+          Crypto Credit Score: {creditScore.toFixed(2)}
+        </span>
       </h3>
+
       {transactions && transactions.length > 0 ? (
         <ul style={{ listStyleType: "none", padding: 0 }}>
           {transactions.map((tx, index) => {
             const formattedValue = ethers.formatUnits(tx.value, 18); // Format the value to ETH
-            const isRecieved = tx.to == userAddress;
-            const isSent = tx.from == userAddress;
+            const isRecieved = tx.to === userAddress;
+            const isSent = tx.from === userAddress;
 
             return (
               <li
                 key={index}
                 style={{
-                  border: "1px solid #ccc",
-                  borderRadius: "8px",
-                  padding: "15px",
-                  marginBottom: "10px",
-                  backgroundColor: "#f9f9f9",
+                  backgroundColor: "#E5F2E5",
+                  borderRadius: "12px",
+                  padding: "20px",
+                  marginBottom: "15px",
+                  boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
+                  transition: "transform 0.3s, box-shadow 0.3s",
                 }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.05)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
               >
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>Transaction Hash:</strong>{" "}
                   <a
-                    //href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
+                    href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    //style={{ color: "#007bff" }}
+                    style={{ color: "#2196f3", textDecoration: "none" }}
                   >
                     {tx.hash}
                   </a>
                 </p>
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>From:</strong>{" "}
                   <a
-                    //href={`https://sepolia.etherscan.io/address/${tx.from}`}
+                    href={`https://sepolia.etherscan.io/address/${tx.from}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    //style={{ color: "#007bff" }}
+                    style={{ color: "#2196f3", textDecoration: "none" }}
                   >
                     {tx.from}
                   </a>
                 </p>
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>To:</strong>{" "}
                   <a
-                    //href={`https://sepolia.etherscan.io/address/${tx.to}`}
+                    href={`https://sepolia.etherscan.io/address/${tx.to}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    //style={{ color: "#007bff" }}
+                    style={{ color: "#2196f3", textDecoration: "none" }}
                   >
                     {tx.to}
                   </a>
                 </p>
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>Value:</strong> {formattedValue} ETH
                 </p>
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>Block Number:</strong> {tx.blockNumber}
                 </p>
-                <p>
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                   <strong>Timestamp:</strong>{" "}
                   {new Date(tx.timeStamp * 1000).toLocaleString()}
                 </p>
-                <p>
-                  <strong>Status:</strong>
-                  {isRecieved ? "Recieved" : isSent ? "Sent" : "Unknown"}
+                <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <strong>Status:</strong>{" "}
+                  {isRecieved ? "Received" : isSent ? "Sent" : "Unknown"}
                 </p>
+
                 <a
-                  href={`https://sepolia.etherscan.io/tx/${tx.hash}`} // Replace with your desired URL
-                  target="_blank" // Opens link in a new tab
-                  rel="noopener noreferrer" // Improves security when opening in a new tab
+                  href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   style={{
                     backgroundColor: "#4caf50",
                     border: "none",
@@ -101,18 +156,29 @@ const MyWallet = () => {
                     fontSize: "16px",
                     margin: "10px 0",
                     cursor: "pointer",
-                    borderRadius: "4px",
-                    transition: "background-color 0.3s",
+                    borderRadius: "30px",
+                    transition:
+                      "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = "#45a049"; // Darker green when hovered
+                    e.target.style.transform = "scale(1.05)"; // Slightly enlarges the button
+                    e.target.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)"; // Adds a subtle shadow
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = "#4caf50"; // Reset to the original color
+                    e.target.style.transform = "scale(1)"; // Reset the size
+                    e.target.style.boxShadow = "none"; // Remove the shadow
                   }}
                 >
-                  View Transanction
+                  <strong>View Transaction</strong>
                 </a>
               </li>
             );
           })}
         </ul>
       ) : (
-        <p style={{ textAlign: "center", color: "#888" }}>
+        <p style={{ textAlign: "center", color: "#888", fontSize: "1rem" }}>
           No transactions found.
         </p>
       )}

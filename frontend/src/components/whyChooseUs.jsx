@@ -1,8 +1,36 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { CheckIcon, XMarkIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
-import { Link } from 'react-router-dom'; // Make sure to import Link
+import { Link } from 'react-router-dom';
+
+// Custom hook for Intersection Observer
+const useIntersectionObserver = (options) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, options);
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current);
+      }
+    };
+  }, [ref, options]);
+
+  return [ref, isVisible];
+};
 
 const WhyChooseUs = () => {
+  const [sectionRef, isVisible] = useIntersectionObserver({
+    threshold: 0.1,
+  });
+
   const comparisonData = [
     { feature: "Focused on helping you HODL", us: true, traditional: false },
     { feature: "No prepayment fees", us: true, traditional: false },
@@ -13,7 +41,12 @@ const WhyChooseUs = () => {
   ];
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+    <section 
+      ref={sectionRef}
+      className={`bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible transition-opacity duration-1000 ${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       {/* Blur effects */}
       <div className="absolute top-[250px] left-[0px] w-[400px] h-[500px] bg-[#48bf84]/40 rounded-full blur-[120px] z-0" />
       <div className="absolute bottom-[200px] right-[100px] w-[300px] h-[500px] bg-[#48bf84]/30 rounded-full blur-[100px] z-0" />
