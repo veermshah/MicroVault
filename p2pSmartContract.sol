@@ -1,7 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-contract P2PLending {
+contract p2pSmartContract {
+    // State variables
+    address public owner;
+    uint256 public minimumPoolBalance;
+    uint256 public platformFee;
+    uint256 public baseInterestRate;
+    uint256 public utilizationRateMultiplier;
+    uint256 public maxUtilizationRate;
+    address public priceOracleAddress;
+
+    uint256 public loanCounter;
+    uint256 public liquidityBuffer;
+
     // Structures
     struct Loan {
         address borrower;
@@ -14,11 +26,6 @@ contract P2PLending {
         uint256 collateral; // Optional collateral value (in Wei)
         bool isActive;
     }
-
-    // State variables
-    uint256 public loanCounter;
-    address public owner;
-    uint256 public liquidityBuffer;
 
     mapping(uint256 => Loan) public loans;
 
@@ -47,14 +54,32 @@ contract P2PLending {
     }
 
     // Constructor
-    constructor() {
+    constructor(
+        uint256 _minimumPoolBalance,
+        uint256 _platformFee,
+        uint256 _baseInterestRate,
+        uint256 _utilizationRateMultiplier,
+        uint256 _maxUtilizationRate,
+        address _priceOracleAddress
+    ) {
         owner = msg.sender;
+        minimumPoolBalance = _minimumPoolBalance;
+        platformFee = _platformFee;
+        baseInterestRate = _baseInterestRate;
+        utilizationRateMultiplier = _utilizationRateMultiplier;
+        maxUtilizationRate = _maxUtilizationRate;
+        priceOracleAddress = _priceOracleAddress;
     }
 
     // Request a loan
-    function requestLoan(uint256 principal, uint256 interest, uint256 duration, uint256 collateral) external payable {
+    function requestLoan(
+        uint256 principal,
+        uint256 interest,
+        uint256 duration,
+        uint256 collateral
+    ) external payable {
         require(msg.value == collateral, "Collateral amount must be provided");
-        
+
         loanCounter++;
 
         loans[loanCounter] = Loan({
@@ -125,7 +150,7 @@ contract P2PLending {
         require(loan.isActive, "Loan is not active");
         require(block.timestamp >= loan.startTime + (loan.duration / 2), "Not yet midpoint");
 
-        uint256 expectedRepayment = (loan.principal + (loan.principal * loan.interest / 100)) / 2;
+        uint256 expectedRepayment = (loan.principal + (loan.principal * loan.interest) / 100) / 2;
 
         if (loan.repaidAmount < expectedRepayment) {
             // Loan defaults
