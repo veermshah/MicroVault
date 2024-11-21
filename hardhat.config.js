@@ -1,13 +1,31 @@
-require("dotenv").config(); // This loads the variables from your .env file
-require('@nomiclabs/hardhat-ethers');
-
-
+require('@nomiclabs/hardhat-ethers'); // Ensure this is included for ethers support
+require('dotenv').config();  // Make sure you have this to load the environment variables
 module.exports = {
-  solidity: "0.8.0", // Your Solidity version, or change it to match your contract version
+  defaultNetwork: "sepolia",
   networks: {
-    rinkeby: {
-      url: process.env.ALCHEMY_URL, // Automatically get the Alchemy URL from .env
-      accounts: [`0x${process.env.PRIVATE_KEY}`], // Automatically get the private key from .env
+    hardhat: {
     },
+    sepolia: {
+      url: "https://eth-sepolia.g.alchemy.com/v2/cCLGWxIEMcWH9P42R-Z4AZnseen1WEFX", // Use your Alchemy or Infura URL
+      accounts: ["0xe9f1ea2421431e87b8de05ecb87462d645d9578eebcdffa01baae06c5313b9ea"],  // Use environment variable for private key
+    }
   },
-};
+  solidity: {
+    version: "0.8.27",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
+  paths: {
+    sources: "./contracts",
+    tests: "./test",
+    cache: "./cache",
+    artifacts: "./artifacts"
+  },
+  mocha: {
+    timeout: 40000
+  }
+}
