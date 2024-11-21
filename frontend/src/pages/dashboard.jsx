@@ -1,7 +1,7 @@
 // src/pages/Dashboard.jsx
 
 import React, { useState } from 'react';
-import DashboardSidebar from '../components/DashboardSidebar';
+import DashboardSidebar from '../components/dashboardSidebar';
 import Trading from '../components/trading';
 import Lend from '../components/lend';
 import Borrow from '../components/borrow';
@@ -26,26 +26,23 @@ const Dashboard = () => {
   };
 
   return (
-    <section className="bg-gray-100 min-h-screen">
-      <div className="max-w-[1248px] mx-auto px-4 py-8">
-        <div className="flex">
-          {/* Left-side menu */}
-          <div className="w-[13%] mr-8">
+    <div className="bg-gray-100 min-h-screen">
+      <div className="max-w-[1248px] w-full mx-auto pt-[30px]">
+        <div className="flex flex-row h-full relative z-10">
+          <div className="w-[13%] pr-4"> {/* Added right padding to sidebar */}
             <DashboardSidebar
               activeComponent={activeComponent}
               setActiveComponent={setActiveComponent}
             />
           </div>
-
-          {/* Right-side content */}
-          <div className="w-[87%]">
-            <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+          <div className="w-[87%]"> 
+            <div className="bg-white shadow-md rounded-lg overflow-hidden">
               {renderContent()}
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
