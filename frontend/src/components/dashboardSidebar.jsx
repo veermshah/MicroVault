@@ -26,11 +26,11 @@ const Dashboard = () => {
   };
 
   return (
-    <section className="bg-gray-100 min-h-screen">
-      <div className="max-w-[1248px] mx-auto px-4 py-8">
+    <section className="bg-gray-100 min-h-screen mt-28 mx-4 md:mx-12 lg:mx-20">
+      <div className="max-w-[1248px] w-full mx-auto px-6 py-16">
         <div className="flex">
           {/* Left-side menu */}
-          <div className="w-[13%] mr-8">
+          <div className="w-1/6 pr-8">
             <DashboardSidebar
               activeComponent={activeComponent}
               setActiveComponent={setActiveComponent}
@@ -38,8 +38,8 @@ const Dashboard = () => {
           </div>
 
           {/* Right-side content */}
-          <div className="w-[87%]">
-            <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+          <div className="w-5/6">
+            <div className="bg-white shadow-md rounded-lg p-6">
               {renderContent()}
             </div>
           </div>
