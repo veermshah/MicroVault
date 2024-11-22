@@ -23,11 +23,12 @@ export default function FAQ() {
     ];
 
     return (
-        <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+        <section className="bg-transparent mt-12 mx-4 md:mx-12 lg:mx-20 relative overflow-visible"> {/* Changed mt-28 to mt-12 */}
+
             {/* Background Blur effect */}
             <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
 
-            <div className="container mx-auto px-6 pt-0 relative z-10"> {/* Changed padding */}
+            <div className="container mx-auto px-6 pt-0 relative z-10">
                 <div className="max-w-[1248px] w-full mx-auto">
                     <h1 className="text-4xl text-black font-bold mb-6">FAQ</h1>
                     <div className="space-y-4">

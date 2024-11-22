@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 const Lend = () => {
   const [loanAmount, setLoanAmount] = useState(''); // Loan amount in ETH
   const [loanDuration, setLoanDuration] = useState(''); // Loan duration in months
-  const [collateralValue, setCollateralValue] = useState(''); // Collateral value in ETH
   const [collateralType, setCollateralType] = useState('ETH'); // Default collateral
   const [serviceFee, setServiceFee] = useState(null); // Service fee calculated based on loan amount
 
@@ -47,18 +46,6 @@ const Lend = () => {
               value={loanDuration}
               onChange={(e) => setLoanDuration(e.target.value)}
               placeholder="Enter Duration"
-              required
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block mb-2">Collateral Value (ETH)</label>
-            <input 
-              type="number" 
-              className="w-full p-2 border rounded"
-              value={collateralValue}
-              onChange={(e) => setCollateralValue(e.target.value)}
-              placeholder="Enter Collateral Value"
               required
             />
           </div>
