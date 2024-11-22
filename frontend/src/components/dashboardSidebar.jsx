@@ -1,17 +1,15 @@
-// src/components/dashboardSidebar.jsx
-
 import React from 'react';
 
 const DashboardSidebar = ({ activeComponent, setActiveComponent }) => {
   const menuItems = [
-    { name: 'Home', icon: '🏠', value: 'home' }, // Updated from 'Trading' to 'Home'
+    { name: 'Home', icon: '🏠', value: 'home' },
     { name: 'Lend', icon: '💰', value: 'lend' },
     { name: 'Borrow', icon: '🏦', value: 'borrow' },
     { name: 'MyWallet', icon: '👛', value: 'myWallet' }
   ];
 
   return (
-    <nav className="bg-transparent">
+    <nav className={`bg-transparent`}>
       <ul className="py-4">
         {menuItems.map((item) => (
           <li key={item.value} className="mb-2">
