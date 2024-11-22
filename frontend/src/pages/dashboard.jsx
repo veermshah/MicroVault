@@ -2,13 +2,13 @@
 
 import React, { useState, useEffect } from 'react';
 import DashboardSidebar from '../components/dashboardSidebar';
-import DashboardHome from '../components/dashboardHome'; // Updated import
+import DashboardHome from '../components/dashboardHome';
 import Lend from '../components/lend';
 import Borrow from '../components/borrow';
 import MyWallet from '../components/myWallet';
 
 const Dashboard = () => {
-  const [activeComponent, setActiveComponent] = useState('home'); // Changed default to 'home'
+  const [activeComponent, setActiveComponent] = useState('home');
 
   useEffect(() => {
     console.log('Active component changed to:', activeComponent);
@@ -18,7 +18,7 @@ const Dashboard = () => {
     console.log('Rendering content for:', activeComponent);
     switch (activeComponent) {
       case 'home':
-        return <DashboardHome />; // Updated component name
+        return <DashboardHome />;
       case 'lend':
         return <Lend />;
       case 'borrow':
@@ -28,7 +28,7 @@ const Dashboard = () => {
         return <MyWallet />;
       default:
         console.log('Default case: rendering DashboardHome component');
-        return <DashboardHome />; // Updated default case
+        return <DashboardHome />;
     }
   };
 
@@ -43,11 +43,7 @@ const Dashboard = () => {
             />
           </div>
           <div className="w-[87%]"> 
-            <div className="border border-gray-300 rounded-lg overflow-hidden">
-              <div className="p-6">
-                {renderContent()}
-              </div>
-            </div>
+            {renderContent()}
           </div>
         </div>
       </div>

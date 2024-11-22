@@ -66,9 +66,9 @@ const DashboardHeader = () => {
                 style={{
                   width: '40px',
                   height: '40px',
-                  borderRadius: '0.75rem',
+                  borderRadius: '2rem',
                   backgroundColor: 'white',
-                  border: '1px solid #D3D3D3',
+                  border: '1px solid #D1D5DB',
                 }}
               >
                 <SettingsIcon style={{ fontSize: '20px', color: '#666' }} />
