@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const Trading = () => {
+const DashboardHome = () => {
   const container = useRef();
 
   useEffect(() => {
@@ -10,8 +10,8 @@ const Trading = () => {
     script.async = true;
     script.innerHTML = JSON.stringify({
       "symbols": [
-        ["COINBASE:ETHUSD|1D"],  // ETH is now first
-        ["COINBASE:BTCUSD|1D"]   // BTC is now second
+        ["COINBASE:ETHUSD|1D"],
+        ["COINBASE:BTCUSD|1D"]
       ],
       "chartOnly": false,
       "width": "100%",
@@ -44,7 +44,6 @@ const Trading = () => {
       ]
     });
 
-    // Append the script only if container is available
     if (container.current) {
       container.current.appendChild(script);
     } else {
@@ -52,9 +51,8 @@ const Trading = () => {
     }
 
     return () => {
-      // Cleanup: Clear the container
       if (container.current) {
-        container.current.innerHTML = ''; // Clear the container
+        container.current.innerHTML = '';
       }
     };
   }, []);
@@ -70,4 +68,4 @@ const Trading = () => {
   );
 };
 
-export default Trading;
+export default DashboardHome;
