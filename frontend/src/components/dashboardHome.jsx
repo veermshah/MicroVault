@@ -208,11 +208,12 @@ const DashboardHome = () => {
             {filteredCoins.length > 0 ? (
               filteredCoins.map((coin) => (
                 <tr key={coin.id} className="">
-                  <td className="py-2 px-4 text-center">{coin.name}</td>
+                  {/* Semi-bold styling for token name and price */}
+                  <td className="py-2 px-4 text-center font-semibold">{coin.name}</td>
                   {coin.current_price ? (
                     <>
                       {/* Price */}
-                      <td className="py-2 px-4 text-center">${coin.current_price.toFixed(2)}</td> 
+                      <td className="py-2 px-4 text-center font-semibold">${coin.current_price.toFixed(2)}</td> 
                       {/* Change in price over the last day */}
                       <td 
                         className={`py-2 px-4 text-center ${coin.price_change_percentage_24h > 0 ? 'text-green-500' : coin.price_change_percentage_24h < 0 ? 'text-red-500' : ''}`}>
@@ -221,9 +222,9 @@ const DashboardHome = () => {
                       {/* FDV and Volume formatting */}
                       {/* Assuming you have fdv and total_volume available in your API response */}
                       {/* If not available in the response, calculate or fetch accordingly */}
-                      <td className="py-2 px-4 text-center">{formatNumberWithSuffix(coin.fdv || coin.market_cap)}</td> 
+                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.fdv || coin.market_cap)}</td> 
                       {/* Assuming total_volume is available */}
-                      <td className="py-2 px-4 text-center">{formatNumberWithSuffix(coin.total_volume)}</td> 
+                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.total_volume)}</td> 
                     </>
                   ) : (
                     <>

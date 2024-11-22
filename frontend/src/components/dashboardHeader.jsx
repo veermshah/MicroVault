@@ -1,5 +1,3 @@
-// src/components/dashboardHeader.jsx
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import MicroVaultLogo from "../assets/MicroVault.png";
@@ -53,7 +51,7 @@ const DashboardHeader = () => {
             </div>
             <nav className="flex items-center space-x-4 ml-auto">
               <Link
-                to="/connect-wallet"
+                to="/login" // Changed to /login
                 className="relative inline-flex items-center justify-center px-4 py-2 border border-[#48BF84] rounded-[50px] transition duration-300"
                 style={{ height: '40px' }} // Set a fixed height
               >
