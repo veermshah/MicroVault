@@ -1,30 +1,20 @@
-import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { ArrowLeftIcon } from '@heroicons/react/24/solid';
 import { useSDK } from "@metamask/sdk-react";
-import { db } from "../../../firebase"; // Adjust the path accordingly
-import { collection, doc, setDoc } from "firebase/firestore";
-import { ethers } from "ethers"; 
-import { formatEther } from 'ethers';
-import { useTransaction } from "./transactions";
-import { useNavigate, Link } from "react-router-dom";
-import { useUser } from "./users"; // v6.x.x version
-
-const apikey = "SIBXADTFTICF4I8UFA78NVSFIIAIJAM5V6";
+import { formatEther } from 'ethers'; 
+import { IconButton, InputBase } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
 
 const MetaMaskLogin = () => {
   const { sdk, connected, chainId } = useSDK();
-  const navigate = useNavigate();
-  const { setUserAddress } = useUser();
-
-  const [errorMessage, setErrorMessage] = useState(null);
   const [defaultAccount, setDefaultAccount] = useState(null);
   const [userBalance, setUserBalance] = useState(null);
   const [userAddress, setUserAddresss] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
-  const [isUserSaved, setIsUserSaved] = useState(false);
-  const { transactions, setTransactions } = useTransaction();
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const connectWallet = async () => {
     console.log("Connect Wallet button clicked");
@@ -35,7 +25,6 @@ const MetaMaskLogin = () => {
           method: "eth_requestAccounts",
         });
         setUserAddresss(account[0]);
-        setUserAddress(account[0]);
         setDefaultAccount(account[0]);
         setStatus(`Connected account: ${account[0]}`);
         localStorage.setItem("userAddress", account[0]); 
@@ -48,60 +37,12 @@ const MetaMaskLogin = () => {
         const formattedBalance = formatEther(balance);
         setUserBalance(formattedBalance);
 
-        // Fetch transaction history after connecting 
-        fetchTransactionHistory(account[0]);
-        
       } catch (error) {
         console.error("Error connecting to MetaMask: ", error);
         setStatus("Failed to connect MetaMask");
       }
     } else {
       setStatus("MetaMask not detected. Please install it.");
-    }
-  };
-
-  const saveUserDetails = async () => {
-    if (!name || !email) {
-      setErrorMessage("Please enter your name and email");
-      return;
-    }
-
-    try {
-      const userRef = doc(collection(db, "users"), userAddress);
-      await setDoc(userRef, {
-        name: name,
-        email: email,
-        address: userAddress,
-        balance: userBalance,
-      });
-
-      setStatus("User details saved successfully");
-      setIsUserSaved(true);
-      navigate(`/myWallet/${userAddress}`);
-    } catch (error) {
-      console.error("Error saving user details: ", error);
-      setErrorMessage("Failed to save user details");
-    }
-  };
-
-  const fetchTransactionHistory = async (address) => {
-    try {
-      const response = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
-      );
-      const data = await response.json();
-
-      if (data.status === "1") {
-        const transactions = data.result;
-        setTransactions(transactions);
-        console.log("Transactions:", transactions);
-      } else {
-        console.error("Etherscan API returned an error:", data.message);
-        setStatus(`Error fetching transaction history: ${data.message}`);
-      }
-
-    } catch (error) {
-      console.error("Error fetching transaction history", error);
     }
   };
 
@@ -128,7 +69,7 @@ const MetaMaskLogin = () => {
       <div className="md:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
         <div className="w-full max-w-md">
           <button 
-            className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
+            className="w-full text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300 animated-gradient"
             onClick={connectWallet}
           >
             Connect Wallet
