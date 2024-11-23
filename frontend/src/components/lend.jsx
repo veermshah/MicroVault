@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 
 const Lend = () => {
-  const [loanAmount, setLoanAmount] = useState(''); // Loan amount in ETH
-  const [loanDuration, setLoanDuration] = useState(''); // Loan duration in months
-  const [collateralType, setCollateralType] = useState('ETH'); // Default collateral
-  const [serviceFee, setServiceFee] = useState(null); // Service fee calculated based on loan amount
+  const [loanAmount, setLoanAmount] = useState('');
+  const [loanDuration, setLoanDuration] = useState('');
+  const [collateralType, setCollateralType] = useState('ETH');
+  const [serviceFee, setServiceFee] = useState(null);
 
-  // Constants for service fee calculation
-  const serviceFeePercentage = 0.02; // Example service fee percentage
+  const serviceFeePercentage = 0.02;
 
   const calculateServiceFee = () => {
     const calculatedServiceFee = loanAmount * serviceFeePercentage;
-    setServiceFee(calculatedServiceFee.toFixed(5)); // Set service fee with 5 decimal places
+    setServiceFee(calculatedServiceFee.toFixed(5));
   };
 
   const handleSubmit = (e) => {
@@ -20,7 +19,7 @@ const Lend = () => {
   };
 
   return (
-    <div className="flex flex-col md:flex-row gap-8 p-6">
+    <div className="flex flex-col md:flex-row gap-8 py-6"> {/* Changed p-6 to py-6 */}
       {/* Left Column */}
       <div className="md:w-1/2 p-4 rounded-lg bg-white bg-opacity-80">
         <h2 className="text-2xl font-semibold mb-6">Lend</h2>
@@ -75,28 +74,22 @@ const Lend = () => {
 
         {serviceFee !== null && (
           <>
-            {/* Display calculated service fee */}
             <div className="flex justify-between mt-2">
               <p className="font-bold">Service Fee:</p>
               <p>{serviceFee} ETH</p>
             </div>
-
-            {/* Additional terms can be added here as needed */}
           </>
         )}
 
-        {/* Placeholder text for additional terms */}
         {serviceFee === null && (
           <>
-            {/* Placeholder text before calculation */}
             <div className="flex justify-between mt-2">
               <p className="font-bold">Service Fee:</p>
-              <p>-- ETH</p> {/* Placeholder for service fee */}
+              <p>-- ETH</p>
             </div>
           </>
         )}
 
-        {/* Continue button */}
         {serviceFee !== null && (
           <button className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold">
             Confirm Lending
