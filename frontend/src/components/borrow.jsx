@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const Borrow = () => {
@@ -80,130 +80,167 @@ const Borrow = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row gap-8 py-6">
-            <div className="md:w-1/2 p-4 rounded-lg bg-white bg-opacity-80">
-                <h2 className="text-2xl font-semibold mb-6">Borrow</h2>
-                <form onSubmit={handleSubmit}>
-                    <div className="mb-4">
-                        <label className="block mb-2">Loan Type</label>
-                        <select className="w-full p-2 border rounded" value={loanType} onChange={(e) => setLoanType(e.target.value)}>
-                            <option value="microloan">Microloan</option>
-                            <option value="flashloan">Flash Loan</option>
-                        </select>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block mb-2">Collateral Value (ETH)</label>
-                        <input type="number" className="w-full p-2 border rounded" value={collateralValue} onChange={(e) => setCollateralValue(e.target.value)} placeholder="Enter Collateral Value" required />
-                    </div>
-                    <div className="mb-4">
-                        <label className="block mb-2">Collateral Type</label>
-                        <select className="w-full p-2 border rounded" value={collateralType} onChange={(e) => setCollateralType(e.target.value)}>
-                            <option value="ETH">ETH</option>
-                            <option value="DAI">DAI</option>
-                            <option value="USDC">USDC</option>
-                        </select>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block mb-2">Loan Amount (ETH)</label>
-                        <input type="number" className="w-full p-2 border rounded" value={loanAmount} onChange={handleLoanAmountChange} placeholder="Enter Amount" required />
-                        {!isOvercollateralized && loanAmount && (
-                            <p className="text-red-500 text-sm mt-1">
-                                The loan must be overcollateralized by at least 20%. Please increase your collateral or decrease your loan amount.
-                            </p>
-                        )}
-                    </div>
-                    {loanType === 'microloan' && (
+        <div className="flex flex-col gap-8 py-6">
+            {/* New Box for Placeholder Content */}
+            <div className="w-full bg-white border border-gray-300 rounded-2xl p-4">
+                <h2 className="text-xl font-semibold mb-4">Borrowing Overview</h2>
+                <p className="text-gray-700">
+                    This section provides an overview of borrowing options available. You can borrow assets based on your collateral and creditworthiness. Please fill in the details below to calculate your service fee.
+                </p>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-8">
+                {/* Left Column */}
+                <div className="md:w-1/2 p-4 rounded-2xl border border-gray-300 bg-gray-100"> {/* Changed to gray background and added border */}
+                    <h2 className="text-2xl font-semibold mb-6">Borrow</h2>
+                    <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label className="block mb-2">Loan Duration (months)</label>
-                            <input type="number" className="w-full p-2 border rounded" value={loanDuration} onChange={(e) => setLoanDuration(e.target.value)} placeholder="Enter Duration" required />
+                            <label className="block mb-2">Loan Type</label>
+                            <select className="w-full p-2 border rounded" value={loanType} onChange={(e) => setLoanType(e.target.value)}>
+                                <option value="microloan">Microloan</option>
+                                <option value="flashloan">Flash Loan</option>
+                            </select>
                         </div>
-                    )}
-                    <div className="mb-4">
-                        <label className="block mb-2">Creditworthiness</label>
-                        <select className="w-full p-2 border rounded" value={creditworthiness} onChange={(e) => setCreditworthiness(e.target.value)}>
-                            <option value="low">Low</option>
-                            <option value="average">Average</option>
-                            <option value="high">High</option>
-                        </select>
-                    </div>
-                    <div className="mb-4">
-                        <label className="block mb-2">
-                            Willing to Pay Gas Fees:
-                            <input type="checkbox" checked={willingToPayGas} onChange={() => setWillingToPayGas(!willingToPayGas)} className="ml-2" />
-                        </label>
-                    </div>
-                    <button type="submit" className={`mt-6 px-4 py-2 rounded w-full font-bold ${isOvercollateralized ? 'bg-[#48BF84] text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`} disabled={!isOvercollateralized}>
-                        Calculate Rates
-                    </button>
-                </form>
-            </div>
-            <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-lg shadow-md space-y-4 flex flex-col justify-between">
-                {borrowerRate && lenderAPY ? (
-                    <>
-                        <h3 className="text-xl font-semibold mb-4">Calculated Rates</h3>
-                        <div className="flex justify-between mt-1">
-                            <p className="font-bold">Borrower Interest Rate:</p>
-                            <p>{borrowerRate}%</p>
+
+                        <div className="mb-4">
+                            <label className="block mb-2">Collateral Value (ETH)</label>
+                            <input type="number" className="w-full p-2 border rounded" value={collateralValue} onChange={(e) => setCollateralValue(e.target.value)} placeholder="Enter Collateral Value" required />
                         </div>
-                        <div className="flex justify-between mt-1">
-                            <p className="font-bold">Lender APY:</p>
-                            <p>{lenderAPY}%</p>
+
+                        <div className="mb-4">
+                            <label className="block mb-2">Collateral Type</label>
+                            <select className="w-full p-2 border rounded" value={collateralType} onChange={(e) => setCollateralType(e.target.value)}>
+                                <option value="ETH">ETH</option>
+                                <option value="DAI">DAI</option>
+                                <option value="USDC">USDC</option>
+                            </select>
                         </div>
-                        {willingToPayGas && (
-                            <>
-                                <div className="flex justify-between mt-1">
-                                    <p className="font-bold">Estimated Gas Fee:</p>
-                                    <p>{estimatedGasFeePerTransaction} ETH</p>
-                                </div>
-                                <div className="flex justify-between mt-1">
-                                    <p className="font-bold">Service Fee:</p>
-                                    <p>{serviceFee} ETH</p>
-                                </div>
-                            </>
+
+                        <div className="mb-4">
+                            <label className="block mb-2">Loan Amount (ETH)</label>
+                            <input type="number" className="w-full p-2 border rounded" value={loanAmount} onChange={handleLoanAmountChange} placeholder="Enter Amount" required />
+                            {!isOvercollateralized && loanAmount && (
+                                <p className="text-red-500 text-sm mt-1">
+                                    The loan must be overcollateralized by at least 20%. Please increase your collateral or decrease your loan amount.
+                                </p>
+                            )}
+                        </div>
+
+                        {loanType === 'microloan' && (
+                            <div className="mb-4">
+                                <label className="block mb-2">Loan Duration (months)</label>
+                                <input type="number" className="w-full p-2 border rounded" value={loanDuration} onChange={(e) => setLoanDuration(e.target.value)} placeholder="Enter Duration" required />
+                            </div>
                         )}
-                        {futureValue && (
+
+                        <div className="mb-4">
+                            <label className="block mb-2">Creditworthiness</label>
+                            <select className="w-full p-2 border rounded" value={creditworthiness} onChange={(e) => setCreditworthiness(e.target.value)}>
+                                <option value="low">Low</option>
+                                <option value="average">Average</option>
+                                <option value="high">High</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="block mb-2">
+                                Willing to Pay Gas Fees:
+                                <input type="checkbox" checked={willingToPayGas} onChange={() => setWillingToPayGas(!willingToPayGas)} className="ml-2" />
+                            </label>
+                        </div>
+
+                        {/* Calculate Rates Button */}
+                        <button type="submit" className={`mt-6 px-4 py-2 rounded w-full font-bold ${isOvercollateralized ? 'bg-[#48BF84] text-white' : 'bg-gray-300 text-gray-600 cursor-not-allowed'}`} disabled={!isOvercollateralized}>
+                            Calculate Rates
+                        </button>
+                    </form>
+                </div>
+
+                {/* Right Column */}
+                <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-lg border border-[#48BF84]"> {/* Added green border */}
+                    {borrowerRate && lenderAPY ? (
+                        <>
+                            {/* Display calculated rates */}
+                            <h3 className="text-xl font-semibold mb-4">Calculated Rates</h3>
                             <div className="flex justify-between mt-1">
-                                <p className="font-bold">Future Value of Loan:</p>
-                                <p>{futureValue} ETH</p>
+                                <p className="font-bold">Borrower Interest Rate:</p>
+                                <p>{borrowerRate}%</p>
                             </div>
-                        )}
-                        <div className='flex items-center'>
-                            <input type='checkbox' checked={agreeToTerms} onChange={() => setAgreeToTerms(!agreeToTerms)} />
-                            <span>I agree to the Terms and Conditions</span>
-                        </div>
-                        {borrowerRate || lenderAPY ? (
+                            <div className="flex justify-between mt-1">
+                                <p className="font-bold">Lender APY:</p>
+                                <p>{lenderAPY}%</p>
+                            </div>
+
+                            {willingToPayGas && (
+                                <>
+                                    <div className="flex justify-between mt-1">
+                                        <p className="font-bold">Estimated Gas Fee:</p>
+                                        <p>{estimatedGasFeePerTransaction} ETH</p>
+                                    </div>
+                                    <div className="flex justify-between mt-1">
+                                        <p className="font-bold">Service Fee:</p>
+                                        <p>{serviceFee} ETH</p>
+                                    </div>
+                                </>
+                            )}
+
+                            {futureValue && (
+                                <div className="flex justify-between mt-1">
+                                    <p className="font-bold">Future Value of Loan:</p>
+                                    <p>{futureValue} ETH</p>
+                                </div>
+                            )}
+
+                            {/* Terms Checkbox */}
+                            {/* Always show checkbox for terms */}
                             <>
-                                <button disabled={!agreeToTerms} className={`mt-auto ${agreeToTerms ? 'bg-[#48BF84]' : 'bg-gray-300 text-gray-600 cursor-not-allowed'} text-white px-4 py-2 rounded w-full font-bold`}>
-                                    Continue
-                                </button>
-                                <Link to="/faq" className={`mt-4 block text-center bg-white border rounded px-4 py-2`}>
-                                    FAQ
-                                </Link>
+                                {/* Checkbox for Terms and Conditions */}
+                                <div className='flex items-center'>
+                                    <input type='checkbox' checked={agreeToTerms} onChange={() => setAgreeToTerms(!agreeToTerms)} />
+                                    <span>I agree to the Terms and Conditions</span>
+                                </div>
                             </>
-                        ) : null}
-                    </>
-                ) : (
-                    <>
-                        {['Borrower Interest Rate', 'Lender APY', 'Estimated Gas Fee', 'Service Fee', 'Future Value of Loan'].map((item) => (
-                            <div key={item} className='flex justify-between mt-1 py-0'>
-                                {item === 'Borrower Interest Rate' || item === 'Lender APY' ? (
-                                    <>
-                                        <p>{item}:</p>
-                                        <p>--%</p>
-                                    </>
-                                ) : (
-                                    <>
-                                        <p>{item}:</p>
-                                        <p>-- ETH</p>
-                                    </>
-                                )}
-                            </div>
-                        ))}
-                    </>
-                )}
-            </div>
-        </div>
-    );
-};
+                            
+                            {/* Buttons */}
+                            {borrowerRate || lenderAPY ? (
+                                <>
+                                    {/* Continue button always visible */}
+                                    {/* Disabled until terms are agreed upon */}
+                                    <button disabled={!agreeToTerms} className={`mt-auto ${agreeToTerms ? 'bg-[#48BF84]' : 'bg-gray-300 text-gray-600 cursor-not-allowed'} text-white px-4 py-2 rounded w-full font-bold`}>
+                                        Continue
+                                    </button>
+
+                                    {/* FAQ Button */}
+                                    <Link to="/faq" className={`mt-4 block text-center bg-white border rounded px-4 py-2`}>
+                                        FAQ
+                                    </Link>  
+                                </>
+                            ) : null}
+                        </>
+                    ) : (
+                        <>
+                            {/* Default values when rates are not calculated */}
+                            {['Borrower Interest Rate', 'Lender APY', 'Estimated Gas Fee', 'Service Fee', 'Future Value of Loan'].map((item) => (
+                                <div key={item} className='flex justify-between mt-1 py-0'>
+                                    {item === 'Borrower Interest Rate' || item === 'Lender APY' ? (
+                                        <>
+                                            <p>{item}:</p>  
+                                            <p>--%</p>  
+                                        </>
+                                    ) : (
+                                        <>
+                                            <p>{item}:</p>  
+                                            <p>-- ETH</p>  
+                                        </>
+                                    )}
+                                </div>  
+                            ))}
+                        </>
+                    )}
+                </div>  
+            </div>  
+        </div>  
+    );  
+};  
 
 export default Borrow;
