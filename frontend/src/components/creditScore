@@ -1,11 +1,10 @@
 export const calculateCreditScore = (transactions) => {
   let score = 0;
 
-  // Constants for weightings (can be adjusted based on desired impact)
+  // Constants for weightings 
   const TRANSACTION_WEIGHT = 0.5; // Weight for number of transactions
   const VALUE_WEIGHT = 0.05; // Weight for total value (log scale)
   const DIVERSITY_WEIGHT = 2; // Weight for unique recipients
-  // Weight for gas efficiency (lower is better)
 
   // Defining the extreme values (assumed maximums and minimums)
   const MAX_TRANSACTIONS = 500; // Max number of transactions
@@ -16,9 +15,6 @@ export const calculateCreditScore = (transactions) => {
 
   const MAX_RECIPIENTS = 500; // Max unique recipients
   const MIN_RECIPIENTS = 1; // Min unique recipients
-
-  // const MAX_GAS = 1000; // Max gas spent per transaction
-  // const MIN_GAS = 1; // Min gas spent (efficient usage)
 
   // 1. Transaction Frequency (scaled)
   const transactionCount = transactions.length;
@@ -32,21 +28,16 @@ export const calculateCreditScore = (transactions) => {
   const uniqueRecipients = new Set(transactions.map((tx) => tx.to)).size;
   const diversityScore = Math.min(uniqueRecipients * DIVERSITY_WEIGHT, MAX_RECIPIENTS * DIVERSITY_WEIGHT);
 
-  // 4. Gas Efficiency Calculation (inverse, lower is better)
-  // const totalGasSpent = transactions.reduce((acc, tx) => acc + parseFloat(tx.gasPrice) * parseFloat(tx.gasUsed), 0);
-  // const gasEfficiencyScore = totalGasSpent > 0
-  //   ? Math.max(0, MAX_GAS * GAS_EFFICIENCY_WEIGHT - totalGasSpent / transactions.length)
-  //   : MAX_GAS * GAS_EFFICIENCY_WEIGHT;
-
+  
   // Calculate total score before normalization
   score = transactionScore + valueScore + diversityScore;
 
   // Calculate min and max possible score based on extremes
-  const MIN_SCORE = MIN_TRANSACTIONS * TRANSACTION_WEIGHT + Math.log(MIN_VALUE + 1) * VALUE_WEIGHT + MIN_RECIPIENTS * DIVERSITY_WEIGHT + 0;
+  const MIN_SCORE = MIN_TRANSACTIONS * TRANSACTION_WEIGHT + Math.log(MIN_VALUE + 1) * VALUE_WEIGHT + MIN_RECIPIENTS * DIVERSITY_WEIGHT;
   const MAX_SCORE = MAX_TRANSACTIONS * TRANSACTION_WEIGHT + Math.log(MAX_VALUE + 1) * VALUE_WEIGHT + MAX_RECIPIENTS * DIVERSITY_WEIGHT;
 
-  // Normalize the score to the range [0, 1000]
-  const normalizedScore = Math.max(0, Math.min(((score - MIN_SCORE) / (MAX_SCORE - MIN_SCORE)) * 1000, 1000));
+  // Normalize the score to the range
+  const normalizedScore = Math.max(0, Math.min(((score - MIN_SCORE) / (MAX_SCORE - MIN_SCORE)) * 1000, 500));
 
   return normalizedScore;
 };

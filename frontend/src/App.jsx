@@ -30,6 +30,7 @@ function AppContent() {
           <Route path="/login" element={<MetaMaskLogin />} />
           <Route path="/myWallet/:userAddress" element={<MyWallet />} />
           <Route path="/get-started" element={<GetStarted />} />
+        
         </Routes>
       </main>
       <Footer />

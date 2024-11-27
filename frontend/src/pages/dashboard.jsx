@@ -1,32 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import DashboardSidebar from '../components/dashboardSidebar';
-import DashboardHome from '../components/dashboardHome';
-import Lend from '../components/lend';
-import Borrow from '../components/borrow';
-import MyWallet from '../components/myWallet';
+import React, { useState, useEffect } from "react";
+import DashboardSidebar from "../components/dashboardSidebar";
+import DashboardHome from "../components/dashboardHome";
+import Lend from "../components/lend";
+import Borrow from "../components/borrow";
+import MyWallet from "../components/myWallet";
+import MetaMaskLogin from "../components/MetaMaskLogin";
 
 const Dashboard = () => {
-  const [activeComponent, setActiveComponent] = useState('home');
+  const [activeComponent, setActiveComponent] = useState();
   const [isCollapsed, setIsCollapsed] = useState(false); // State for sidebar visibility
 
   useEffect(() => {
-    console.log('Active component changed to:', activeComponent);
+    console.log("Active component changed to:", activeComponent);
   }, [activeComponent]);
 
   const renderContent = () => {
-    console.log('Rendering content for:', activeComponent);
+    console.log("Rendering content for:", activeComponent);
     switch (activeComponent) {
-      case 'home':
+      case "home":
         return <DashboardHome />;
-      case 'lend':
+      case "lend":
         return <Lend />;
-      case 'borrow':
+      case "borrow":
         return <Borrow />;
-      case 'myWallet':
-        console.log('Attempting to render MyWallet component');
+      case "login":
+        return <MetaMaskLogin />;
+      case "myWallet":
+        console.log("Attempting to render MyWallet component");
         return <MyWallet />;
       default:
-        console.log('Default case: rendering DashboardHome component');
+        console.log("Default case: rendering DashboardHome component");
         return <DashboardHome />;
     }
   };
@@ -35,15 +38,19 @@ const Dashboard = () => {
     <div className="bg-white min-h-screen">
       <div className="max-w-[1248px] w-full mx-auto pt-[30px]">
         <div className="flex flex-row h-full relative z-10">
-          <div className={`transition-all duration-300 ${isCollapsed ? 'w-0' : 'w-1/6'} pr-4`}>
+          <div
+            className={`transition-all duration-300 ${
+              isCollapsed ? "w-0" : "w-1/6"
+            } pr-4`}
+          >
             {/* Minimize/Expand Button */}
             <div className="flex justify-end mb-2">
-              <button 
-                onClick={() => setIsCollapsed(!isCollapsed)} 
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
                 className={`bg-transparent rounded-full p-2`}
-                style={{ width: '40px', height: '40px' }}
+                style={{ width: "40px", height: "40px" }}
               >
-                {isCollapsed ? '+' : '-'}
+                {isCollapsed ? "+" : "-"}
               </button>
             </div>
             {!isCollapsed && (
@@ -53,7 +60,11 @@ const Dashboard = () => {
               />
             )}
           </div>
-          <div className={`transition-all duration-300 ${isCollapsed ? 'w-full' : 'w-[87%]'}`}>
+          <div
+            className={`transition-all duration-300 ${
+              isCollapsed ? "w-full" : "w-[87%]"
+            }`}
+          >
             {renderContent()}
           </div>
         </div>
