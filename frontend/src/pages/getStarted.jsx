@@ -1,4 +1,3 @@
-// src/pages/getStarted.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GetStartedSidebar from '../components/getStartedsidebar'; // Ensure correct casing
@@ -44,8 +43,7 @@ const GetStarted = () => {
   };
 
   return (
-    <section className="bg-transparent mt-28 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
-      <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/20 rounded-full blur-[150px] z-0" />
+    <section className="bg-transparent mx-4 md:mx-12 lg:mx-20 relative overflow-visible"> {/* Removed mt-28 */}
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
@@ -63,4 +61,4 @@ const GetStarted = () => {
   );
 };
 
-export default GetStarted;
+export default GetStarted; 

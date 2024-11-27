@@ -14,9 +14,11 @@
     "@mui/icons-material": "^6.1.6",
     "@mui/material": "^6.1.6",
     "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "chart.js": "^4.4.6",
     "dotenv": "^16.4.5",
     "ethers": "^6.13.4",
     "firebase": "^10.14.1",
+    "react-chartjs-2": "^5.2.0",
     "web3": "^4.14.0"
   },
   "devDependencies": {

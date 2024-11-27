@@ -17,10 +17,11 @@ import GetStarted from "./pages/getStarted";
 function AppContent() {
   const location = useLocation();
   const isDashboard = location.pathname === '/dashboard';
+  const isLoginPage = location.pathname === '/login';
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden">
-      {isDashboard ? <DashboardHeader /> : <Header />}
+      {!isLoginPage && (isDashboard ? <DashboardHeader /> : <Header />)}
       <main className="flex-grow">
         <Routes>
           <Route path="/" element={<Home />} />
