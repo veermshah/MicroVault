@@ -73,7 +73,7 @@ const Lend = () => {
             "Small service fee covers operational costs and enhances ecosystem security."
           ].map((step, index) => (
             <div key={index} className="flex items-start">
-              <div className="flex-shrink-0 w-8 h-8 bg-[#48BF84] text-white rounded-full flex items-center justify-center mr-3">
+              <div className={`flex-shrink-0 w-8 h-8 ${index % 2 === 0 ? 'bg-[#11998E]' : 'bg-[#48BF84]'} text-white rounded-full flex items-center justify-center mr-3`}>
                 {index + 1}
               </div>
               <p className="text-gray-700">{step}</p>

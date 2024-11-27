@@ -96,7 +96,7 @@ const Borrow = () => {
             "Transparent fee structure with no hidden costs."
           ].map((step, index) => (
             <div key={index} className="flex items-start">
-              <div className="flex-shrink-0 w-8 h-8 bg-[#48BF84] text-white rounded-full flex items-center justify-center mr-3">
+              <div className={`flex-shrink-0 w-8 h-8 ${index % 2 === 0 ? 'bg-[#11998E]' : 'bg-[#48BF84]'} text-white rounded-full flex items-center justify-center mr-3`}>
                 {index + 1}
               </div>
               <p className="text-gray-700">{step}</p>
@@ -104,16 +104,14 @@ const Borrow = () => {
           ))}
         </div>
       </div>
-
       <div className="flex flex-col md:flex-row gap-8">
         <div className="md:w-1/2 p-4 rounded-2xl border border-gray-300 bg-gray-100">
           <h2 className="text-2xl font-semibold mb-6">Borrow</h2>
-          
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label className="block mb-2">Collateral Value (ETH)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 className="w-full p-2 border rounded"
                 value={collateralValue}
                 onChange={(e) => setCollateralValue(e.target.value)}
@@ -121,11 +119,10 @@ const Borrow = () => {
                 required
               />
             </div>
-
             <div className="mb-4">
               <label className="block mb-2">Loan Amount (ETH)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 className="w-full p-2 border rounded"
                 value={loanAmount}
                 onChange={handleLoanAmountChange}
@@ -138,11 +135,10 @@ const Borrow = () => {
                 </p>
               )}
             </div>
-
             <div className="mb-4">
               <label className="block mb-2">Loan Duration (months)</label>
-              <input 
-                type="number" 
+              <input
+                type="number"
                 className="w-full p-2 border rounded"
                 value={loanDuration}
                 onChange={(e) => setLoanDuration(e.target.value)}
@@ -150,10 +146,9 @@ const Borrow = () => {
                 required
               />
             </div>
-
             <div className="mb-4">
               <label className="block mb-2">Creditworthiness</label>
-              <select 
+              <select
                 className="w-full p-2 border rounded"
                 value={creditworthiness}
                 onChange={(e) => setCreditworthiness(e.target.value)}
@@ -163,7 +158,6 @@ const Borrow = () => {
                 <option value="high">High</option>
               </select>
             </div>
-
             <div className="mb-4">
               <label className="block mb-2">
                 Willing to Pay Gas Fees:
@@ -175,16 +169,16 @@ const Borrow = () => {
                 />
               </label>
             </div>
-
-            <button type="submit" className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold">
+            <button
+              type="submit"
+              className="mt-6 bg-[#48BF84] text-white px-4 py-2 rounded w-full font-bold"
+            >
               Calculate Borrowing Terms
             </button>
           </form>
         </div>
-
         <div className="md:w-1/2 bg-[#48BF84]/10 p-4 rounded-2xl border border-[#48BF84]">
           <h3 className="text-xl font-semibold mb-4">Borrowing Terms</h3>
-
           {borrowerRate !== null ? (
             <>
               <div className="flex justify-between mt-2">
