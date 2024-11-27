@@ -1,59 +1,72 @@
-import React, { useState } from "react";
-import Trading from "../components/trading";
+import React, { useState, useEffect } from "react";
+import DashboardSidebar from "../components/dashboardSidebar";
+import DashboardHome from "../components/dashboardHome";
 import Lend from "../components/lend";
 import Borrow from "../components/borrow";
 import MyWallet from "../components/myWallet";
 import MetaMaskLogin from "../components/MetaMaskLogin";
 
-const Dashboard = ({ isLoggedIn, userAddress, onLogin, onLogout }) => {
-  const [activeComponent, setActiveComponent] = useState("trading");
+const Dashboard = () => {
+  const [activeComponent, setActiveComponent] = useState();
+  const [isCollapsed, setIsCollapsed] = useState(false); // State for sidebar visibility
+
+  useEffect(() => {
+    console.log("Active component changed to:", activeComponent);
+  }, [activeComponent]);
+
+  const renderContent = () => {
+    console.log("Rendering content for:", activeComponent);
+    switch (activeComponent) {
+      case "home":
+        return <DashboardHome />;
+      case "lend":
+        return <Lend />;
+      case "borrow":
+        return <Borrow />;
+      case "login":
+        return <MetaMaskLogin />;
+      case "myWallet":
+        console.log("Attempting to render MyWallet component");
+        return <MyWallet />;
+      default:
+        console.log("Default case: rendering DashboardHome component");
+        return <DashboardHome />;
+    }
+  };
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Left-side menu */}
-      <div className="w-[13%] bg-white shadow-md flex flex-col">
-        <nav className="flex-grow">
-          <ul className="py-4">
-            {["trading", "lend", "borrow", "myWallet"].map((item) => (
-              <li
-                key={item}
-                className={`px-4 py-3 hover:bg-gray-100 cursor-pointer ${
-                  activeComponent === item ? "bg-gray-200" : ""
-                }`}
-                onClick={() => setActiveComponent(item)}
+    <div className="bg-white min-h-screen">
+      <div className="max-w-[1248px] w-full mx-auto pt-[30px]">
+        <div className="flex flex-row h-full relative z-10">
+          <div
+            className={`transition-all duration-300 ${
+              isCollapsed ? "w-0" : "w-1/6"
+            } pr-4`}
+          >
+            {/* Minimize/Expand Button */}
+            <div className="flex justify-end mb-2">
+              <button
+                onClick={() => setIsCollapsed(!isCollapsed)}
+                className={`bg-transparent rounded-full p-2`}
+                style={{ width: "40px", height: "40px" }}
               >
-                {item.charAt(0).toUpperCase() + item.slice(1)}
-              </li>
-            ))}
-          </ul>
-        </nav>
-        <div className="px-4 py-4">
-          {isLoggedIn ? (
-            <button
-              className="button bg-red-500 text-white px-4 py-2 rounded-md"
-              onClick={onLogout}
-            >
-              Sign Out
-            </button>
-          ) : (
-            <button
-              className="button bg-blue-500 text-white px-4 py-2 rounded-md"
-              onClick={() => setActiveComponent("login")}
-            >
-              Login
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Right-side content */}
-      <div className="w-[87%] p-8 overflow-auto">
-        <div className="bg-white shadow-md rounded-lg p-6 mb-6">
-          {activeComponent === "trading" && <Trading />}
-          {activeComponent === "lend" && <Lend />}
-          {activeComponent === "borrow" && <Borrow />}
-          {activeComponent === "myWallet" && <MyWallet />}
-          {activeComponent === "login" && <MetaMaskLogin onLogin={onLogin} />}
+                {isCollapsed ? "+" : "-"}
+              </button>
+            </div>
+            {!isCollapsed && (
+              <DashboardSidebar
+                activeComponent={activeComponent}
+                setActiveComponent={setActiveComponent}
+              />
+            )}
+          </div>
+          <div
+            className={`transition-all duration-300 ${
+              isCollapsed ? "w-full" : "w-[87%]"
+            }`}
+          >
+            {renderContent()}
+          </div>
         </div>
       </div>
     </div>
