@@ -37,7 +37,11 @@ const Overview = () => {
       <h3 className="text-2xl font-semibold mb-4">Get Familiar with MicroVault</h3>
       <div className="grid grid-cols-2 gap-4">
         {cards.map((card, index) => (
-          <Link key={index} to={card.link} className="block p-6 border border-gray-200 rounded-lg hover:shadow-md transition-shadow">
+          <Link 
+            key={index} 
+            to={card.link} 
+            className="block p-6 border border-gray-300 rounded-2xl bg-white transition-colors" // Removed shadow and ensured consistent styles
+          >
             <h4 className="text-xl font-semibold mb-2">{card.title}</h4>
             <p className="text-sm text-gray-600">Learn more about {card.title.toLowerCase()}</p>
           </Link>

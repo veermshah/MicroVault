@@ -54,7 +54,7 @@ const WhyChooseUs = () => {
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
           <h2 className="text-[40px] font-bold text-center mb-12 text-black">Why Choose Us</h2>
-          <div className="bg-white rounded-[1rem] shadow-lg overflow-hidden relative z-10">
+          <div className="bg-white rounded-2xl border border-gray-300 overflow-hidden relative z-10">
             {/* Set gradient background for the table */}
             <div
               style={{
@@ -62,7 +62,7 @@ const WhyChooseUs = () => {
                 background: '-webkit-linear-gradient(to right, #48BF84, #11998e)',
                 background: 'linear-gradient(to right, #48BF84, #11998e)',
               }}
-              className="p-4 rounded-tl-[1rem] rounded-tr-[1rem]"
+              className="p-4 rounded-tl-2xl rounded-tr-2xl"
             >
               <table className="w-full">
                 <thead>

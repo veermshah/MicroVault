@@ -59,7 +59,7 @@ const Testimonials = () => {
           <div className="flex flex-col md:flex-row h-full relative z-10">
             {/* Left side - Main testimonial */}
             <div className="md:w-1/2 md:pr-4 mb-8 md:mb-0 flex flex-col justify-center">
-              <div className="relative mb-6 bg-white p-6 rounded-[1rem] shadow-md">
+              <div className="relative mb-6 bg-white p-6 rounded-2xl border border-gray-300">
                 <span className="absolute text-6xl text-[#48BF84] opacity-80 top-[-30px] left-[-20px]">"</span>
                 <h2 className="text-3xl font-bold mb-4">{mainTestimonial.quote}</h2>
                 <p className="text-lg text-gray-600 mb-4">{mainTestimonial.longText}</p>
@@ -89,7 +89,7 @@ const Testimonials = () => {
                 {shortTestimonials.map((testimonial, index) => (
                   <div 
                     key={index} 
-                    className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-[1rem] shadow-md transition-all duration-300 ease-in-out hover:-translate-y-2 hover:shadow-lg"
+                    className="text-center flex flex-col items-center justify-center h-full bg-white p-4 rounded-2xl border border-gray-300 transition-all duration-300 ease-in-out hover:-translate-y-2"
                   >
                     <div className="w-20 h-20 mb-4 overflow-hidden rounded-full">
                       <img 

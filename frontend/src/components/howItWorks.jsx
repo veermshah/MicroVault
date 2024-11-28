@@ -70,7 +70,7 @@ const HowItWorks = () => {
             {steps.map((step, index) => (
               <div 
                 key={index} 
-                className={`bg-white rounded-[1rem] shadow-md p-6 flex flex-col items-center justify-between transform transition-all duration-700 ${
+                className={`bg-white border border-gray-300 rounded-2xl p-6 flex flex-col items-center justify-between transform transition-all duration-700 ${
                   isVisible ? `translate-x-0 opacity-100` : `translate-x-[-100%] opacity-0`
                 }`}
                 style={{ transitionDelay: `${isVisible ? index * 200 : 0}ms` }}
@@ -93,7 +93,7 @@ const HowItWorks = () => {
           <div className="text-center mt-12">
             <Link to="/login">
               <button className="animated-gradient text-white px-8 py-3 rounded-[50px] text-lg transition duration-300">
-                Apply Now
+                Start Here
               </button>
             </Link>
           </div>
