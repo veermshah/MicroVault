@@ -133,6 +133,9 @@ const MetaMaskLogin = () => {
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userBalance");
 
+    // Clear transactions state
+    setTransactions([]);
+    
     setUserAddresss("");
     setName("");
     setEmail("");
