@@ -1,5 +1,5 @@
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSDK } from "@metamask/sdk-react";
 import { db } from "../../../firebase"; // Adjust the path accordingly
 import { collection, doc, setDoc } from "firebase/firestore";
@@ -26,6 +26,24 @@ const MetaMaskLogin = () => {
   const [isUserSaved, setIsUserSaved] = useState(false);
   const { transactions, setTransactions } = useTransaction();
 
+  useEffect(() => {
+    // Check if user is already logged in from localStorage
+    const storedUserAddress = localStorage.getItem("userAddress");
+    if (storedUserAddress) {
+      // If address exists, fetch and set the user's details
+      const storedName = localStorage.getItem("userName");
+      const storedEmail = localStorage.getItem("userEmail");
+      const storedBalance = localStorage.getItem("userBalance");
+
+      setUserAddresss(storedUserAddress);
+      setName(storedName);
+      setEmail(storedEmail);
+      setUserBalance(storedBalance);
+      setDefaultAccount(storedUserAddress);
+      setStatus("Already connected from previous session.");
+    }
+  }, []);
+
   const connectWallet = async () => {
     console.log("Connect Wallet button clicked");
     if (window.ethereum) {
@@ -47,6 +65,7 @@ const MetaMaskLogin = () => {
         });
         const formattedBalance = formatEther(balance);
         setUserBalance(formattedBalance);
+        localStorage.setItem("userBalance", formattedBalance);
 
         // Fetch transaction history after connecting
         fetchTransactionHistory(account[0]);
@@ -73,6 +92,10 @@ const MetaMaskLogin = () => {
         address: userAddress,
         balance: userBalance,
       });
+
+      // Save user details to localStorage for persistent login
+      localStorage.setItem("userName", name);
+      localStorage.setItem("userEmail", email);
 
       setStatus("User details saved successfully");
       setIsUserSaved(true);
@@ -103,6 +126,22 @@ const MetaMaskLogin = () => {
     }
   };
 
+  const logOut = () => {
+    // Clear localStorage and reset state
+    localStorage.removeItem("userAddress");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userEmail");
+    localStorage.removeItem("userBalance");
+
+    setUserAddresss("");
+    setName("");
+    setEmail("");
+    setUserBalance(null);
+    setStatus("Logged out successfully");
+    setIsUserSaved(false);
+    navigate("/"); // Redirect to the home page
+  };
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
       {/* Left Side with animated gradient */}
@@ -123,54 +162,65 @@ const MetaMaskLogin = () => {
 
       {/* Right Side */}
       <div className="md:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
-        <h2 className="text-3xl font-bold text-center mb-6">LOG IN</h2>
+        <h2 className="text-3xl font-bold text-center mb-6">
+          {defaultAccount ? "You're Connected" : "LOG IN"}
+        </h2>
         <div className="w-full max-w-md">
-          {/* Name and Email Inputs */}
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
-          />
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
-          />
-
-          <button
-            className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
-            onClick={connectWallet}
-          >
-            Connect Wallet
-          </button>
-
-          {defaultAccount && (
-            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-              <h3 className="mb-2">Address: {defaultAccount}</h3>
-              <h3 className="mb-4">Balance: $ {userBalance}</h3>
+          {/* Show the login form or details depending on whether the user is connected */}
+          {!defaultAccount ? (
+            <>
+              {/* Connect Wallet Button */}
+              <button
+                className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
+                onClick={connectWallet}
+              >
+                Connect Wallet
+              </button>
               {errorMessage && (
                 <p className="text-red-500 mb-4">{errorMessage}</p>
               )}
-              <p className="mb-4">{status}</p>
+            </>
+          ) : (
+            <>
+              <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                <h3 className="mb-2">Address: {defaultAccount}</h3>
+                <h3 className="mb-4">Balance: $ {userBalance}</h3>
 
-              <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={saveUserDetails}
-              >
-                Submit
-              </button>
+                {status && <p className="mb-4">{status}</p>}
 
-              {connected && (
-                <div className="mt-4">
-                  {chainId && <p>Connected chain: {chainId}</p>}
-                  <p>Connected account: {userAddress}</p>
-                </div>
-              )}
-            </div>
+                {/* Name and Email Inputs */}
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 leading-tight"
+                />
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 leading-tight"
+                />
+
+                {!isUserSaved && (
+                  <button
+                    onClick={saveUserDetails}
+                    className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4"
+                  >
+                    Submit Details
+                  </button>
+                )}
+
+                <button
+                  onClick={logOut}
+                  className="w-full bg-[#e74c3c] text-white font-bold py-2 px-4 rounded-2xl mt-4"
+                >
+                  Log Out
+                </button>
+              </div>
+            </>
           )}
         </div>
       </div>
