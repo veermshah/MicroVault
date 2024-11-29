@@ -106,11 +106,35 @@ const MetaMaskLogin = () => {
     }
   };
 
+  // const fetchTransactionHistory = async (address) => {
+  //   try {
+  //     const response = await fetch(
+  //       `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
+  //     );
+  //     const data = await response.json();
+
+  //     if (data.status === "1") {
+  //       const transactions = data.result;
+  //       setTransactions(transactions);
+  //       console.log("Transactions:", transactions);
+  //     } else {
+  //       console.error("Etherscan API returned an error:", data.message);
+  //       setStatus(`Error fetching transaction history: ${data.message}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching transaction history", error);
+  //   }
+  // };
+
   const fetchTransactionHistory = async (address) => {
     try {
-      const response = await fetch(
-        `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
-      );
+      // Determine which network the user is connected to
+      const apiUrl =
+        chainId === 11155111
+          ? `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}` // Sepolia API
+          : `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`; // Ethereum Mainnet API
+
+      const response = await fetch(apiUrl);
       const data = await response.json();
 
       if (data.status === "1") {
@@ -126,6 +150,7 @@ const MetaMaskLogin = () => {
     }
   };
 
+
   const logOut = () => {
     // Clear localStorage and reset state
     localStorage.removeItem("userAddress");
@@ -135,7 +160,7 @@ const MetaMaskLogin = () => {
 
     // Clear transactions state
     setTransactions([]);
-    
+
     setUserAddresss("");
     setName("");
     setEmail("");
