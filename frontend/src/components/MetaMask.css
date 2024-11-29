@@ -1,46 +1,142 @@
+/* Center the card on the screen */
 .metamask-login-container {
     max-width: 400px;
-    margin: auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 100px auto;
+    /* Centering the card */
+    padding: 30px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #fff, #8fe192);
+    /* Gradient background */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    text-align: center;
 }
 
+/* Header for navigation */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Connect Wallet Button */
 .button {
     background-color: #4caf50;
-    /* Green */
-    border: none;
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
+    color: rgb(0, 0, 0);
+    padding: 12px 24px;
     font-size: 16px;
-    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
     cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s ease;
 }
 
 .button:hover {
     background-color: #45a049;
-    /* Darker green */
 }
 
+.button:active {
+    transform: scale(0.98);
+}
+
+/* Back to Home button style */
+.back-home {
+    background-color: #2196f3;
+    /* Blue */
+}
+
+.back-home:hover {
+    background-color: #1976d2;
+}
+
+/* Sign Out button style */
+.sign-out {
+    background-color: #f44336;
+    /* Red */
+}
+
+.sign-out:hover {
+    background-color: #e53935;
+}
+
+/* Title for the card */
+h2 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 24px;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-size: 1.1rem;
+    color: #555;
+    margin: 10px 0;
+}
+
+/* Input fields (Username, Email) */
 .input {
     width: 100%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #000;
+    border-radius: 6px;
+    background: transparent;
+    color: #000;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #feb47b;
+}
+
+
+
+/* Container for address and balance info */
+.info-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #000;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+
+
+/* Sign Out Button in Header */
+.header-button {
+    background-color: #ff4747;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.header-button:hover {
+    background-color: #e03d3d;
+}
+
+/* Status and Error Message */
+.status-message,
+.error {
+    font-size: 14px;
+    color: #000;
+    margin-top: 10px;
 }
 
 .error {
-    color: red;
+    color: #ff4747;
 }
 
+/* Style for the User Details form */
 .user-details {
     margin-top: 20px;
 }

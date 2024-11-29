@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTransaction } from "../components/transactions";
 import { ethers } from "ethers";
 import MetaMaskLogin from "./MetaMaskLogin";
-import { useUser } from "./users"; // Import ethers if needed for formatting
+import { useUser } from "./users";
 import { calculateCreditScore } from "./creditScore";
+import { getFirestore, doc, getDoc } from "firebase/firestore"; // Firestore imports
 
 const MyWallet = () => {
   const { transactions } = useTransaction();
   const { userAddress } = useUser();
+  const [userName, setUserName] = useState(""); // State to store user name
+
+  const db = getFirestore(); // Get Firestore instance
+
+  // Fetch user's name from Firestore
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (userAddress) {
+        const userDocRef = doc(db, "users", userAddress); // Assuming the user is stored in a 'users' collection
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+          setUserName(userDoc.data().name); // Set name from Firestore
+        } else {
+          console.log("No user found");
+        }
+      }
+    };
+
+    fetchUserName();
+  }, [userAddress, db]);
 
   // Calculate the credit score based on the user's transactions
   const creditScore = calculateCreditScore(transactions);
@@ -18,9 +40,9 @@ const MyWallet = () => {
     if (score >= 200 && score < 400) {
       color = "#ff9800"; // Orange
     } else if (score >= 400 && score < 600) {
-     color = "#2196f3"; // Blue
+      color = "#2196f3"; // Blue
     } else if (score >= 600) {
-      color = "#4caf50";// Green
+      color = "#4caf50"; // Green
     }
     return {
       backgroundColor: color,
@@ -53,7 +75,7 @@ const MyWallet = () => {
           marginBottom: "20px",
         }}
       >
-        Transaction History
+        {userName ? `${userName}'s Transaction History` : "Transaction History"}
       </h2>
       <h3
         style={{
