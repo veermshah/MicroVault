@@ -143,7 +143,7 @@ const DashboardHome = () => {
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pt-6"> {/* Adjusted padding to match Lend */}
       <div className="flex h-[500px] gap-4">
         <div className="w-1/3 flex flex-col gap-4">
           <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px] flex flex-col items-center justify-center">
