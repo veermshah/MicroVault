@@ -35,7 +35,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="bg-white min-h-screen">
+    <div className="bg-white min-h-screen overflow-visible"> {/* Ensure overflow-visible */}
       <div className="max-w-[1248px] w-full mx-auto pt-[30px]">
         <div className="flex flex-row h-full relative z-10">
           <div
