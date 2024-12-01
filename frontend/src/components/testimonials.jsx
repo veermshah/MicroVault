@@ -34,14 +34,14 @@ const Testimonials = () => {
 
   const mainTestimonial = {
     quote: "Convenient loan, no hassle.",
-    longText: "Needed money for tuition, bills, etc and in 5 days I got the money. Thank you so much. You are a big help financially to my problem.",
+    longText: "MicroVault made it easy for me to get the funds I needed for tuition and bills. In just five days, I had the money in my account. Thank you for being such a reliable financial solution!",
     name: "Veer S."
   };
 
   const shortTestimonials = [
     { quote: "Painless way to borrow money", name: "Aarya R.", image: testimonial1 },
-    { quote: "Figure was a breath of fresh air...", name: "Jordan J.", image: testimonial2 },
-    { quote: "Quick and painless HELOC", name: "Aastha S.", image: testimonial3 }
+    { quote: "MicroVault was a breath of fresh air...", name: "Jordan J.", image: testimonial2 },
+    { quote: "Quick and painless process", name: "Aastha S.", image: testimonial3 }
   ];
 
   return (
