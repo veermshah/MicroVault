@@ -4,6 +4,10 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
 import { IconButton, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { useTransaction } from "../components/transactions";
+import { useUser } from "./users";
+import { calculateCreditScore } from "./creditScore";
+import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -13,6 +17,29 @@ const DashboardHome = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isSearchActive, setIsSearchActive] = useState(false);
   const apiKey = 'CG-kHJ4b6EMW7NsVN869evqSDYM'; // Your API key
+
+  const { transactions } = useTransaction();
+  const { userAddress } = useUser();
+  const [userName, setUserName] = useState("");
+
+  const db = getFirestore();
+
+  useEffect(() => {
+    const fetchUserName = async () => {
+      if (userAddress) {
+        const userDocRef = doc(db, "users", userAddress);
+        const userDoc = await getDoc(userDocRef);
+        
+        if (userDoc.exists()) {
+          setUserName(userDoc.data().name);
+        } else {
+          console.log("No user found");
+        }
+      }
+    };
+
+    fetchUserName();
+  }, [userAddress, db]);
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -71,12 +98,8 @@ const DashboardHome = () => {
   useEffect(() => {
     const fetchTrendingCoins = async () => {
       try {
-        // Fetch market data for popular cryptocurrencies
         const response = await axios.get(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=10&page=1&sparkline=false&x_cg_demo_api_key=${apiKey}`);
-        
-        // Log the entire response to see its structure
         console.log("Trending Coins Response:", response.data);
-        
         setTrendingCoins(response.data);
       } catch (error) {
         console.error("Error fetching trending coins:", error);
@@ -86,18 +109,21 @@ const DashboardHome = () => {
     fetchTrendingCoins();
   }, [apiKey]);
 
-  // Function to format large numbers with suffixes
   const formatNumberWithSuffix = (num) => {
-    if (num >= 1e12) return `${(num / 1e12).toFixed(1)}T`; // Trillions
-    if (num >= 1e9) return `${(num / 1e9).toFixed(1)}B`; // Billions
-    if (num >= 1e6) return `${(num / 1e6).toFixed(1)}M`; // Millions
-    return num.toString(); // Return as string if less than a million
+    if (num >= 1e12) return `${(num / 1e12).toFixed(1)}T`;
+    if (num >= 1e9) return `${(num / 1e9).toFixed(1)}B`;
+    if (num >= 1e6) return `${(num / 1e6).toFixed(1)}M`;
+    return num.toString();
   };
 
+  // Calculate the credit score based on the user's transactions
+  const creditScore = calculateCreditScore(transactions);
+
+  // Update the chart data to reflect a score out of 500
   const cryptoMeterData = {
     datasets: [{
-      data: [75, 25], // Example data
-      backgroundColor: ['#45CAFF', '#FF1B6B'], // Updated colors for the donut chart
+      data: [creditScore > 500 ? 500 : creditScore, Math.max(0, 500 - creditScore)], // Ensure it doesn't go below zero
+      backgroundColor: ['#FF1B6B', '#45CAFF'], // Red for credit score, Blue for remaining
       circumference: 180,
       rotation: -90,
     }]
@@ -112,13 +138,12 @@ const DashboardHome = () => {
     }
   };
 
-  // Filtered coins based on search term
   const filteredCoins = trendingCoins.filter(coin =>
     coin.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 pt-6"> {/* Adjusted padding to match Lend */}
       <div className="flex h-[500px] gap-4">
         <div className="w-1/3 flex flex-col gap-4">
           <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px] flex flex-col items-center justify-center">
@@ -126,21 +151,27 @@ const DashboardHome = () => {
             <div className="h-40 flex items-center justify-center">
               <Doughnut data={cryptoMeterData} options={cryptoMeterOptions} />
             </div>
-            <p className="mt-2 text-center font-semibold" style={{
-              background: 'linear-gradient(90deg, #00FF87 0%, #60EFFF 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              display: 'inline-block'
+            <h3 style={{
+              textAlign: "center",
+              fontSize: "1rem", // Reduced to 2/3 of original size
+              marginBottom: "20px",
             }}>
-              Crypto Credit Score: 0.00
-            </p>
+              <span style={{
+                background: 'linear-gradient(90deg, #00FF87 0%, #60EFFF 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                display: 'inline-block',
+                fontWeight: 'bold'
+              }}>
+                Crypto Score: {creditScore.toFixed(2)}
+              </span>
+            </h3>
           </div>
-          
+         
           <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px]">
             <h2 className="text-lg font-semibold mb-2">Transaction History</h2>
             <ul>
-              {/* Example transactions with light gray background */}
               <li className="flex justify-between items-center" style={{ backgroundColor: '#F6F6F6', padding: '8px', borderRadius: '0.5rem', marginBottom: '0.5rem' }}>
                 <span className="text-sm">BTC</span>
                 <span className="flex-grow text-center text-gray-500 text-sm">05 June 2021</span>
@@ -158,14 +189,12 @@ const DashboardHome = () => {
               </li>
             </ul>
 
-            {/* See More Link */}
             <p className="mt-4 text-left text-gray-400 cursor-pointer text-xs">
               See more
             </p>
           </div>
         </div>
 
-        {/* Trading Widget with padding */}
         <div className="w-2/3 rounded-2xl border border-gray-300 overflow-hidden p-[10px]">
           <div className="tradingview-widget-container h-full" ref={container}>
             <div className="tradingview-widget-container__widget"></div>
@@ -174,11 +203,9 @@ const DashboardHome = () => {
         </div>
       </div>
 
-      {/* New Section for Tokens */}
       <div className="w-full bg-white rounded-2xl border border-gray-300 p-[10px] mt-4 mb-4">
         <h2 className="text-lg font-semibold mb-2 flex items-center">
           Tokens
-          {/* Search Icon and Input */}
           <IconButton onClick={() => setIsSearchActive(!isSearchActive)} style={{ paddingLeft: '8px' }}>
             <SearchIcon />
           </IconButton>
@@ -187,20 +214,18 @@ const DashboardHome = () => {
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ marginLeft: '8px', width: '200px' }} // Adjust width as necessary
+              style={{ marginLeft: '8px', width: '200px' }}
             />
           )}
         </h2>
 
-        {/* Table Header */}
         <table className="w-full table-auto">
           <thead>
             <tr style={{ backgroundColor: '#F6F6F6' }}>
               <th className="py-2 px-4 text-center">Token Name</th>
               <th className="py-2 px-4 text-center">Price</th>
-              {/* Removed the Hour Change Column */}
               <th className="py-2 px-4 text-center">1 Day</th>
-              <th className="py-2 px-4 text-center">FDV</th> {/* Fully Diluted Valuation */}
+              <th className="py-2 px-4 text-center">FDV</th>
               <th className="py-2 px-4 text-center">Volume</th>
             </tr>
           </thead>
@@ -208,39 +233,36 @@ const DashboardHome = () => {
             {filteredCoins.length > 0 ? (
               filteredCoins.map((coin) => (
                 <tr key={coin.id} className="">
-                  {/* Semi-bold styling for token name and price */}
-                  <td className="py-2 px-4 text-center font-semibold">{coin.name}</td>
+                  <td className="py-2 px-4 text-center font-semibold">
+                    <a 
+                      href={`https://www.coingecko.com/en/coins/${coin.id}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      style={{ color: '#11998E', textDecoration: 'none' }}
+                    >
+                      {coin.name}
+                    </a>
+                  </td>
                   {coin.current_price ? (
                     <>
-                      {/* Price */}
-                      <td className="py-2 px-4 text-center font-semibold">${coin.current_price.toFixed(2)}</td> 
-                      {/* Change in price over the last day */}
+                      <td className="py-2 px-4 text-center font-semibold">${coin.current_price.toFixed(2)}</td>
                       <td 
                         className={`py-2 px-4 text-center ${coin.price_change_percentage_24h > 0 ? 'text-green-500' : coin.price_change_percentage_24h < 0 ? 'text-red-500' : ''}`}>
                         {coin.price_change_percentage_24h ? `${coin.price_change_percentage_24h.toFixed(2)}%` : 'N/A'}
-                      </td> 
-                      {/* FDV and Volume formatting */}
-                      {/* Assuming you have fdv and total_volume available in your API response */}
-                      {/* If not available in the response, calculate or fetch accordingly */}
-                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.fdv || coin.market_cap)}</td> 
-                      {/* Assuming total_volume is available */}
-                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.total_volume)}</td> 
+                      </td>
+                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.fdv || coin.market_cap)}</td>
+                      <td className="py-2 px-4 text-center font-semibold">{formatNumberWithSuffix(coin.total_volume)}</td>
                     </>
                   ) : (
-                    <>
-                      {/* Handle case where price isn't available */}
-                      <td colSpan={5} className="py-2 px-4">Price not available</td> 
-                    </>
+                    <td colSpan={5} className="py-2 px-4">Price not available</td>
                   )}
                 </tr>
               ))
             ) : (
-              // Loading state while fetching data
-              <tr><td colSpan={5} className="py-2 px-4 text-center">Loading...</td></tr> 
+              <tr><td colSpan={5} className="py-2 px-4 text-center">Loading...</td></tr>
             )}
           </tbody>
         </table>
-
       </div>
 
     </div>
