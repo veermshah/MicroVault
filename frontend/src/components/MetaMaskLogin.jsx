@@ -128,9 +128,12 @@ const MetaMaskLogin = () => {
 
   const fetchTransactionHistory = async (address) => {
     try {
+      const currentChainId = await window.ethereum.request({
+        method: "eth_chainId",
+      });
       // Determine which network the user is connected to
       const apiUrl =
-        chainId === 11155111
+        currentChainId === "0xaa36a7"
           ? `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}` // Sepolia API
           : `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`; // Ethereum Mainnet API
 
