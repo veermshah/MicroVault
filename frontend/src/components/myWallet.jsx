@@ -37,11 +37,11 @@ const MyWallet = () => {
   // Function to update the style of the score flag
   const getFlagStyle = (score) => {
     let color = "#f44336"; // Default to red
-    if (score >= 200 && score < 400) {
+    if (score >= 2 && score < 4) {
       color = "#ff9800"; // Orange
-    } else if (score >= 400 && score < 600) {
+    } else if (score >= 4 && score < 6) {
       color = "#2196f3"; // Blue
-    } else if (score >= 600) {
+    } else if (score >= 6) {
       color = "#4caf50"; // Green
     }
     return {
