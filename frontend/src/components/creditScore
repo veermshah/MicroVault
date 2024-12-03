@@ -37,7 +37,7 @@ export const calculateCreditScore = (transactions) => {
   const MAX_SCORE = MAX_TRANSACTIONS * TRANSACTION_WEIGHT + Math.log(MAX_VALUE + 1) * VALUE_WEIGHT + MAX_RECIPIENTS * DIVERSITY_WEIGHT;
 
   // Normalize the score to the range
-  const normalizedScore = Math.max(0, Math.min(((score - MIN_SCORE) / (MAX_SCORE - MIN_SCORE)) * 1000, 500));
+  const normalizedScore = Math.max(0, Math.min(((score - MIN_SCORE) / (MAX_SCORE - MIN_SCORE)) * 1000, 10));
 
   return normalizedScore;
 };
