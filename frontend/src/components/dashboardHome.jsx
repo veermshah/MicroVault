@@ -122,7 +122,7 @@ const DashboardHome = () => {
   // Update the chart data to reflect a score out of 500
   const cryptoMeterData = {
     datasets: [{
-      data: [creditScore > 500 ? 500 : creditScore, Math.max(0, 500 - creditScore)], // Ensure it doesn't go below zero
+      data: [creditScore > 10 ? 10 : creditScore, Math.max(0, 10 - creditScore)], // Ensure it doesn't go below zero
       backgroundColor: ['#FF1B6B', '#45CAFF'], // Red for credit score, Blue for remaining
       circumference: 180,
       rotation: -90,
