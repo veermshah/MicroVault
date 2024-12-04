@@ -101,15 +101,16 @@ const MyWallet = () => {
                 <li
                   key={index}
                   style={{
-                    backgroundColor: "#E5F2E5",
-                    borderRadius: "12px",
+                    backgroundColor: "#E5F2E5", // Faint green background retained
+                    borderRadius: "16px", // Match card's border-radius
                     padding: "20px",
                     marginBottom: "15px",
                     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    transition: "transform 0.3s, box-shadow 0.3s",
+                    transition: "transform 0.2s ease-in-out", // Slightly less hover effect
+                    border: "1px solid #48BF84", // Green border
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
+                    (e.currentTarget.style.transform = "scale(1.01)") // Subtle hover effect
                   }
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.transform = "scale(1)")
@@ -147,7 +148,6 @@ const MyWallet = () => {
                     >
                       {tx.to}
                     </a>
-
                   </p>
                   <p style={{ fontSize: "1rem", margin: "5px 0" }}>
                     <strong>Value:</strong> {formattedValue} ETH
@@ -169,7 +169,7 @@ const MyWallet = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      backgroundColor: "#4caf50",
+                      backgroundColor: "#48BF84", // Updated to green color
                       border: "none",
                       color: "white",
                       padding: "10px 20px",
@@ -177,21 +177,21 @@ const MyWallet = () => {
                       textDecoration: "none",
                       display: "inline-block",
                       fontSize: "16px",
-                      margin: "10px 0",
+                      marginTop: '10px', // Added top margin for spacing
                       cursor: "pointer",
                       borderRadius: "30px",
                       transition:
-                        "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+                        "background-color 0.3s, transform 0.2s ease-in-out", // Adjusted transition for button hover
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = "#45a049"; // Darker green when hovered
-                      e.target.style.transform = "scale(1.05)"; // Slightly enlarges the button
-                      e.target.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)"; // Adds a subtle shadow
+                      e.target.style.backgroundColor = "#3da36f"; // Darker green when hovered
+                      e.target.style.transform = 'scale(1.02)'; // Slightly enlarges the button on hover
+                      e.target.style.boxShadow = '0 8px 16px rgba(0, 0, 0, 0.2)'; // Adds a subtle shadow on hover
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = "#4caf50"; // Reset to the original color
-                      e.target.style.transform = "scale(1)"; // Reset the size
-                      e.target.style.boxShadow = "none"; // Remove the shadow
+                      e.target.style.backgroundColor = "#48BF84"; // Reset to the original color
+                      e.target.style.transform = 'scale(1)'; // Reset the size
+                      e.target.style.boxShadow = 'none'; // Remove the shadow on mouse leave
                     }}
                   >
                     <strong>View Transaction</strong>
