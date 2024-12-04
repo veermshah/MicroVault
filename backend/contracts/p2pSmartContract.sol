@@ -5,25 +5,31 @@ contract p2pSmartContract {
     // State variables
     address public owner;
     uint256 public minimumPoolBalance;
-    uint256 public platformFee;
+    uint256 public platformFee; // in percentage (e.g., 1 means 1%)
     uint256 public baseInterestRate;
     uint256 public utilizationRateMultiplier;
     uint256 public maxUtilizationRate;
-    address public priceOracleAddress;
 
     uint256 public loanCounter;
     uint256 public liquidityBuffer;
+    bool private _entered;
+
+    // Collateral adequacy threshold (manual instead of Oracle)
+    uint256 public collateralAdequacyThreshold = 150; // Collateral must be 150% of principal
+
+    // Midpoint repayment threshold (in percentage of total repayment)
+    uint256 public midpointRepaymentThreshold = 50; // e.g., 50% of total repayment by midpoint
 
     // Structures
     struct Loan {
         address borrower;
         address lender;
         uint256 principal;
-        uint256 interest; // Interest in percentage (e.g., 5 means 5%)
-        uint256 duration; // in seconds
+        uint256 interest;
+        uint256 duration;
         uint256 startTime;
         uint256 repaidAmount;
-        uint256 collateral; // Optional collateral value (in Wei)
+        uint256 collateral;
         bool isActive;
     }
 
@@ -46,7 +52,6 @@ contract p2pSmartContract {
     }
 
     modifier nonReentrant() {
-        bool _entered = false;
         require(!_entered, "Reentrancy detected");
         _entered = true;
         _;
@@ -59,8 +64,7 @@ contract p2pSmartContract {
         uint256 _platformFee,
         uint256 _baseInterestRate,
         uint256 _utilizationRateMultiplier,
-        uint256 _maxUtilizationRate,
-        address _priceOracleAddress
+        uint256 _maxUtilizationRate
     ) {
         owner = msg.sender;
         minimumPoolBalance = _minimumPoolBalance;
@@ -68,7 +72,6 @@ contract p2pSmartContract {
         baseInterestRate = _baseInterestRate;
         utilizationRateMultiplier = _utilizationRateMultiplier;
         maxUtilizationRate = _maxUtilizationRate;
-        priceOracleAddress = _priceOracleAddress;
     }
 
     // Request a loan
@@ -78,7 +81,8 @@ contract p2pSmartContract {
         uint256 duration,
         uint256 collateral
     ) external payable {
-        require(msg.value == collateral, "Collateral amount must be provided");
+        require(msg.value == collateral, "Collateral amount must match sent value");
+        require(collateral >= (principal * collateralAdequacyThreshold) / 100, "Collateral insufficient");
 
         loanCounter++;
 
@@ -94,7 +98,7 @@ contract p2pSmartContract {
             isActive: false
         });
 
-        liquidityBuffer += principal;
+        liquidityBuffer += (principal + collateral);
 
         emit LoanRequested(loanCounter, msg.sender, principal, duration);
     }
@@ -105,13 +109,16 @@ contract p2pSmartContract {
         require(!loan.isActive, "Loan is already funded");
         require(msg.value == loan.principal, "Must provide the exact principal amount");
 
+        uint256 fee = (loan.principal * platformFee) / 100;
+        uint256 amountAfterFee = loan.principal - fee;
+
         loan.lender = msg.sender;
         loan.startTime = block.timestamp;
         loan.isActive = true;
 
-        // Remove the principal from the liquidity buffer and transfer it to the borrower
         liquidityBuffer -= loan.principal;
-        payable(loan.borrower).transfer(loan.principal);
+        payable(owner).transfer(fee); // Transfer platform fee to owner
+        payable(loan.borrower).transfer(amountAfterFee);
 
         emit LoanFunded(loanId, msg.sender, loan.principal);
     }
@@ -123,19 +130,18 @@ contract p2pSmartContract {
 
         loan.repaidAmount += msg.value;
 
-        // Calculate the total repayment (principal + interest)
         uint256 totalRepayment = calculateTotalRepayment(loanId);
 
         if (loan.repaidAmount >= totalRepayment) {
             loan.isActive = false;
 
-            // Return collateral to borrower if repaid fully
+            liquidityBuffer += loan.principal;
+
             if (loan.collateral > 0) {
                 payable(loan.borrower).transfer(loan.collateral);
                 emit CollateralReturned(loanId, loan.borrower, loan.collateral);
             }
 
-            // Transfer repayments to lender
             uint256 repayment = loan.repaidAmount;
             loan.repaidAmount = 0;
             payable(loan.lender).transfer(repayment);
@@ -144,19 +150,20 @@ contract p2pSmartContract {
         emit LoanRepaid(loanId, loan.borrower, msg.value);
     }
 
-    // Midpoint check
+    // Midpoint check with custom threshold
     function checkMidpoint(uint256 loanId) public {
         Loan storage loan = loans[loanId];
         require(loan.isActive, "Loan is not active");
         require(block.timestamp >= loan.startTime + (loan.duration / 2), "Not yet midpoint");
 
-        uint256 expectedRepayment = (loan.principal + (loan.principal * loan.interest) / 100) / 2;
+        uint256 totalRepayment = calculateTotalRepayment(loanId);
+        uint256 expectedRepayment = (totalRepayment * midpointRepaymentThreshold) / 100;
 
         if (loan.repaidAmount < expectedRepayment) {
             // Loan defaults
             loan.isActive = false;
 
-            // Return collateral to lender
+            // Transfer collateral to lender as compensation
             if (loan.collateral > 0) {
                 payable(loan.lender).transfer(loan.collateral);
             }
@@ -178,7 +185,7 @@ contract p2pSmartContract {
     event LoanRequested(uint256 loanId, address borrower, uint256 principal, uint256 duration);
     event LoanFunded(uint256 loanId, address lender, uint256 amount);
     event LoanRepaid(uint256 loanId, address borrower, uint256 amount);
-    event LoanOnTrack(uint256 loanId, address borrower, address lender);
-    event LoanDefaulted(uint256 loanId, address borrower, address lender);
     event CollateralReturned(uint256 loanId, address borrower, uint256 amount);
+    event LoanDefaulted(uint256 loanId, address borrower, address lender);
+    event LoanOnTrack(uint256 loanId, address borrower, address lender);
 }

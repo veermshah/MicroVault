@@ -4,9 +4,10 @@ const { Network, Alchemy } = require("alchemy-sdk");
 
 // Alchemy API key and settings
 const settings = {
-  apiKey: process.env.ALCHEMY_API_KEY, // Use environment variable
-  network: Network.ETH_SEPOLIA,
+  apiKey: "6lOvj3XHC8OLSYy_utBcIqbE5deOv3_R", // Replace with your Alchemy API Key.
+  network: Network.ETH_SEPOLIA, // Replace with your network.
 };
+
 const alchemy = new Alchemy(settings);
 
 // Fetch and log block information
@@ -23,14 +24,15 @@ async function main() {
   // Get the deployer's account from Hardhat
   const [deployer] = await ethers.getSigners();
   console.log("Deploying contracts with the account:", deployer.address);
+  console.log("Account balance:", (await deployer.getBalance()).toString());
 
-  // Define contract parameters (replace with actual values)
-  const minimumPoolBalance = 1000; // Example value
-  const platformFee = 5; // Example value
-  const baseInterestRate = 10; // Example value
-  const utilizationRateMultiplier = 2; // Example value
-  const maxUtilizationRate = 90; // Example value
-  const priceOracleAddress = "0xbEab5c76EBF8C2597D03575F636C2E4218328cEF"; // Replace with the actual address
+  // Define contract parameters (customize these values as needed)
+  const minimumPoolBalance = ethers.utils.parseEther("10"); // Minimum pool balance in ETH
+  const platformFee = 2; // Platform fee percentage (e.g., 2%)
+  const baseInterestRate = 5; // Base interest rate percentage (e.g., 5%)
+  const utilizationRateMultiplier = 1; // Multiplier for utilization rate
+  const maxUtilizationRate = 80; // Maximum utilization rate percentage
+  const priceOracleAddress = ethers.constants.AddressZero; // No oracle used, set to zero address
 
   // Deploy the contract with constructor arguments
   const P2PSmartContractFactory = await ethers.getContractFactory("p2pSmartContract");
@@ -39,18 +41,19 @@ async function main() {
     platformFee,
     baseInterestRate,
     utilizationRateMultiplier,
-    maxUtilizationRate,
-    priceOracleAddress
+    maxUtilizationRate
   );
 
   await p2pSmartContract.deployed();
   console.log("p2pSmartContract deployed to:", p2pSmartContract.address);
+
+  // Optionally verify the deployment or interact with the contract
 }
 
 // Run the deployment script
 main()
   .then(() => process.exit(0))
   .catch((error) => {
-    console.error(error);
+    console.error("Error deploying contract:", error);
     process.exit(1);
   });

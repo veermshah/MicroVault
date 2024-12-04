@@ -3,8 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useSDK } from "@metamask/sdk-react";
 import { db } from "../../../firebase"; // Adjust the path accordingly
 import { collection, doc, setDoc } from "firebase/firestore";
-import { ethers } from "ethers";
-import { formatEther } from "ethers";
+import { ethers } from "ethers"; // Fixed import
 import { useTransaction } from "./transactions";
 import { useNavigate, Link } from "react-router-dom";
 import { useUser } from "./users"; // v6.x.x version
@@ -27,10 +26,8 @@ const MetaMaskLogin = () => {
   const { transactions, setTransactions } = useTransaction();
 
   useEffect(() => {
-    // Check if user is already logged in from localStorage
     const storedUserAddress = localStorage.getItem("userAddress");
     if (storedUserAddress) {
-      // If address exists, fetch and set the user's details
       const storedName = localStorage.getItem("userName");
       const storedEmail = localStorage.getItem("userEmail");
       const storedBalance = localStorage.getItem("userBalance");
@@ -48,7 +45,6 @@ const MetaMaskLogin = () => {
     console.log("Connect Wallet button clicked");
     if (window.ethereum) {
       try {
-        // Getting the account address
         const account = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
@@ -58,16 +54,16 @@ const MetaMaskLogin = () => {
         setStatus(`Connected account: ${account[0]}`);
         localStorage.setItem("userAddress", account[0]);
 
-        // Getting the account balance
         const balance = await window.ethereum.request({
           method: "eth_getBalance",
           params: [String(account[0]), "latest"],
         });
-        const formattedBalance = formatEther(balance);
+
+        // Fixed formatEther usage
+        const formattedBalance = ethers.utils.formatEther(balance);
         setUserBalance(formattedBalance);
         localStorage.setItem("userBalance", formattedBalance);
 
-        // Fetch transaction history after connecting
         fetchTransactionHistory(account[0]);
       } catch (error) {
         console.error("Error connecting to MetaMask: ", error);
@@ -93,7 +89,6 @@ const MetaMaskLogin = () => {
         balance: userBalance,
       });
 
-      // Save user details to localStorage for persistent login
       localStorage.setItem("userName", name);
       localStorage.setItem("userEmail", email);
 
@@ -106,36 +101,15 @@ const MetaMaskLogin = () => {
     }
   };
 
-  // const fetchTransactionHistory = async (address) => {
-  //   try {
-  //     const response = await fetch(
-  //       `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
-  //     );
-  //     const data = await response.json();
-
-  //     if (data.status === "1") {
-  //       const transactions = data.result;
-  //       setTransactions(transactions);
-  //       console.log("Transactions:", transactions);
-  //     } else {
-  //       console.error("Etherscan API returned an error:", data.message);
-  //       setStatus(`Error fetching transaction history: ${data.message}`);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching transaction history", error);
-  //   }
-  // };
-
   const fetchTransactionHistory = async (address) => {
     try {
       const currentChainId = await window.ethereum.request({
         method: "eth_chainId",
       });
-      // Determine which network the user is connected to
       const apiUrl =
         currentChainId === "0xaa36a7"
-          ? `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}` // Sepolia API
-          : `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`; // Ethereum Mainnet API
+          ? `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
+          : `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`;
 
       const response = await fetch(apiUrl);
       const data = await response.json();
@@ -153,29 +127,24 @@ const MetaMaskLogin = () => {
     }
   };
 
-
   const logOut = () => {
-    // Clear localStorage and reset state
     localStorage.removeItem("userAddress");
     localStorage.removeItem("userName");
     localStorage.removeItem("userEmail");
     localStorage.removeItem("userBalance");
 
-    // Clear transactions state
     setTransactions([]);
-
     setUserAddresss("");
     setName("");
     setEmail("");
     setUserBalance(null);
     setStatus("Logged out successfully");
     setIsUserSaved(false);
-    navigate("/"); // Redirect to the home page
+    navigate("/");
   };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-gray-100">
-      {/* Left Side with animated gradient */}
       <div className="md:w-1/2 flex flex-col p-8 animated-gradient relative">
         <div className="flex items-center justify-center h-full">
           <h1 className="text-4xl font-bold text-white text-center">
@@ -191,16 +160,13 @@ const MetaMaskLogin = () => {
         </Link>
       </div>
 
-      {/* Right Side */}
       <div className="md:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
         <h2 className="text-3xl font-bold text-center mb-6">
           {defaultAccount ? "You're Connected" : "LOG IN"}
         </h2>
         <div className="w-full max-w-md">
-          {/* Show the login form or details depending on whether the user is connected */}
           {!defaultAccount ? (
             <>
-              {/* Connect Wallet Button */}
               <button
                 className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
                 onClick={connectWallet}
@@ -219,7 +185,6 @@ const MetaMaskLogin = () => {
 
                 {status && <p className="mb-4">{status}</p>}
 
-                {/* Name and Email Inputs */}
                 <input
                   type="text"
                   placeholder="Enter your name"
