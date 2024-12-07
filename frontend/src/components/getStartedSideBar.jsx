@@ -18,14 +18,15 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
       size: 'text-xl',
       items: [
         { name: 'Liquidity Pool', id: 'liquidityPool' },
-        { name: 'Reserve', id: 'reserve' }
+        { name: 'Smart Contracts', id: 'smartContracts' } // Added Smart Contracts
       ]
     },
     {
       title: 'Resources',
       size: 'text-xl',
       items: [
-        { name: 'FAQ', id: 'faq' }
+        { name: 'Source Code', id: 'sourceCode', link: "https://github.com/veermshah/MicroVault" }, // Added source code link
+        { name: 'FAQ', id: 'faq' } // Added FAQ back to resources
       ]
     }
   ];
@@ -38,41 +39,68 @@ const GetStartedSidebar = ({ activeSection, setActiveSection }) => {
           <ul>
             {section.items.map((item) => (
               <li key={item.id} className="mb-2">
-                <button
-                  onClick={() => {
-                    if (item.hasSubItems) {
-                      setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown
-                    } else {
-                      setActiveSection(item.id); // Set active section for non-dropdown items
-                    }
-                  }}
-                  className={`text-base ${
-                    activeSection === item.id ? 'text-gray-900 font-semibold' : 'text-gray-600'
-                  } hover:text-gray-900`}
-                >
-                  {item.name}
-                </button>
+                {item.link ? (
+                  <a
+                    href={item.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`text-base ${
+                      activeSection === item.id ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                    } hover:text-gray-900`}
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    onClick={() => {
+                      if (item.hasSubItems) {
+                        setIsConceptsOpen(!isConceptsOpen); // Toggle dropdown
+                        if (activeSection !== item.id) {
+                          setActiveSection(item.id); // Set active section for Concepts
+                        }
+                      } else {
+                        setActiveSection(item.id); // Set active section for non-dropdown items
+                      }
+                    }}
+                    className={`text-base ${
+                      activeSection === item.id ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                    } hover:text-gray-900`}
+                  >
+                    {item.name}
+                  </button>
+                )}
                 {/* Render sub-items if this is the Concepts section and it's open */}
                 {item.hasSubItems && isConceptsOpen && (
                   <ul className="ml-4 mt-2">
                     <li className="mb-1">
                       <button
-                        onClick={() => setActiveSection('flashLoans')} // Set active section to flashLoans
+                        onClick={() => setActiveSection('lend')} // Set active section to lend
                         className={`text-sm ${
-                          activeSection === 'flashLoans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                          activeSection === 'lend' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}
                       >
-                        Flash Loans
+                        Lend
                       </button>
                     </li>
                     <li>
                       <button
-                        onClick={() => setActiveSection('standardMicroloans')} // Set active section to standardMicroloans
+                        onClick={() => setActiveSection('borrow')} // Set active section to borrow
                         className={`text-sm ${
-                          activeSection === 'standardMicroloans' ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                          activeSection === 'borrow' ? 'text-gray-900 font-semibold' : 'text-gray-600'
                         } hover:text-gray-900`}
                       >
-                        Standard Microloans
+                        Borrow
+                      </button>
+                    </li>
+                    {/* Add Crypto Meter as another sub-item */}
+                    <li>
+                      <button
+                        onClick={() => setActiveSection('cryptoMeter')} // Set active section to cryptoMeter
+                        className={`text-sm ${
+                          activeSection === 'cryptoMeter' ? 'text-gray-900 font-semibold' : 'text-gray-600'
+                        } hover:text-gray-900`}
+                      >
+                        Crypto Meter
                       </button>
                     </li>
                   </ul>

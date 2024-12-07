@@ -11,7 +11,7 @@ import { getFirestore, doc, getDoc } from "firebase/firestore";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const DashboardHome = () => {
+const DashboardHome = ({ setActiveComponent }) => {
   const container = useRef();
   const [trendingCoins, setTrendingCoins] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -143,7 +143,7 @@ const DashboardHome = () => {
   );
 
   return (
-    <div className="flex flex-col gap-4 pt-6"> {/* Adjusted padding to match Lend */}
+    <div className="flex flex-col gap-4 pt-6">
       <div className="flex h-[500px] gap-4">
         <div className="w-1/3 flex flex-col gap-4">
           <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px] flex flex-col items-center justify-center">
@@ -153,7 +153,7 @@ const DashboardHome = () => {
             </div>
             <h3 style={{
               textAlign: "center",
-              fontSize: "1rem", // Reduced to 2/3 of original size
+              fontSize: "1rem",
               marginBottom: "20px",
             }}>
               <span style={{
@@ -177,6 +177,7 @@ const DashboardHome = () => {
                 <span className="flex-grow text-center text-gray-500 text-sm">05 June 2021</span>
                 <span className="text-sm">$20,000</span>
               </li>
+
               <li className="flex justify-between items-center" style={{ backgroundColor: '#F6F6F6', padding: '8px', borderRadius: '0.5rem', marginBottom: '0.5rem' }}>
                 <span className="text-sm">ETH</span>
                 <span className="flex-grow text-center text-gray-500 text-sm">20 June 2021</span>
@@ -189,7 +190,10 @@ const DashboardHome = () => {
               </li>
             </ul>
 
-            <p className="mt-4 text-left text-gray-400 cursor-pointer text-xs">
+            <p 
+              className="mt-4 text-left text-gray-400 cursor-pointer text-xs"
+              onClick={() => setActiveComponent('myWallet')}
+            >
               See more
             </p>
           </div>
@@ -264,7 +268,6 @@ const DashboardHome = () => {
           </tbody>
         </table>
       </div>
-
     </div>
   );
 };
