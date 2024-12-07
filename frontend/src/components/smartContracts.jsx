@@ -3,12 +3,14 @@ import React from 'react';
 
 const SmartContracts = () => {
   return (
-    <div className="flex-1 p-[10px] flex flex-col items-start justify-start">
-      <h1 className="text-2xl font-bold">Smart Contracts Concept</h1>
-      <p>Smart contracts are self-executing contracts with the terms of the agreement directly written into code.</p>
+    <div className="max-w mx-auto w-full px-0">
+      <h2 className="text-2xl font-semibold mb-4">Smart Contracts Concept</h2>
+      <p className="text-base text-gray-700 mb-6">
+        Smart contracts are self-executing contracts with the terms of the agreement directly written into code.
+      </p>
 
-      <h2 className="text-xl font-semibold mt-4">Key Features:</h2>
-      <div className="bg-gray-100 p-4 rounded-md w-full mb-4"> {/* Extend to full width */}
+      <h3 className="text-xl font-semibold mb-2">Key Features:</h3>
+      <div className="bg-[#48BF84]/10 p-4 rounded-2xl border border-[#48BF84] mb-6">
         <ul className="list-disc ml-6">
           <li>Automation of processes without intermediaries.</li>
           <li>Trust and transparency through decentralized execution.</li>
@@ -17,11 +19,10 @@ const SmartContracts = () => {
         </ul>
       </div>
 
-      <h2 className="text-xl font-semibold mt-4">Example of a Simple Smart Contract:</h2>
-      <div className="bg-gray-100 p-4 rounded-md w-full mb-4"> {/* Extend to full width */}
-        <pre className="overflow-x-auto">
-          {`
-pragma solidity ^0.8.0;
+      <h3 className="text-xl font-semibold mb-2">Example of a Simple Smart Contract:</h3>
+      <div className="bg-gray-100 p-4 rounded-md w-full mb-6">
+        <pre className="overflow-x-auto text-sm">
+          {`pragma solidity ^0.8.0;
 
 contract SimpleStorage {
     uint256 storedData;
@@ -33,11 +34,9 @@ contract SimpleStorage {
     function get() public view returns (uint256) {
         return storedData;
     }
-}
-`}
+}`}
         </pre>
       </div>
-
     </div>
   );
 };
