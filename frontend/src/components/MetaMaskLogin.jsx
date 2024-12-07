@@ -106,26 +106,6 @@ const MetaMaskLogin = () => {
         }
     };
 
-    // const fetchTransactionHistory = async (address) => {
-    //   try {
-    //     const response = await fetch(
-    //       `https://api-sepolia.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=asc&apikey=${apikey}`
-    //     );
-    //     const data = await response.json();
-
-    //     if (data.status === "1") {
-    //       const transactions = data.result;
-    //       setTransactions(transactions);
-    //       console.log("Transactions:", transactions);
-    //     } else {
-    //       console.error("Etherscan API returned an error:", data.message);
-    //       setStatus(`Error fetching transaction history: ${data.message}`);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching transaction history", error);
-    //   }
-    // };
-
     const fetchTransactionHistory = async (address) => {
         try {
             const currentChainId = await window.ethereum.request({
@@ -146,9 +126,7 @@ const MetaMaskLogin = () => {
                 console.log("Transactions:", transactions);
             } else {
                 console.error("Etherscan API returned an error:", data.message);
-                setStatus(
-                    `Error fetching transaction history: ${data.message}`
-                );
+                setStatus(`Error fetching transaction history: ${data.message}`);
             }
         } catch (error) {
             console.error("Error fetching transaction history", error);
@@ -194,71 +172,72 @@ const MetaMaskLogin = () => {
 
             {/* Right Side */}
             <div className="md:w-1/2 flex flex-col items-center justify-center p-8 bg-white">
-                <h2 className="text-3xl font-bold text-center mb-6">
-                    {defaultAccount ? "You're Connected" : "LOG IN"}
-                </h2>
                 <div className="w-full max-w-md">
-                    {/* Show the login form or details depending on whether the user is connected */}
                     {!defaultAccount ? (
-                        <>
-                            {/* Connect Wallet Button */}
+                        <div className="bg-white border border-gray-300 rounded-2xl px-8 pt-6 pb-0 mb-4"> {/* Changed pb to 0 */}
+                            <h2 className="text-3xl font-bold text-center mb-6">
+                                LOG IN
+                            </h2>
+                            
                             <button
                                 className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4 transition duration-300"
                                 onClick={connectWallet}
                             >
                                 Connect Wallet
                             </button>
+                            
                             {errorMessage && (
-                                <p className="text-red-500 mb-4">
+                                <p className="text-red-500 text-center mb-0"> {/* Set margin-bottom to 0 */}
                                     {errorMessage}
                                 </p>
                             )}
-                        </>
+                        </div>
                     ) : (
-                        <>
-                            <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-                                <h3 className="mb-2">
-                                    Address: {defaultAccount}
-                                </h3>
-                                <h3 className="mb-4">
-                                    Balance: $ {userBalance}
-                                </h3>
+                        <div className="bg-white border border-gray-300 rounded-2xl px-8 pt-6 pb-8 mb-4">
+                            <h2 className="text-3xl font-bold text-center mb-6">
+                                You're Connected
+                            </h2>
+                            
+                            <h3 className="mb-2">
+                                Address: {defaultAccount}
+                            </h3>
+                            <h3 className="mb-4">
+                                Balance: $ {userBalance}
+                            </h3>
 
-                                {status && <p className="mb-4">{status}</p>}
+                            {status && <p className="mb-4">{status}</p>}
 
-                                {/* Name and Email Inputs */}
-                                <input
-                                    type="text"
-                                    placeholder="Enter your name"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 leading-tight"
-                                />
-                                <input
-                                    type="email"
-                                    placeholder="Enter your email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 leading-tight"
-                                />
+                            <input
+                                type="text"
+                                placeholder="Enter your name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                className="border border-gray-300 rounded-2xl w-full py-2 px-3 mb-4 leading-tight"
+                            />
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="border border-gray-300 rounded-2xl w-full py-2 px-3 mb-4 leading-tight"
+                            />
 
-                                {!isUserSaved && (
-                                    <button
-                                        onClick={saveUserDetails}
-                                        className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4"
-                                    >
-                                        Submit Details
-                                    </button>
-                                )}
-
+                            {!isUserSaved && (
                                 <button
-                                    onClick={logOut}
-                                    className="w-full bg-[#e74c3c] text-white font-bold py-2 px-4 rounded-2xl mt-4"
+                                    onClick={saveUserDetails}
+                                    className="w-full bg-[#38ef7d] text-black font-bold py-2 px-4 rounded-2xl mb-4"
                                 >
-                                    Log Out
+                                    Submit Details
                                 </button>
-                            </div>
-                        </>
+                            )}
+
+                            <button
+                                onClick={logOut}
+                                className="w-full bg-[#e74c3c] text-white font-bold py-2 px-4 rounded-2xl mt-4"
+                            >
+                                Log Out
+                            </button>
+                        </div>
                     )}
                 </div>
             </div>
