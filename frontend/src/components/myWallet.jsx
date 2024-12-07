@@ -105,7 +105,7 @@ const MyWallet = () => {
                     borderRadius: "12px",
                     padding: "20px",
                     marginBottom: "15px",
-                    border: "1px solid #B0BEC5", // Slightly darker gray border
+                    border: "1px solid #D1D5DB", // Tailwind's gray-300 equivalent
                     transition: "transform 0.2s", // Adjusted transition duration for subtle effect
                   }}
                   onMouseEnter={(e) =>
