@@ -101,21 +101,21 @@ const MyWallet = () => {
                 <li
                   key={index}
                   style={{
-                    backgroundColor: "#E5F2E5",
+                    backgroundColor: "#F5F5F5", // Light gray background
                     borderRadius: "12px",
                     padding: "20px",
                     marginBottom: "15px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    transition: "transform 0.3s, box-shadow 0.3s",
+                    border: "1px solid #B0BEC5", // Slightly darker gray border
+                    transition: "transform 0.2s", // Adjusted transition duration for subtle effect
                   }}
                   onMouseEnter={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
+                    (e.currentTarget.style.transform = "scale(1.02)") // Subtle scale effect
                   }
                   onMouseLeave={(e) =>
                     (e.currentTarget.style.transform = "scale(1)")
                   }
                 >
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>Transaction Hash:</strong>{" "}
                     <a
                       href={`https://sepolia.etherscan.io/tx/${tx.hash}`}
@@ -126,7 +126,7 @@ const MyWallet = () => {
                       {tx.hash}
                     </a>
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>From:</strong>{" "}
                     <a
                       href={`https://sepolia.etherscan.io/address/${tx.from}`}
@@ -137,7 +137,7 @@ const MyWallet = () => {
                       {tx.from}
                     </a>
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>To:</strong>{" "}
                     <a
                       href={`https://sepolia.etherscan.io/address/${tx.to}`}
@@ -147,19 +147,18 @@ const MyWallet = () => {
                     >
                       {tx.to}
                     </a>
-
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>Value:</strong> {formattedValue} ETH
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>Block Number:</strong> {tx.blockNumber}
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>Timestamp:</strong>{" "}
                     {new Date(tx.timeStamp * 1000).toLocaleString()}
                   </p>
-                  <p style={{ fontSize: "1rem", margin: "5px 0" }}>
+                  <p style={{ fontSize: "1rem", margin: "5px 0", color: "#333" }}>
                     <strong>Status:</strong>{" "}
                     {isRecieved ? "Received" : isSent ? "Sent" : "Unknown"}
                   </p>
@@ -177,21 +176,18 @@ const MyWallet = () => {
                       textDecoration: "none",
                       display: "inline-block",
                       fontSize: "16px",
-                      margin: "10px 0",
-                      cursor: "pointer",
-                      borderRadius: "30px",
-                      transition:
-                        "background-color 0.3s, transform 0.3s, box-shadow 0.3s",
+                      marginTop:"10px", 
+                      cursor:"pointer", 
+                      borderRadius:"30px", 
+                      transition:"background-color .3s, transform .3s"
                     }}
                     onMouseEnter={(e) => {
                       e.target.style.backgroundColor = "#45a049"; // Darker green when hovered
-                      e.target.style.transform = "scale(1.05)"; // Slightly enlarges the button
-                      e.target.style.boxShadow = "0 8px 16px rgba(0, 0, 0, 0.2)"; // Adds a subtle shadow
+                      e.target.style.transform = 'scale(1.05)'; // Slightly enlarges the button
                     }}
                     onMouseLeave={(e) => {
                       e.target.style.backgroundColor = "#4caf50"; // Reset to the original color
-                      e.target.style.transform = "scale(1)"; // Reset the size
-                      e.target.style.boxShadow = "none"; // Remove the shadow
+                      e.target.style.transform = 'scale(1)'; // Reset the size
                     }}
                   >
                     <strong>View Transaction</strong>
@@ -201,9 +197,7 @@ const MyWallet = () => {
             })}
           </ul>
         ) : (
-          <p style={{ textAlign: "center", color: "#888", fontSize: "1rem" }}>
-            No transactions found.
-          </p>
+          <p style={{ textAlign:'center', color:'#888', fontSize:'1rem' }}>No transactions found.</p>
         )}
       </div>
     </div>
