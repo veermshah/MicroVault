@@ -105,7 +105,7 @@ const MyWallet = () => {
                     borderRadius: "12px",
                     padding: "20px",
                     marginBottom: "15px",
-                    border: "1px solid #D1D5DB", // Tailwind's gray-300 equivalent
+                    border: "1px solid #B0BEC5", // Slightly darker gray border
                     transition: "transform 0.2s", // Adjusted transition duration for subtle effect
                   }}
                   onMouseEnter={(e) =>
@@ -168,7 +168,7 @@ const MyWallet = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
-                      backgroundColor: "#4caf50",
+                      backgroundColor: "#48BF84", // Original green color for the button
                       border: "none",
                       color: "white",
                       padding: "10px 20px",
@@ -179,15 +179,13 @@ const MyWallet = () => {
                       marginTop:"10px", 
                       cursor:"pointer", 
                       borderRadius:"30px", 
-                      transition:"background-color .3s, transform .3s"
+                      transition:"background-color .3s" // Keep transition for background change only
                     }}
                     onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = "#45a049"; // Darker green when hovered
-                      e.target.style.transform = 'scale(1.05)'; // Slightly enlarges the button
+                      e.target.style.backgroundColor = "#3DAF70"; // Slightly faded green when hovered
                     }}
                     onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = "#4caf50"; // Reset to the original color
-                      e.target.style.transform = 'scale(1)'; // Reset the size
+                      e.target.style.backgroundColor = "#48BF84"; // Reset to the original green color
                     }}
                   >
                     <strong>View Transaction</strong>
