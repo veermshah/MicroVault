@@ -66,7 +66,7 @@ const Testimonials = () => {
                 <p className="font-semibold">— {mainTestimonial.name}</p>
               </div>
               {/* Gradient Text for Trustpilot Reviews */}
-              <p 
+              {/*<p 
                 className="text-xl font-bold mb-2"
                 style={{
                   backgroundImage: 'linear-gradient(to right, #38ef7d, #11998e)',
@@ -77,7 +77,7 @@ const Testimonials = () => {
                 }}
               >
                 Excellent Reviews on Trustpilot
-              </p>
+              </p> */}
             </div>
 
             {/* Vertical divider */}
