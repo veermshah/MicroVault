@@ -1,12 +1,14 @@
+// src/pages/GetStarted.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GetStartedSidebar from '../components/getStartedsidebar'; // Ensure correct casing
+import GetStartedSidebar from '../components/getStartedSideBar'; // Ensure correct casing
 import Overview from '../components/overview';
 import Concepts from '../components/concepts'; // Import with lowercase 'c'
-import FlashLoanConcept from '../components/flashLoanConcept'; // Import flash loan concept
-import StandardMicroLoanConcept from '../components/standardMicroLoanConcept'; // Import standard microloan concept
+import LendConcept from '../components/lendConcept'; // Import lend concept
+import BorrowConcept from '../components/borrowConcept'; // Import borrow concept
 import LiquidityPool from '../components/liquidityPool';
-import Reserve from '../components/reserve';
+import CryptoMeterConcept from '../components/cryptoMeterConcept'; // Import crypto meter concept
+import SmartContracts from '../components/smartContracts'; // Import smart contracts concept
 
 const GetStarted = () => {
   const [activeSection, setActiveSection] = useState('overview');
@@ -15,36 +17,40 @@ const GetStarted = () => {
   const renderContent = () => {
     switch (activeSection) {
       case 'overview':
-        return <Overview />;
+        return <Overview setActiveSection={setActiveSection} />; // Pass setActiveSection prop
       case 'concepts':
-        return <Concepts />; 
-      case 'flashLoans':
-        return <FlashLoanConcept />;
-      case 'standardMicroloans':
-        return <StandardMicroLoanConcept />;
+        return <Concepts setActiveSection={setActiveSection} />; // Pass setActiveSection prop here
+      case 'lend':
+        return <LendConcept />;
+      case 'borrow':
+        return <BorrowConcept />;
       case 'liquidityPool':
         return <LiquidityPool />;
-      case 'reserve':
-        return <Reserve />;
-      case 'faq':
-        navigate('/faq');
-        return null;
+      case 'cryptoMeter':
+        return <CryptoMeterConcept />;
+      case 'smartContracts':
+        return <SmartContracts />;
       default:
-        return <Overview />;
+        return <Overview setActiveSection={setActiveSection} />;
     }
   };
 
   const handleSectionChange = (section) => {
     if (section === 'faq') {
-      navigate('/faq');
+      navigate('/faq'); // Navigate to FAQ page
+    } else if (section === 'dashboard') {
+      navigate('/dashboard'); // Navigate to Dashboard page
     } else {
-      setActiveSection(section);
+      setActiveSection(section); // Set active section for other cases
     }
   };
 
   return (
-    <section className="bg-transparent mx-4 md:mx-12 lg:mx-20 relative overflow-visible"> {/* Removed mt-28 */}
-
+    <section className="bg-transparent mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
+      {/* Background Blurs with Lower Opacity */}
+      <div className="absolute top-[50px] left-[50px] w-[600px] h-[600px] bg-[#48bf84]/15 rounded-full blur-[150px] z-0" />
+      <div className="absolute bottom-[50px] right-[50px] w-[600px] h-[600px] bg-[#48bf84]/15 rounded-full blur-[150px] z-0" />
+      
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
           <div className="flex flex-row h-full relative z-10">
@@ -61,4 +67,4 @@ const GetStarted = () => {
   );
 };
 
-export default GetStarted; 
+export default GetStarted;
