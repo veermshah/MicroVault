@@ -43,8 +43,8 @@ const HowItWorks = () => {
     },
     {
       number: '03',
-      title: 'Deposit Collateral',
-      description: 'Send assets to your MicroVault collateral wallet'
+      title: 'Deposit Assets',
+      description: 'During the loan application, deposit cryptocurrency into MicroVault to secure your loan.'
     },
     {
       number: '04',
