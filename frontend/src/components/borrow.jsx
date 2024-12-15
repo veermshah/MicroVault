@@ -12,7 +12,7 @@ const Borrow = () => {
 
   // Form Input States
   const [loanAmount, setLoanAmount] = useState("");
-  const [loanDuration, setLoanDuration] = useState(""); // Re-added Loan Duration
+  const [loanDuration, setLoanDuration] = useState(""); // Loan Duration in Days
   const [collateralValue, setCollateralValue] = useState("");
 
   // Validation and Terms States
@@ -29,6 +29,9 @@ const Borrow = () => {
 
   // Loading State
   const [isLoading, setIsLoading] = useState(false); // Loading state for transactions
+
+  // Transaction Hash State
+  const [transactionHash, setTransactionHash] = useState(""); // New State Variable
 
   // Constants
   const collateralRatio = 1.5; // 150% collateral requirement (must align with smart contract)
@@ -78,6 +81,13 @@ const Borrow = () => {
     };
 
     initializeWeb3();
+    // Cleanup event listeners on component unmount
+    return () => {
+      if (window.ethereum && window.ethereum.removeListener) {
+        window.ethereum.removeListener("accountsChanged", () => {});
+        window.ethereum.removeListener("chainChanged", () => {});
+      }
+    };
   }, []);
 
   // Function to switch the network to Sepolia
@@ -177,7 +187,7 @@ const Borrow = () => {
     console.log("Wallet Address:", walletAddress);
     console.log("Collateral Value (ETH):", collateralValue);
     console.log("Loan Amount (ETH):", loanAmount);
-    console.log("Loan Duration (seconds):", loanDuration); // Re-added Loan Duration
+    console.log("Loan Duration (Days):", loanDuration); // Updated Loan Duration Label
 
     // Input Validations
     if (!loanAmount || parseFloat(loanAmount) <= 0) {
@@ -191,7 +201,7 @@ const Borrow = () => {
     }
 
     if (!loanDuration || parseInt(loanDuration) <= 0) {
-      alert("Please enter a valid loan duration.");
+      alert("Please enter a valid loan duration in days.");
       return;
     }
 
@@ -219,7 +229,7 @@ const Borrow = () => {
       const { borrowerRate } = rates;
       const collateralInWei = web3.utils.toWei(collateralValue, "ether");
       const principalInWei = web3.utils.toWei(loanAmount, "ether");
-      const durationInSeconds = loanDuration; // Use loanDuration from input
+      const durationInSeconds = parseInt(loanDuration) * 86400; // Convert days to seconds
 
       console.log("Collateral in Wei:", collateralInWei);
       console.log("Principal in Wei:", principalInWei);
@@ -240,6 +250,9 @@ const Borrow = () => {
 
       console.log("Transaction Receipt:", receipt);
       alert("Loan requested successfully!");
+
+      // Set the transaction hash to display the "View on Mainnet" button
+      setTransactionHash(receipt.transactionHash);
     } catch (error) {
       console.error("Error requesting loan:", error);
       // Detailed error logging
@@ -270,6 +283,18 @@ const Borrow = () => {
       );
     } else {
       setCollateralValue("");
+    }
+  };
+
+  // Helper function to construct Etherscan URL based on network
+  const getEtherscanUrl = () => {
+    const chainId = window.ethereum ? window.ethereum.chainId : "0xaa36a7"; // Default to Sepolia
+    if (chainId === "0x1") {
+      return "https://etherscan.io/tx/";
+    } else if (chainId === "0xaa36a7") {
+      return "https://sepolia.etherscan.io/tx/";
+    } else {
+      return "https://etherscan.io/tx/"; // Default to mainnet Etherscan
     }
   };
 
@@ -328,26 +353,26 @@ const Borrow = () => {
 
             {/* Collateral Value */}
             <div className="mb-4">
-              <label className="block mb-2">Collateral Value (ETH)</label>
+              <label className="block mb-2">Collateral Value (USDC)</label>
               <input
                 type="number"
                 className="w-full p-2 border rounded"
                 value={collateralValue}
                 onChange={(e) => setCollateralValue(e.target.value)}
-                placeholder="Enter Collateral Value"
+                placeholder="Enter Collateral Value in ETH"
                 required
               />
             </div>
 
             {/* Loan Amount */}
             <div className="mb-4">
-              <label className="block mb-2">Loan Amount (ETH)</label>
+              <label className="block mb-2">Loan Amount (ETH)</label> {/* Retained 'ETH' */}
               <input
                 type="number"
                 className="w-full p-2 border rounded"
                 value={loanAmount}
                 onChange={handleLoanAmountChange}
-                placeholder="Enter Loan Amount"
+                placeholder="Enter Loan Amount in ETH"
                 required
               />
               {!isOvercollateralized && loanAmount && (
@@ -360,13 +385,13 @@ const Borrow = () => {
 
             {/* Loan Duration */}
             <div className="mb-4">
-              <label className="block mb-2">Loan Duration (seconds)</label>
+              <label className="block mb-2">Loan Duration (Days)</label>
               <input
                 type="number"
                 className="w-full p-2 border rounded"
                 value={loanDuration}
                 onChange={(e) => setLoanDuration(e.target.value)}
-                placeholder="Enter Loan Duration in Seconds"
+                placeholder="Enter Loan Duration in Days"
                 required
               />
             </div>
@@ -392,6 +417,20 @@ const Borrow = () => {
               {isLoading ? "Processing..." : "Request Loan"}
             </button>
           </form>
+
+          {/* View on Mainnet Button */}
+          {transactionHash && (
+            <div className="mt-4 text-center">
+              <a
+                href={`https://sepolia.etherscan.io/tx/${transactionHash}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+              >
+                View on Mainnet
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Borrowing Terms Display */}
