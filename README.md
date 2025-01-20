@@ -1,7 +1,6 @@
 # MicroVault
 
-## **Tagline**
-Loans backed by crypto
+## Loans backed by crypto
 
 ---
 
