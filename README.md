@@ -1,5 +1,5 @@
 # MicroVault
-**1st Place** at Fintech UTD 🥇
+**1st Place Project** for Fintech UTD 🥇
 
 ---
 
