@@ -1,6 +1,9 @@
 # MicroVault
+**1st Place Project** for Fintech UTD 🥇
 
-## Loans backed by crypto
+---
+
+### Loans backed by crypto
 
 ---
 
