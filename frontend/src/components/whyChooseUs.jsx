@@ -53,9 +53,11 @@ const WhyChooseUs = () => {
 
       <div className="container mx-auto px-6 py-16 relative z-10">
         <div className="max-w-[1248px] w-full mx-auto">
-          <h2 className="text-[40px] font-bold text-center mb-12 text-black">Why Choose Us</h2>
-          <div className="bg-white rounded-2xl border border-gray-300 overflow-hidden relative z-10">
-            {/* Set gradient background for the table */}
+          <h2 className="text-2xl lg:text-[40px] font-bold text-center mb-8 lg:mb-12 text-black">Why Choose Us</h2>
+
+          {/* Desktop / Laptop: table (visible on lg and up) */}
+          <div className="hidden lg:block bg-white rounded-2xl border border-gray-300 overflow-hidden relative z-10">
+            {/* Gradient header for table */}
             <div
               style={{
                 background: '#11998e',
@@ -64,37 +66,70 @@ const WhyChooseUs = () => {
               }}
               className="p-4 rounded-tl-2xl rounded-tr-2xl"
             >
-              <table className="w-full">
-                <thead>
-                  <tr className="text-white">
-                    <th className="py-4 px-6 text-left">Feature</th>
-                    <th className="py-4 px-6 text-center">MicroVault Loan</th>
-                    <th className="py-4 px-6 text-center">Traditional Loan</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {comparisonData.map((item, index) => (
-                    <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                      <td className="py-4 px-6 border-b border-gray-200">{item.feature}</td>
-                      <td className="py-4 px-6 text-center border-b border-gray-200">
-                        {item.us ? (
-                          <CheckIcon className="h-6 w-6 text-green-500 mx-auto" />
-                        ) : (
-                          <XMarkIcon className="h-6 w-6 text-red-500 mx-auto" />
-                        )}
-                      </td>
-                      <td className="py-4 px-6 text-center border-b border-gray-200">
-                        {item.traditional ? (
-                          <CheckIcon className="h-6 w-6 text-green-500 mx-auto" />
-                        ) : (
-                          <XMarkIcon className="h-6 w-6 text-red-500 mx-auto" />
-                        )}
-                      </td>
+              <div className="overflow-x-auto">
+                <table className="w-full min-w-[680px]">
+                  <thead>
+                    <tr className="text-white">
+                      <th className="py-4 px-6 text-left">Feature</th>
+                      <th className="py-4 px-6 text-center">MicroVault Loan</th>
+                      <th className="py-4 px-6 text-center">Traditional Loan</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {comparisonData.map((item, index) => (
+                      <tr key={index} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
+                        <td className="py-4 px-6 border-b border-gray-200">{item.feature}</td>
+                        <td className="py-4 px-6 text-center border-b border-gray-200">
+                          {item.us ? (
+                            <CheckIcon className="h-6 w-6 text-green-500 mx-auto" />
+                          ) : (
+                            <XMarkIcon className="h-6 w-6 text-red-500 mx-auto" />
+                          )}
+                        </td>
+                        <td className="py-4 px-6 text-center border-b border-gray-200">
+                          {item.traditional ? (
+                            <CheckIcon className="h-6 w-6 text-green-500 mx-auto" />
+                          ) : (
+                            <XMarkIcon className="h-6 w-6 text-red-500 mx-auto" />
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
+          </div>
+
+          {/* Tablet & Mobile: stacked cards (visible below lg) */}
+          <div className="lg:hidden space-y-4">
+            {comparisonData.map((item, idx) => (
+              <div key={idx} className="bg-white border border-gray-200 rounded-xl p-4">
+                <div className="flex items-start justify-between">
+                  <div className="pr-4 flex-1">
+                    <div className="text-sm text-gray-700">{item.feature}</div>
+                  </div>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex flex-col items-center">
+                      <div className="text-xs text-gray-500">MicroVault</div>
+                      {item.us ? (
+                        <CheckIcon className="h-5 w-5 text-green-500 mt-1" />
+                      ) : (
+                        <XMarkIcon className="h-5 w-5 text-red-500 mt-1" />
+                      )}
+                    </div>
+                    <div className="flex flex-col items-center">
+                      <div className="text-xs text-gray-500">Traditional</div>
+                      {item.traditional ? (
+                        <CheckIcon className="h-5 w-5 text-green-500 mt-1" />
+                      ) : (
+                        <XMarkIcon className="h-5 w-5 text-red-500 mt-1" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
           <div className="mt-8 flex items-center justify-center relative z-10">
             {/* Gradient Text with Arrow as a Link */}
