@@ -147,9 +147,9 @@ const DashboardHome = ({ setActiveComponent }) => {
 
   return (
     <div className="flex flex-col gap-4 pt-6">
-      <div className="flex h-[500px] gap-4">
-        <div className="w-1/3 flex flex-col gap-4">
-          <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px] flex flex-col items-center justify-center">
+      <div className="flex flex-col md:flex-row gap-4">
+        <div className="w-full md:w-1/3 flex flex-col gap-4">
+          <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-3 flex flex-col items-center justify-center">
             <h2 className="text-lg font-semibold mb-2 text-black">Crypto Meter</h2>
             <div className="h-40 flex items-center justify-center">
               <Doughnut data={cryptoMeterData} options={cryptoMeterOptions} />
@@ -172,7 +172,7 @@ const DashboardHome = ({ setActiveComponent }) => {
             </h3>
           </div>
          
-          <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-[10px]">
+          <div className="flex-1 bg-white rounded-2xl border border-gray-300 p-3">
             <h2 className="text-lg font-semibold mb-2">Transaction History</h2>
             <ul>
               <li className="flex justify-between items-center" style={{ backgroundColor: '#F6F6F6', padding: '8px', borderRadius: '0.5rem', marginBottom: '0.5rem' }}>
@@ -202,15 +202,15 @@ const DashboardHome = ({ setActiveComponent }) => {
           </div>
         </div>
 
-        <div className="w-2/3 rounded-2xl border border-gray-300 overflow-hidden p-[10px]">
-          <div className="tradingview-widget-container h-full" ref={container}>
+        <div className="w-full md:w-2/3 rounded-2xl border border-gray-300 overflow-hidden p-3">
+          <div className="tradingview-widget-container min-h-[220px] md:min-h-[420px] h-full" ref={container}>
             <div className="tradingview-widget-container__widget"></div>
             <div className="tradingview-widget-copyright"></div>
           </div>
         </div>
       </div>
 
-      <div className="w-full bg-white rounded-2xl border border-gray-300 p-[10px] mt-4 mb-4">
+      <div className="w-full bg-white rounded-2xl border border-gray-300 p-3 mt-4 mb-4">
         <h2 className="text-lg font-semibold mb-2 flex items-center">
           Tokens
           <IconButton onClick={() => setIsSearchActive(!isSearchActive)} style={{ paddingLeft: '8px' }}>
@@ -221,12 +221,14 @@ const DashboardHome = ({ setActiveComponent }) => {
               placeholder="Search..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ marginLeft: '8px', width: '200px' }}
+              style={{ marginLeft: '8px', width: '100%' }}
+              className="sm:w-52"
             />
           )}
         </h2>
 
-        <table className="w-full table-auto">
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto">
           <thead>
             <tr style={{ backgroundColor: '#F6F6F6' }}>
               <th className="py-2 px-4 text-center">Token Name</th>
@@ -269,7 +271,8 @@ const DashboardHome = ({ setActiveComponent }) => {
               <tr><td colSpan={5} className="py-2 px-4 text-center">Loading...</td></tr>
             )}
           </tbody>
-        </table>
+          </table>
+        </div>
       </div>
     </div>
   );

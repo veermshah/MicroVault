@@ -44,11 +44,11 @@ export default function FAQ() {
 
     return (
         <section className="bg-transparent mt-12 mx-4 md:mx-12 lg:mx-20 relative overflow-visible">
-            {/* Background Blur effect */}
-            <div className="absolute bottom-[50px] right-[50px] w-[500px] h-[500px] bg-[#48bf84]/10 rounded-full blur-[150px] z-0" />
-            <div className="absolute top-[50px] left-[50px] w-[500px] h-[500px] bg-[#48bf84]/10 rounded-full blur-[150px] z-0" />
+            {/* Background Blur effect (reduced on small screens) */}
+            <div className="hidden md:block absolute bottom-12 right-12 w-40 h-40 md:w-[500px] md:h-[500px] bg-[#48bf84]/10 rounded-full blur-[150px] z-0" />
+            <div className="hidden md:block absolute top-12 left-12 w-40 h-40 md:w-[500px] md:h-[500px] bg-[#48bf84]/10 rounded-full blur-[150px] z-0" />
 
-            <div className="container mx-auto px-6 pt-0 relative z-10">
+            <div className="container mx-auto px-4 md:px-6 pt-0 relative z-10">
                 <div className="max-w-[1248px] w-full mx-auto">
                     <h1 className="text-4xl text-black font-bold mb-6">FAQ</h1>
                     {/* FAQ Questions */}
@@ -79,7 +79,7 @@ export default function FAQ() {
             </div>
 
             {/* Add padding at the bottom */}
-            <div style={{ paddingBottom: '50px' }} />
+            <div className="pb-12 md:pb-0" />
         </section>
     );
 }

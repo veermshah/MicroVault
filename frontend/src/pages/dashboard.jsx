@@ -9,6 +9,7 @@ import MetaMaskLogin from "../components/MetaMaskLogin";
 const Dashboard = () => {
   const [activeComponent, setActiveComponent] = useState("home"); // Default to "home"
   const [isCollapsed, setIsCollapsed] = useState(false); // State for sidebar visibility
+  const [mobileOpen, setMobileOpen] = useState(false); // mobile drawer
 
   useEffect(() => {
     console.log("Active component changed to:", activeComponent);
@@ -36,16 +37,39 @@ const Dashboard = () => {
 
   return (
     <div className="bg-white min-h-screen overflow-visible">
-      {/* Ensure overflow-visible */}
-      <div className="max-w-[1248px] w-full mx-auto pt-[30px]">
-        <div className="flex flex-row h-full relative z-10">
+      <div className="max-w-[1248px] w-full mx-auto pt-[16px] px-4">
+        {/* Mobile: hamburger */}
+        <div className="flex items-center justify-between md:hidden mb-4">
+          <div className="flex items-center">
+            <button
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open sidebar"
+              className="p-2 rounded-md bg-gray-100 mr-2"
+            >
+              ☰
+            </button>
+            <h2 className="text-lg font-semibold">Dashboard</h2>
+          </div>
+          <div className="flex items-center">
+            <button
+              onClick={() => setIsCollapsed(!isCollapsed)}
+              className="bg-transparent rounded-full p-2 hidden md:inline-flex"
+              style={{ width: "40px", height: "40px" }}
+            >
+              {isCollapsed ? "+" : "-"}
+            </button>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:flex-row h-full relative z-10">
+          {/* Sidebar column: behaves like drawer on mobile */}
           <div
-            className={`transition-all duration-300 ${
-              isCollapsed ? "w-0" : "w-1/6"
-            } pr-4`}
+            className={`transition-all duration-300 md:pr-4 md:block ${
+              isCollapsed ? "md:w-0" : "md:w-1/6"
+            }`}
           >
-            {/* Minimize/Expand Button */}
-            <div className="flex justify-end mb-2">
+            {/* Desktop collapse/expand control */}
+            <div className="hidden md:flex justify-end mb-2">
               <button
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 className={`bg-transparent rounded-full p-2`}
@@ -54,18 +78,31 @@ const Dashboard = () => {
                 {isCollapsed ? "+" : "-"}
               </button>
             </div>
+
+            {/* Desktop sidebar */}
             {!isCollapsed && (
-              <DashboardSidebar
-                activeComponent={activeComponent}
-                setActiveComponent={setActiveComponent}
-              />
+              <div className="hidden md:block">
+                <DashboardSidebar
+                  activeComponent={activeComponent}
+                  setActiveComponent={setActiveComponent}
+                />
+              </div>
             )}
+
+            {/* Mobile drawer - positioned and controlled via css .sidebar.open */}
+            <div className={`md:hidden ${mobileOpen ? 'sidebar open' : 'sidebar'}`}>
+              {mobileOpen && (
+                <DashboardSidebar
+                  activeComponent={activeComponent}
+                  setActiveComponent={setActiveComponent}
+                  onClose={() => setMobileOpen(false)}
+                />
+              )}
+            </div>
           </div>
-          <div
-            className={`transition-all duration-300 ${
-              isCollapsed ? "w-full" : "w-[87%]"
-            }`}
-          >
+
+          {/* Main content: full width on mobile, remaining on desktop */}
+          <div className={`transition-all duration-300 ${isCollapsed ? 'w-full' : 'w-full md:w-[87%]'}`}>
             {renderContent()}
           </div>
         </div>
